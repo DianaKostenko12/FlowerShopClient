@@ -1,4 +1,5 @@
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
+import axiosInstance from "./axiosInstance"; // Імпортуємо конфігурований екземпляр
 
 const base_url = "https://localhost:7156";
 
@@ -30,7 +31,7 @@ export default class PostService {
     userData: UserData,
   ): Promise<AxiosResponse<ApiResponse>> {
     try {
-      return axios.post<ApiResponse>(`${base_url}/auth/register`, userData);
+      return axiosInstance.post<ApiResponse>(`auth/register`, userData);
     } catch (error) {
       console.error("Error registering user:", error);
       throw error;
@@ -40,6 +41,11 @@ export default class PostService {
   static async loginUser(
     loginData: LoginData,
   ): Promise<AxiosResponse<AuthResponse>> {
-    return await axios.post<AuthResponse>(`${base_url}/auth/login`, loginData);
+    try {
+      return await axiosInstance.post<AuthResponse>(`$auth/login`, loginData);
+    } catch (error) {
+      console.error("Error logging in user:", error);
+      throw error;
+    }
   }
 }
