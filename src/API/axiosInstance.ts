@@ -12,7 +12,7 @@ const axiosInstance = axios.create({
 // Перехоплювач для запитів
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token"); // Отримуємо токен з localStorage
+    const token = localStorage.getItem("jwtToken"); // Отримуємо токен з localStorage
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`; // Додаємо Bearer токен в хедери
     }

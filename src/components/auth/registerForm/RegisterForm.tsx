@@ -1,24 +1,30 @@
 import React, { useState } from "react";
-import PostService from "../API/PostService";
+import PostService from "../../../API/PostService";
 
 const RegisterForm: React.FC = () => {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [phone, setPhone] = useState<string>("");
+  const [phoneNumber, setPhone] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const handleRegister = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault(); // Запобігає перезавантаженню сторінки
 
-    const userData = { firstName, lastName, username, email, phone, password };
+    const userData = {
+      firstName,
+      lastName,
+      username,
+      email,
+      phoneNumber,
+      password,
+    };
 
     try {
       const response = await PostService.registerUser(userData);
       console.log("User registered successfully:", response.data);
 
-      // Очищення полів форми
       setFirstName("");
       setLastName("");
       setUsername("");
@@ -86,7 +92,7 @@ const RegisterForm: React.FC = () => {
               <input
                 type="tel"
                 className="form-control form-control-sm"
-                value={phone}
+                value={phoneNumber}
                 onChange={(e) => setPhone(e.target.value)}
                 required
               />

@@ -1,14 +1,12 @@
 import { AxiosResponse } from "axios";
 import axiosInstance from "./axiosInstance"; // Імпортуємо конфігурований екземпляр
 
-const base_url = "https://localhost:7156";
-
 interface UserData {
   firstName: string;
   lastName: string;
   username: string;
   email: string;
-  phone: string;
+  phoneNumber: string;
   password: string;
 }
 
@@ -20,10 +18,6 @@ interface LoginData {
 interface ApiResponse {
   id: number;
   [key: string]: any;
-}
-
-interface AuthResponse {
-  token: string; // JWT токен
 }
 
 export default class PostService {
@@ -38,13 +32,20 @@ export default class PostService {
     }
   }
 
-  static async loginUser(
-    loginData: LoginData,
-  ): Promise<AxiosResponse<AuthResponse>> {
+  static async loginUser(loginData: LoginData): Promise<AxiosResponse<string>> {
     try {
-      return await axiosInstance.post<AuthResponse>(`$auth/login`, loginData);
+      return await axiosInstance.post<string>(`auth/login`, loginData);
     } catch (error) {
       console.error("Error logging in user:", error);
+      throw error;
+    }
+  }
+
+  static async getUserById(): Promise<AxiosResponse<UserData>> {
+    try {
+      return await axiosInstance.get<UserData>(`user`);
+    } catch (error) {
+      console.error("Error finding user:", error);
       throw error;
     }
   }
