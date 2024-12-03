@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PostService from "../../../API/PostService";
+import UserService from "../../../API/UserService";
 import { useAuth } from "../../../common/AuthContext";
 
 const LoginForm: React.FC = () => {
@@ -14,7 +14,7 @@ const LoginForm: React.FC = () => {
 
     const loginData = { username, password };
     try {
-      const response = await PostService.loginUser(loginData);
+      const response = await UserService.loginUser(loginData);
 
       if (response.data) {
         localStorage.setItem("jwtToken", response.data);

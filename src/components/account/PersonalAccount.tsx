@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AxiosResponse } from "axios";
-import PostService from "../../API/PostService";
+import UserService from "../../API/UserService";
 
 interface UserData {
   username: string;
@@ -18,7 +18,7 @@ const PersonalAccount: React.FC = () => {
     const fetchUserData = async () => {
       try {
         const response: AxiosResponse<UserData> =
-          await PostService.getUserById();
+          await UserService.getUserById();
         console.log(response);
         setUserData(response.data);
       } catch (error) {

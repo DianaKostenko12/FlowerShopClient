@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Header from "../Header";
 import Accounts from "../../pages/Accounts";
 import { AuthProvider } from "../../common/AuthContext";
+import BouquetIdPage from "../../pages/BouquetIdPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Routes>
             <Route path="/accounts" element={<Accounts />} />
             <Route path="/bouquets" element={<Bouquets />} />
+            <Route path="/bouquets/:id" element={<BouquetIdPage />} />
           </Routes>
         </BrowserRouter>
         <ToastContainer />

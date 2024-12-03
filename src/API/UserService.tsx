@@ -20,7 +20,7 @@ interface ApiResponse {
   [key: string]: any;
 }
 
-export default class PostService {
+export default class UserService {
   static async registerUser(
     userData: UserData,
   ): Promise<AxiosResponse<ApiResponse>> {

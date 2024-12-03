@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PostService from "../../../API/PostService";
+import UserService from "../../../API/UserService";
 
 const RegisterForm: React.FC = () => {
   const [firstName, setFirstName] = useState<string>("");
@@ -22,7 +22,7 @@ const RegisterForm: React.FC = () => {
     };
 
     try {
-      const response = await PostService.registerUser(userData);
+      const response = await UserService.registerUser(userData);
       console.log("User registered successfully:", response.data);
 
       setFirstName("");
