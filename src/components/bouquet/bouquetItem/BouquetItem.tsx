@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
+import "./bouquetItem.css";
 
 export interface Bouquet {
   bouquetId: number;

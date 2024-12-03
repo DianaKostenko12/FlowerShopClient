@@ -1,5 +1,5 @@
-import { Bouquet } from "../BouquetItem";
-import BouquetItem from "../BouquetItem"; // Імпорт компонента BouquetItem
+import { Bouquet } from "./bouquetItem/BouquetItem";
+import BouquetItem from "./bouquetItem/BouquetItem"; // Імпорт компонента BouquetItem
 import { FC } from "react";
 
 interface BouquetListProps {

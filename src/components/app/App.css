@@ -5,45 +5,5 @@
   background-color: #ff91c1; /* Рожевий колір для свята */
 }
 
-.bouquet-card {
-  border: none;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-}
 
-.bouquet-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
 
-.card-img-top {
-  height: 300px;
-  object-fit: cover;
-}
-
-.price-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.current-price {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: #f1b2cc;
-}
-
-.original-price {
-  font-size: 1rem;
-  text-decoration: line-through;
-  color: #6c757d;
-}
-
-.card-title {
-  font-size: 1.1rem;
-  margin-top: 10px;
-  color: #333;
-}

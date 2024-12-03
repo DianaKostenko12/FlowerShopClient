@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth } from "../common/AuthContext";
-import AuthorizationAccount from "../components/headers/AuthorizationAccount";
-import PersonalAccount from "../components/headers/PersonalAccount";
+import AuthorizationAccount from "../components/account/AuthorizationAccount";
+import PersonalAccount from "../components/account/PersonalAccount";
 
 const Accounts = () => {
   const { isAuthorized } = useAuth();

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../common/AuthContext";
+import { useAuth } from "../../common/AuthContext";
 
 function Header() {
   const { isAuthorized, setIsAuthorized } = useAuth();

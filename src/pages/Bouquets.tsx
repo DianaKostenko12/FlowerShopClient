@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import BouquetsList from "../components/headers/BouquetsList";
+import BouquetsList from "../components/bouquet/BouquetsList";
 import { AxiosResponse } from "axios";
 import BouquetService from "../API/BouquetService";
 
