@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import BouquetsList from "../components/bouquet/BouquetsList";
 import { AxiosResponse } from "axios";
 import BouquetService from "../API/BouquetService";
+import { useFlowers } from "../common/FlowerContext";
+import { useNavigate } from "react-router-dom";
 
 interface BouquetInfo {
   bouquetId: number;
@@ -21,6 +23,17 @@ const Bouquets: React.FC = () => {
   const [minPrice, setMinPrice] = useState<number | undefined>(0);
   const [maxPrice, setMaxPrice] = useState<number | undefined>(0);
   const [flowerIds, setFlowerIds] = useState<number[] | undefined>([]);
+  const { setSelectedFlowers } = useFlowers();
+  const navigate = useNavigate();
+
+  const selectedFlowers = [
+    { flowerId: 1, quantity: 5 },
+    { flowerId: 2, quantity: 3 },
+  ];
+  const handleCreateBouquetClick = () => {
+    setSelectedFlowers(selectedFlowers); // Збережіть вибрані квіти в контекст
+    navigate("/create-bouquet");
+  };
 
   const bouquetFilterInfo = { minPrice, maxPrice, flowerIds };
 
@@ -54,6 +67,7 @@ const Bouquets: React.FC = () => {
   return (
     <div>
       <BouquetsList bouquets={bouquetInfo} />
+      <button onClick={handleCreateBouquetClick}>Create Bouquet</button>
     </div>
   );
 };

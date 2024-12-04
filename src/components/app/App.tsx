@@ -8,20 +8,25 @@ import Header from "../headers/Header";
 import Accounts from "../../pages/Accounts";
 import { AuthProvider } from "../../common/AuthContext";
 import BouquetIdPage from "../../pages/BouquetIdPage";
+import CreateBouquet from "../../pages/CreateBouquet";
+import { FlowerProvider } from "../../common/FlowerContext";
 
 function App() {
   return (
     <div className="App">
       <AuthProvider>
-        <BrowserRouter>
-          <Header />
-          <Routes>
-            <Route path="/accounts" element={<Accounts />} />
-            <Route path="/bouquets" element={<Bouquets />} />
-            <Route path="/bouquets/:id" element={<BouquetIdPage />} />
-          </Routes>
-        </BrowserRouter>
-        <ToastContainer />
+        <FlowerProvider>
+          <BrowserRouter>
+            <Header />
+            <Routes>
+              <Route path="/accounts" element={<Accounts />} />
+              <Route path="/bouquets" element={<Bouquets />} />
+              <Route path="/bouquets/:id" element={<BouquetIdPage />} />
+              <Route path="/create-bouquet" element={<CreateBouquet />} />
+            </Routes>
+          </BrowserRouter>
+          <ToastContainer />
+        </FlowerProvider>
       </AuthProvider>
     </div>
   );
