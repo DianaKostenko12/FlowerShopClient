@@ -21,7 +21,7 @@ interface CreateBouquetInfo {
 
 interface SelectedFlower {
   flowerId: number;
-  quantity: number;
+  flowerCount: number;
 }
 
 export default class BouquetService {

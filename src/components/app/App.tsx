@@ -1,15 +1,16 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import Bouquets from "../../pages/Bouquets";
+import BouquetsPage from "../../pages/bouquetsPage/BouquetsPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "../headers/Header";
-import Accounts from "../../pages/Accounts";
+import AccountsPage from "../../pages/auth/AccountsPage";
 import { AuthProvider } from "../../common/AuthContext";
 import BouquetIdPage from "../../pages/BouquetIdPage";
-import CreateBouquet from "../../pages/CreateBouquet";
+import CreateBouquetPage from "../../pages/createBouquet/createBouquetPage/CreateBouquetPage";
 import { FlowerProvider } from "../../common/FlowerContext";
+import AuthorizationAccount from "../../pages/auth/account/AuthorizationAccount";
 
 function App() {
   return (
@@ -19,10 +20,11 @@ function App() {
           <BrowserRouter>
             <Header />
             <Routes>
-              <Route path="/accounts" element={<Accounts />} />
-              <Route path="/bouquets" element={<Bouquets />} />
+              <Route path="/accounts" element={<AccountsPage />} />
+              <Route path="/bouquets" element={<BouquetsPage />} />
               <Route path="/bouquets/:id" element={<BouquetIdPage />} />
-              <Route path="/create-bouquet" element={<CreateBouquet />} />
+              <Route path="/create-bouquet" element={<CreateBouquetPage />} />
+              <Route path="/auth-account" element={<AuthorizationAccount />} />
             </Routes>
           </BrowserRouter>
           <ToastContainer />

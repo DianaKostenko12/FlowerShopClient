@@ -1,0 +1,88 @@
+.createBouquetCard {
+    display: flex;
+    justify-content: center;
+}
+
+.bouquetInfo {
+    display: flex;
+    flex-direction: column; /* Елементи розташовуються вертикально */
+    gap: 15px; /* Відстань між елементами */
+    background-color: #ffe4e4; /* Світло-рожевий фон */
+    padding: 20px; /* Відступи всередині форми */
+    border-radius: 10px; /* Закруглені кути форми */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Легка тінь */
+    max-width: 400px; /* Максимальна ширина форми */
+    margin: 20px;
+}
+
+.formLabel {
+    font-size: 20px; /* Розмір тексту для міток */
+    font-weight: bold; /* Жирний текст */
+    color: #333; /* Темний текст */
+}
+
+input[type="text"],
+textarea {
+    width: 100%; /* Заповнення всього контейнера */
+    padding: 10px; /* Відступи всередині */
+    font-size: 14px; /* Розмір тексту */
+    border: 1px solid #b3e8b3; /* М'ятний бордер */
+    border-radius: 5px; /* Закруглені кути */
+    outline: none; /* Забираємо стандартний фокус */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Анімація при фокусі */
+}
+
+input[type="text"]:focus,
+textarea:focus {
+    border-color: #78c978; /* Темніший м'ятний при фокусі */
+    box-shadow: 0 0 5px rgba(120, 201, 120, 0.5); /* М'яка тінь при фокусі */
+}
+
+textarea {
+    min-height: 100px; /* Мінімальна висота для текстових полів */
+    resize: vertical; /* Дозволити зміну розміру тільки по вертикалі */
+}
+
+.flowerList {
+    display: flex;
+    flex-direction: row;
+    margin: 30px;
+}
+
+.title {
+    font-size: 24px; /* Розмір тексту */
+    font-weight: bold; /* Жирний текст */
+    color: #ff91c1; /* Насичений рожевий колір для акценту */
+    text-align: center; /* Центрування заголовка */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Легка тінь */
+    border-bottom: 2px solid #b3e8b3; /* М'ятна лінія під заголовком */
+    padding-bottom: 10px; /* Відступ до лінії */
+    letter-spacing: 1px; /* Легка розрядка тексту */
+    margin: 20px;
+}
+
+.button {
+    background-color: #b3e8b3; /* М'ятний зелений фон */
+    color: #ffffff; /* Білий текст */
+    border: none; /* Забираємо стандартну рамку */
+    padding: 10px 20px; /* Відступи всередині кнопки */
+    font-size: 16px; /* Розмір тексту */
+    font-weight: bold; /* Жирний текст */
+    border-radius: 8px; /* Закруглені кути */
+    cursor: pointer; /* Індикатор клікабельності */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Плавна анімація кольору та натискання */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Легка тінь */
+}
+
+.button:hover {
+    background-color: #78c978; /* Темніший м'ятний фон при наведенні */
+}
+
+.button:active {
+    transform: scale(0.95); /* Легке зменшення кнопки при натисканні */
+}
+
+.button:disabled {
+    background-color: #d3d3d3; /* Сірий фон для вимкненої кнопки */
+    cursor: not-allowed; /* Індикатор, що кнопка недоступна */
+}

@@ -1,13 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../common/AuthContext";
+import { useNavigate } from "react-router-dom";
+import AuthedUserItems from "./AuthedUserItems";
+import UnauthorisedItems from "./UnauthorisedItems";
 
 function Header() {
   const { isAuthorized, setIsAuthorized } = useAuth();
+  const navigate = useNavigate();
 
   const logout = () => {
     localStorage.removeItem("jwtToken");
     setIsAuthorized(false);
+  };
+
+  const login = () => {
+    navigate(`auth-account`);
   };
 
   return (
@@ -32,7 +40,7 @@ function Header() {
             {isAuthorized ? (
               <AuthedUserItems logout={logout} />
             ) : (
-              <UnauthorisedItems />
+              <UnauthorisedItems login={login} />
             )}
           </ul>
         </div>
@@ -40,44 +48,5 @@ function Header() {
     </nav>
   );
 }
-
-interface AuthedUserItemsProps {
-  logout: () => void;
-}
-
-const AuthedUserItems = (props: AuthedUserItemsProps) => {
-  return (
-    <>
-      <li className="nav-item">
-        <Link className="nav-link text-white fs-6" to="/accounts">
-          Personal Account
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link text-white fs-6" to="/bouquets">
-          Bouquets
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link text-white fs-6" to="/contact">
-          Contact Us
-        </Link>
-      </li>
-      <li className="nav-item">
-        <button onClick={props.logout} className="btn btn-outline-light ms-3">
-          Logout
-        </button>
-      </li>
-    </>
-  );
-};
-
-const UnauthorisedItems = () => {
-  return (
-    <>
-      <button className="btn btn-outline-light ms-3">Login</button>
-    </>
-  );
-};
 
 export default Header;

@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import BouquetsList from "../components/bouquet/BouquetsList";
+import BouquetsList from "../createBouquet/bouquet/BouquetsList";
 import { AxiosResponse } from "axios";
-import BouquetService from "../API/BouquetService";
-import { useFlowers } from "../common/FlowerContext";
+import BouquetService from "../../API/BouquetService";
+import { useFlowers } from "../../common/FlowerContext";
 import { useNavigate } from "react-router-dom";
+import "./boquetsPage.css";
 
 interface BouquetInfo {
   bouquetId: number;
@@ -17,7 +18,7 @@ interface BouquetFilterInfo {
   flowerIds?: number[];
 }
 
-const Bouquets: React.FC = () => {
+const BouquetsPage: React.FC = () => {
   const [bouquetInfo, setBouquetInfo] = useState<BouquetInfo[] | null>([]);
   const [error, setError] = useState<string | null>(null);
   const [minPrice, setMinPrice] = useState<number | undefined>(0);
@@ -65,11 +66,18 @@ const Bouquets: React.FC = () => {
     );
   }
   return (
-    <div>
-      <BouquetsList bouquets={bouquetInfo} />
-      <button onClick={handleCreateBouquetClick}>Create Bouquet</button>
+    <div className="bouquet-page">
+      <div>
+        <BouquetsList bouquets={bouquetInfo} />
+      </div>
+      <button
+        onClick={handleCreateBouquetClick}
+        className="btn btn-primary position-absolute custom-button"
+      >
+        Create Bouquet
+      </button>
     </div>
   );
 };
 
-export default Bouquets;
+export default BouquetsPage;

@@ -1,0 +1,21 @@
+.custom-button {
+    margin-top: 10px;
+    margin-left: 20px;
+    background-color: #b3e8b3; /* М'ятний зелений */
+    border: none; /* Забираємо рамку */
+    color: #FFFFFF; /* Білий текст */
+    padding: 10px 20px; /* Відступи всередині кнопки */
+    font-size: 16px; /* Розмір тексту */
+    font-weight: bold; /* Жирний текст */
+    border-radius: 10px; /* Закруглені кути */
+    cursor: pointer; /* Індикатор кліка */
+    transition: background-color 0.3s ease; /* Плавна зміна кольору при наведенні */
+}
+
+.custom-button:hover {
+    background-color: #78C978; /* Темніший м'ятний при наведенні */
+}
+
+.bouquet-page {
+ display: flex;
+}

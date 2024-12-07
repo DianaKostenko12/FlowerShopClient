@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AxiosResponse } from "axios";
-import UserService from "../../API/UserService";
+import UserService from "../../../API/UserService";
 
 interface UserData {
   username: string;

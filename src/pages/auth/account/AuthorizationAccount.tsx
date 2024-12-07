@@ -1,6 +1,6 @@
 import React from "react";
-import LoginForm from "../auth/loginForm/LoginForm";
-import RegisterForm from "../auth/registerForm/RegisterForm";
+import LoginForm from "../loginForm/LoginForm";
+import RegisterForm from "../registerForm/RegisterForm";
 
 const AuthorizationAccount = () => {
   return (

@@ -1,0 +1,48 @@
+.flowerItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Вирівнювання елементів по вертикалі */
+    justify-content: space-between; /* Вирівнювання простору між елементами */
+    background-color: #ffe4e4; /* Світло-рожевий фон */
+    padding: 15px; /* Відступи всередині контейнера */
+    border-radius: 10px; /* Закруглені кути */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Легка тінь */
+    max-width: 500px; /* Максимальна ширина елемента */
+    margin: 10px;
+}
+
+.flowerItem p {
+    font-size: 16px; /* Розмір тексту */
+    font-weight: bold; /* Жирний текст */
+    margin: 5px; /* Забираємо зайві відступи */
+    color: #333; /* Темний текст */
+}
+
+.flowerItem button {
+    background-color: #b3e8b3; /* М'ятний фон кнопки */
+    color: #fff; /* Білий текст */
+    border: none; /* Забираємо стандартний бордер */
+    padding: 5px; /* Відступи всередині кнопки */
+    border-radius: 5px; /* Закруглені кути */
+    font-size: 16px; /* Розмір тексту */
+    font-weight: bold; /* Жирний текст */
+    cursor: pointer; /* Вказівник на клікабельність */
+    transition: background-color 0.3s ease; /* Плавна зміна кольору */
+}
+
+.flowerItem button:hover {
+    background-color: #78c978; /* Темніший м'ятний при наведенні */
+}
+
+.flowerItem button:disabled {
+    background-color: #d3d3d3; /* Сірий для вимкненої кнопки */
+    cursor: not-allowed; /* Заборонений курсор */
+}
+
+.flowerQuantity {
+    font-size: 16px; /* Розмір тексту кількості */
+    font-weight: bold; /* Жирний текст */
+    color: #333; /* Темний текст */
+    margin: 10px;
+}
+

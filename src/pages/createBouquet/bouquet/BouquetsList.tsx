@@ -14,7 +14,11 @@ const BouquetsList: FC<BouquetListProps> = ({ bouquets }) => {
   return (
     <div className="row g-3">
       {bouquets.map((bouquet, index) => (
-        <div key={bouquet.bouquetId} className="post col-4">
+        <div
+          key={bouquet.bouquetId}
+          className="post col-4"
+          style={{ width: "350px", marginTop: "100px", marginLeft: "20px" }}
+        >
           <BouquetItem bouquet={bouquet} />
         </div>
       ))}
