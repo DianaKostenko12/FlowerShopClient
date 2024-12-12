@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import React from "react";
-import AuthedUserItems from "./AuthedUserItems";
+import AuthedUserItems from "./AuthedUserItems/AuthedUserItems";
 
 interface UnauthorisedItemsProps {
   login: () => void;

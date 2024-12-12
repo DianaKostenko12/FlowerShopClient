@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../common/AuthContext";
 import { useNavigate } from "react-router-dom";
-import AuthedUserItems from "./AuthedUserItems";
+import AuthedUserItems from "./AuthedUserItems/AuthedUserItems";
 import UnauthorisedItems from "./UnauthorisedItems";
 
 function Header() {

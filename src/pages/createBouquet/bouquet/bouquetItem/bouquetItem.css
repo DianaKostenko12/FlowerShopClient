@@ -1,6 +1,9 @@
 .bouquet-card {
-    border: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffe6f2; /* Ніжно-рожевий фон */
+    border: 1px solid #d4edda; /* Світло-зелений бордер */
+    border-radius: 10px; /* Згладжені кути */
+    padding: 20px; /* Відступи всередині картки */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тінь */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
 }
@@ -9,10 +12,14 @@
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
-.card-img-top {
-    height: 300px;
-    object-fit: cover;
+
+.card-title {
+    font-size: 1.25rem; /* Трохи більший розмір шрифту */
+    margin-top: 10px;
+    font-weight: bold; /* Жирний текст */
+    color: #28a745; /* Яскравий зелений */
 }
+
 .price-section {
     display: flex;
     justify-content: center;
@@ -22,9 +29,9 @@
 }
 
 .current-price {
-    font-size: 1.25rem;
+    font-size: 1.5rem; /* Більший текст для ціни */
     font-weight: bold;
-    color: #f1b2cc;
+    color: #218838; /* Темний зелений */
 }
 
 .original-price {
@@ -33,8 +40,33 @@
     color: #6c757d;
 }
 
-.card-title {
-    font-size: 1.1rem;
+.btn-primary {
+    background-color: #f06292; /* Яскраво-рожевий колір кнопки */
+    border-color: #f06292;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: #fff;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #e91e63; /* Темніший рожевий при наведенні */
+    transform: scale(1.05);
+}
+
+.btn-secondary {
+    background-color: #e6ffe6; /* Яскраво-зелений колір кнопки */
+    border-color: #28a745;
+    font-size: 16px;
+    padding: 5px;
+    border-radius: 10px;
+    color: #28a745;
+    transition: background-color 0.3s ease, transform 0.3s ease;
     margin-top: 10px;
-    color: #333;
+}
+
+.btn-secondary:hover {
+    background-color: #8de69d; /* Темніший зелений при наведенні */
+    transform: scale(1.05);
 }

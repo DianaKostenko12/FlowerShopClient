@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import React from "react";
-import AccountsPage from "../../pages/auth/AccountsPage";
+import classes from "./authedUserItems.module.css";
+import AccountsPage from "../../../pages/auth/AccountsPage";
 
 interface AuthedUserItemsProps {
   logout: () => void;
@@ -9,6 +10,15 @@ interface AuthedUserItemsProps {
 const AuthedUserItems = (props: AuthedUserItemsProps) => {
   return (
     <>
+      <li className="nav-item">
+        <Link to="/order-basket">
+          <img
+            src="/flower-basket.png"
+            className={classes.flowerBasketImg}
+            alt=""
+          />
+        </Link>
+      </li>
       <li className="nav-item">
         <Link className="nav-link text-white fs-6" to="/accounts">
           Personal Account

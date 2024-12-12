@@ -24,7 +24,7 @@
 input[type="text"],
 textarea {
     width: 100%; /* Заповнення всього контейнера */
-    padding: 10px; /* Відступи всередині */
+    padding: 5px; /* Відступи всередині */
     font-size: 14px; /* Розмір тексту */
     border: 1px solid #b3e8b3; /* М'ятний бордер */
     border-radius: 5px; /* Закруглені кути */
