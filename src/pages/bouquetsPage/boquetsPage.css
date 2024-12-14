@@ -1,7 +1,7 @@
 .custom-button {
     margin-top: 10px;
     margin-left: 20px;
-    background-color:  #78C978; /* М'ятний зелений */
+    background-color: #a8d5ba; /* Світлий м'ятний зелений */
     border: none; /* Забираємо рамку */
     color: #FFFFFF; /* Білий текст */
     padding: 10px 20px; /* Відступи всередині кнопки */
@@ -13,9 +13,9 @@
 }
 
 .custom-button:hover {
-    background-color: #78C978; /* Темніший м'ятний при наведенні */
+    background-color: #94c9a8; /* Темніший пастельний зелений при наведенні */
 }
 
 .bouquet-page {
- display: flex;
+    display: flex;
 }

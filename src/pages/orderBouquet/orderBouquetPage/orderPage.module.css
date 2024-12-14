@@ -1,17 +1,17 @@
 .container {
-    background-color: #ffffff;
+    background-color: #fefefe; /* Легкий білий для чистого вигляду */
     padding: 20px;
     font-family: "Arial", sans-serif;
     border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05); /* Легша тінь */
     max-width: 800px;
     margin: 0 auto;
-    border: 2px solid #b2f5b2;
+    border: 2px solid #c8e6c9; /* Пастельний зелений бордер */
 }
 
 .title {
     text-align: center;
-    color: #ff6ebd;
+    color: #f48fb1; /* Пастельний рожевий */
     margin-bottom: 20px;
 }
 
@@ -23,16 +23,16 @@
 }
 
 .userInfo, .orderInfo {
-    background-color: #eaffea;
+    background-color: #f3fdf3; /* Дуже світлий зелений */
     padding: 20px;
     border-radius: 10px;
     flex: 1;
     min-width: 300px;
-    border: 1px solid #a7e5a7;
+    border: 1px solid #c8e6c9; /* Світлий зелений бордер */
 }
 
 .subTitle {
-    color: #333;
+    color: #444; /* Темно-сірий для контрасту */
     margin-bottom: 15px;
     text-align: center;
 }
@@ -41,7 +41,7 @@
     display: block;
     margin-top: 10px;
     font-weight: bold;
-    color: black;
+    color: #333; /* Темно-сірий */
 }
 
 .input {
@@ -49,17 +49,17 @@
     padding: 7px;
     margin-top: 5px;
     margin-left: 5px;
-    border: 1px solid #a7e5a7;
+    border: 1px solid #bcdcbc; /* Пастельний зелений */
     border-radius: 5px;
     background-color: #ffffff;
-    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.03);
     font-size: 14px;
 }
 
 .input:focus {
     outline: none;
-    border-color: #81d181;
-    box-shadow: 0px 0px 5px rgba(129, 209, 129, 0.8);
+    border-color: #94c9a8; /* Насиченіший зелений */
+    box-shadow: 0px 0px 5px rgba(148, 201, 168, 0.8);
 }
 
 .inputValue {
@@ -71,9 +71,9 @@
     justify-content: space-between;
     margin-bottom: 10px;
     padding: 10px;
-    background-color: #ffffff;
+    background-color: #f9f9f9; /* Ніжний білий */
     border-radius: 5px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05); /* Легша тінь */
 }
 
 .total {
@@ -81,11 +81,12 @@
     font-size: 18px;
     font-weight: bold;
     text-align: right;
-    color: #228b22;
+    color: #2e7d32; /* Темний зелений */
 }
+
 .button {
     display: block;
-    background-color: #81d181;
+    background-color: #a8d5ba; /* Пастельний м'ятний зелений */
     color: #fff;
     font-size: 16px;
     font-weight: bold;
@@ -98,18 +99,18 @@
 }
 
 .button:hover {
-    background-color: #6bc66b;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    background-color: #94c9a8; /* Насиченіший пастельний зелений */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .button:active {
-    background-color: #5bae5b;
+    background-color: #81d181; /* Трохи темніший зелений */
     box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .button:focus {
     outline: none;
-    box-shadow: 0px 0px 8px rgba(129, 209, 129, 0.8);
+    box-shadow: 0px 0px 8px rgba(148, 201, 168, 0.8);
 }
 
 .alert {
@@ -122,8 +123,8 @@
 }
 
 .alertSuccess {
-    background-color: #e6f7e6;
-    color: #228b22;
-    border: 1px solid #81d181;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #e9f7ea; /* Дуже світлий пастельний зелений */
+    color: #2e7d32; /* Темний зелений */
+    border: 1px solid #94c9a8;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
 }

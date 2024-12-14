@@ -1,6 +1,6 @@
 .bouquet-card {
-    background-color: #ffe6f2; /* Ніжно-рожевий фон */
-    border: 1px solid #d4edda; /* Світло-зелений бордер */
+    background-color: #fce4ec; /* Світлий ніжно-рожевий фон */
+    border: 1px solid #c8e6c9; /* Світлий пастельний зелений бордер */
     border-radius: 10px; /* Згладжені кути */
     padding: 20px; /* Відступи всередині картки */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тінь */
@@ -10,14 +10,14 @@
 
 .bouquet-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .card-title {
     font-size: 1.25rem; /* Трохи більший розмір шрифту */
     margin-top: 10px;
     font-weight: bold; /* Жирний текст */
-    color: #28a745; /* Яскравий зелений */
+    color: #388e3c; /* Темний зелений */
 }
 
 .price-section {
@@ -31,18 +31,18 @@
 .current-price {
     font-size: 1.5rem; /* Більший текст для ціни */
     font-weight: bold;
-    color: #218838; /* Темний зелений */
+    color: #2e7d32; /* Темний пастельний зелений */
 }
 
 .original-price {
     font-size: 1rem;
     text-decoration: line-through;
-    color: #6c757d;
+    color: #9e9e9e; /* Нейтральний сірий */
 }
 
 .btn-primary {
-    background-color: #f06292; /* Яскраво-рожевий колір кнопки */
-    border-color: #f06292;
+    background-color: #f8bbd0; /* Світлий рожевий */
+    border-color: #f8bbd0;
     font-size: 1rem;
     padding: 10px 20px;
     border-radius: 5px;
@@ -51,22 +51,22 @@
 }
 
 .btn-primary:hover {
-    background-color: #e91e63; /* Темніший рожевий при наведенні */
+    background-color: #f48fb1; /* Трохи яскравіший рожевий при наведенні */
     transform: scale(1.05);
 }
 
 .btn-secondary {
-    background-color: #e6ffe6; /* Яскраво-зелений колір кнопки */
-    border-color: #28a745;
+    background-color: #e6ffe6; /* Світлий зелений */
+    border-color: #a5d6a7; /* М'ятний зелений бордер */
     font-size: 16px;
     padding: 5px;
     border-radius: 10px;
-    color: #28a745;
+    color: #388e3c; /* Темний зелений */
     transition: background-color 0.3s ease, transform 0.3s ease;
     margin-top: 10px;
 }
 
 .btn-secondary:hover {
-    background-color: #8de69d; /* Темніший зелений при наведенні */
+    background-color: #d0f8ce; /* Яскравіший зелений */
     transform: scale(1.05);
 }

@@ -11,9 +11,9 @@ import BouquetIdPage from "../../pages/BouquetIdPage";
 import CreateBouquetPage from "../../pages/createBouquet/createBouquetPage/CreateBouquetPage";
 import { FlowerProvider } from "../../common/FlowerContext";
 import AuthorizationAccount from "../../pages/auth/account/AuthorizationAccount";
-import OrderModal from "../../pages/OrderModal";
 import OrderBouquetPage from "../../pages/orderBouquet/orderBouquetPage/orderBouquetPage";
 import OrderBasketPage from "../../pages/orderBouquet/orderBasketPage/orderBasketPage";
+import OrdersPage from "../../pages/ordersPage/ordersPage";
 
 function App() {
   return (
@@ -30,6 +30,7 @@ function App() {
               <Route path="/auth-account" element={<AuthorizationAccount />} />
               <Route path="/order-basket" element={<OrderBasketPage />} />
               <Route path="/create-order" element={<OrderBouquetPage />} />
+              <Route path="/orders" element={<OrdersPage />} />
             </Routes>
           </BrowserRouter>
           <ToastContainer />

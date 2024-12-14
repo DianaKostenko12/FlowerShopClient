@@ -1,37 +1,37 @@
 .basketContainer {
-    background-color: #d4f4d4; /* Ніжно-зелений фон */
-    border: 1px solid #a3d8a3;
+    background-color: #e6f7e6; /* Дуже світлий зелений фон */
+    border: 1px solid #bcdcbc; /* Пастельний зелений бордер */
     border-radius: 12px;
     padding: 20px;
     max-width: 700px;
     margin: 20px auto;
     font-family: Arial, sans-serif;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Тінь для картки */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тінь для картки */
 }
 
 .basketTitle {
     font-size: 26px;
     font-weight: bold;
-    color: #ff70a6; /* Яскравий рожевий */
+    color: #f48fb1; /* Світло-рожевий */
     text-align: center;
     margin-bottom: 20px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Тінь для тексту */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05); /* Легка тінь для тексту */
 }
 
 .basketItem {
-    background-color: #ffeef1; /* Ніжно-рожевий фон для елементів */
-    border: 1px solid #ffccd5;
+    background-color: #fbeef3; /* Пастельний рожевий фон для елементів */
+    border: 1px solid #f8d7e3; /* Легкий рожевий бордер */
     border-radius: 10px;
     padding: 15px;
     margin-bottom: 15px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Легка тінь */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08); /* Легка тінь */
 }
 
 .basketItem strong {
-    color: #555;
+    color: #555; /* Темний нейтральний сірий */
     font-size: 14px;
     font-weight: bold;
 }
@@ -39,10 +39,11 @@
 .basketItem div {
     margin-right: 10px;
     font-size: 14px;
+    color: #666; /* Нейтральний пастельний сірий */
 }
 
 .removeButton {
-    background-color: #ff70a6; /* Яскравий рожевий */
+    background-color: #f48fb1; /* Пастельний рожевий */
     color: white;
     border: none;
     padding: 8px 15px;
@@ -53,7 +54,7 @@
 }
 
 .removeButton:hover {
-    background-color: #ff4c7a; /* Темніший рожевий при наведенні */
+    background-color: #f06292; /* Трохи насиченіший рожевий при наведенні */
     transform: scale(1.05); /* Легке збільшення при наведенні */
 }
 
@@ -62,11 +63,11 @@
     font-size: 20px;
     font-weight: bold;
     text-align: center;
-    color: #333;
+    color: #333; /* Темний нейтральний для контрасту */
 }
 
 .noOrders {
-    color: #777;
+    color: #888; /* Світло-сірий */
     font-size: 16px;
     text-align: center;
     font-style: italic;
@@ -80,4 +81,5 @@
     justify-content: center;
     gap: 5px;
     font-size: 14px;
+    color: #555; /* Нейтральний сірий */
 }

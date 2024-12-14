@@ -2,7 +2,12 @@ body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+
+  background-image: url("../public/pexels-karolina-grabowska-7291997.jpg"); /* Замість цього шляху використовуйте ваш */
+  background-size: cover; /* Адаптує фон для покриття всього екрану */
+  background-repeat: no-repeat; /* Уникає повторення */
+  background-attachment: fixed;
 }

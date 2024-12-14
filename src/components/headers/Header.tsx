@@ -4,9 +4,10 @@ import { useAuth } from "../../common/AuthContext";
 import { useNavigate } from "react-router-dom";
 import AuthedUserItems from "./AuthedUserItems/AuthedUserItems";
 import UnauthorisedItems from "./UnauthorisedItems";
+import AuthedAdminItems from "./authedAdminItems/AuthedAdminItems";
 
 function Header() {
-  const { isAuthorized, setIsAuthorized } = useAuth();
+  const { isAuthorized, setIsAuthorized, userRole } = useAuth();
   const navigate = useNavigate();
 
   const logout = () => {
@@ -38,7 +39,13 @@ function Header() {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             {isAuthorized ? (
-              <AuthedUserItems logout={logout} />
+              <>
+                {userRole === "Admin" ? (
+                  <AuthedAdminItems logout={logout} />
+                ) : (
+                  <AuthedUserItems logout={logout} />
+                )}
+              </>
             ) : (
               <UnauthorisedItems login={login} />
             )}

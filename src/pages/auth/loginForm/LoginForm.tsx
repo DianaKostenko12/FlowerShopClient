@@ -3,7 +3,7 @@ import UserService from "../../../API/UserService";
 import { useAuth } from "../../../common/AuthContext";
 
 const LoginForm: React.FC = () => {
-  const { isAuthorized, setIsAuthorized } = useAuth();
+  const { isAuthorized, setIsAuthorized, setUserRole } = useAuth();
 
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -19,8 +19,22 @@ const LoginForm: React.FC = () => {
       if (response.data) {
         localStorage.setItem("jwtToken", response.data);
         setIsAuthorized(true);
+        const token = localStorage.getItem("jwtToken");
+        if (token) {
+          const parsedToken = JSON.parse(atob(token.split(".")[1]));
+          const role =
+            parsedToken[
+              "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+            ];
+          if (!!role) {
+            console.log("role in if", role);
+            setUserRole(role);
+          }
+        } else {
+          setIsAuthorized(false);
+          setUserRole(null);
+        }
       }
-
       setErrorMessage(null);
       setUsername("");
       setPassword("");

@@ -32,7 +32,7 @@ const BouquetsPage: React.FC = () => {
     { flowerId: 2, quantity: 3 },
   ];
   const handleCreateBouquetClick = () => {
-    setSelectedFlowers(selectedFlowers); // Збережіть вибрані квіти в контекст
+    setSelectedFlowers(selectedFlowers);
     navigate("/create-bouquet");
   };
 

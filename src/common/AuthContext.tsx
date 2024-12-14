@@ -9,6 +9,8 @@ import React, {
 interface AuthContextType {
   isAuthorized: boolean;
   setIsAuthorized: React.Dispatch<React.SetStateAction<boolean>>;
+  userRole: string | null;
+  setUserRole: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -19,11 +21,34 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
+  const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
     const checkToken = () => {
       const token = localStorage.getItem("jwtToken");
-      setIsAuthorized(!!token); // Перетворює значення в булеве
+      if (token) {
+        try {
+          const parsedToken = JSON.parse(atob(token.split(".")[1]));
+          const role =
+            parsedToken[
+              "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+            ];
+          console.log("role", role);
+
+          setIsAuthorized(true);
+          if (!!role) {
+            console.log("role in if", role);
+            setUserRole(role);
+          }
+        } catch (error) {
+          console.error("Error parsing token:", error);
+          setIsAuthorized(false);
+          setUserRole(null);
+        }
+      } else {
+        setIsAuthorized(false);
+        setUserRole(null);
+      }
     };
 
     checkToken(); // Перевірка при першому завантаженні
@@ -33,7 +58,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthorized, setIsAuthorized }}>
+    <AuthContext.Provider
+      value={{ isAuthorized, setIsAuthorized, userRole, setUserRole }}
+    >
       {children}
     </AuthContext.Provider>
   );
