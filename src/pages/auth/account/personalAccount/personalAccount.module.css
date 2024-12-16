@@ -1,0 +1,72 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f0f0; /* Світло-сірий, як загальний фон */
+    padding: 20px;
+}
+
+.layout {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #ffffff; /* Білий фон */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebarButton {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    background-color: #ff87ab; /* Рожевий основний колір */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.sidebarButton:hover {
+    background-color: #f85c8a; /* Темніший рожевий при наведенні */
+}
+
+.mainContent {
+    flex: 1;
+}
+
+.cardCustom {
+    background-color: #ffffff; /* Білий фон картки */
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+}
+
+.cardHeader {
+    background-color: #ff87ab; /* Рожевий хедер картки */
+    color: white;
+    border-radius: 12px 12px 0 0;
+    padding: 15px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.card-body {
+    padding: 20px;
+    font-size: 16px;
+    color: #333333; /* Темно-сірий текст */
+    line-height: 1.6;
+}
+
+p strong {
+    color: #ff87ab; /* Рожевий акцент для заголовків */
+}

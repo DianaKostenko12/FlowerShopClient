@@ -55,4 +55,13 @@ export default class OrderService {
       throw error;
     }
   }
+
+  static async getOrdersById(): Promise<AxiosResponse<OrderItemProps[]>> {
+    try {
+      return await axiosInstance.get<OrderItemProps[]>("order/user/userId");
+    } catch (error) {
+      console.error("Error finding user:", error);
+      throw error;
+    }
+  }
 }

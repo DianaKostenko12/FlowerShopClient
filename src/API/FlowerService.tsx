@@ -31,4 +31,15 @@ export default class FlowerService {
       throw error;
     }
   }
+
+  static async deleteFlower(flowerId: number): Promise<AxiosResponse<void>> {
+    try {
+      return await axiosInstance.delete<void>(`flower`, {
+        params: { flowerId },
+      });
+    } catch (error) {
+      console.error("Error deleting flower:", error);
+      throw error;
+    }
+  }
 }

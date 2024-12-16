@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import FlowerService from "../../API/FlowerService";
 import styles from "./flowerPage.module.css";
 import { useNavigate } from "react-router-dom";
+import BouquetService from "../../API/BouquetService";
 
 interface FlowerRequest {
   flowerId: number;
@@ -31,6 +32,16 @@ const FlowerPage = () => {
     initialFlowers();
   }, []);
 
+  const handleDelete = async (id: number) => {
+    try {
+      const response = await FlowerService.deleteFlower(id);
+      console.log("Flower deleted successfully:", response);
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to delete flower:", error);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <button className={styles.addButton} onClick={handleAddFlowerClick}>
@@ -41,6 +52,12 @@ const FlowerPage = () => {
           <p className={styles.flowerName}>{flower.flowerName}</p>
           <p className={styles.flowerPrice}>Ціна: {flower.flowerCost} грн</p>
           <p>К-сть: {flower.flowerCount} шт</p>
+          <button
+            className="btn btn-danger mt-2"
+            onClick={() => handleDelete(flower.flowerId)}
+          >
+            Видалити
+          </button>
         </div>
       ))}
     </div>

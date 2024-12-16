@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { AxiosResponse } from "axios";
-import UserService from "../../../API/UserService";
-import styles from "./PersonalAccount.module.css"; // CSS Modules
+import UserService from "../../../../API/UserService";
+import styles from "./personalAccount.module.css";
+import { useNavigate } from "react-router-dom"; // CSS Modules
 
 interface UserData {
   username: string;
@@ -14,6 +15,11 @@ interface UserData {
 const PersonalAccount: React.FC = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handleCustomerOrdersClick = () => {
+    navigate("/customer/orders");
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -45,15 +51,16 @@ const PersonalAccount: React.FC = () => {
   return (
     <div className="container mt-5">
       <div className={styles.layout}>
-        {/* Sidebar */}
         <div className={styles.sidebar}>
-          <button className={styles.sidebarButton}>Мої замовлення</button>
-          <button className={styles.sidebarButton}>Мої створені букети</button>
+          <button
+            onClick={handleCustomerOrdersClick}
+            className={styles.sidebarButton}
+          >
+            Мої замовлення
+          </button>
         </div>
-
-        {/* Main content */}
         <div className={styles.mainContent}>
-          <div className="card">
+          <div className={`card ${styles.cardCustom}`}>
             <div className={`card-header ${styles.cardHeader}`}>
               <h2>Особисті дані</h2>
             </div>

@@ -47,4 +47,15 @@ export default class BouquetService {
       throw error;
     }
   }
+
+  static async deleteBouquet(bouquetId: number): Promise<AxiosResponse<void>> {
+    try {
+      return await axiosInstance.delete<void>(`bouquet`, {
+        params: { bouquetId },
+      });
+    } catch (error) {
+      console.error("Error deleting bouquet:", error);
+      throw error;
+    }
+  }
 }

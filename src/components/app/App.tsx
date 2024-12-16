@@ -17,6 +17,7 @@ import OrdersPage from "../../pages/order/ordersPage/ordersPage";
 import OrderInfoPage from "../../pages/order/orderInfoPage/orderInfoPage";
 import FlowerPage from "../../pages/flowerPage/flowerPage";
 import AddFlowerPage from "../../pages/addFlower/addFlowerPage";
+import CustomerOrdersPage from "../../pages/order/customerOrdersPage/CustomerOrdersPage";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
               <Route path="/order-info/:id" element={<OrderInfoPage />}></Route>
               <Route path="/flowers" element={<FlowerPage />}></Route>
               <Route path="/add-flower" element={<AddFlowerPage />} />
+              <Route path="/customer/orders" element={<CustomerOrdersPage />} />
             </Routes>
           </BrowserRouter>
           <ToastContainer />
