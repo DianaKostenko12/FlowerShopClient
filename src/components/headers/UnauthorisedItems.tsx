@@ -11,11 +11,11 @@ const UnauthorisedItems = (props: UnauthorisedItemsProps) => {
     <>
       <li className="nav-item">
         <Link className="nav-link text-white fs-6" to="/bouquets">
-          Bouquets
+          Букети
         </Link>
       </li>
       <button onClick={props.login} className="btn btn-outline-light ms-3">
-        Login
+        Увійти
       </button>
     </>
   );

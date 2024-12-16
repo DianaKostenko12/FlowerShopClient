@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import UserService from "../../../API/UserService";
+import { useNavigate } from "react-router-dom";
 
 const RegisterForm: React.FC = () => {
   const [firstName, setFirstName] = useState<string>("");
@@ -8,7 +9,10 @@ const RegisterForm: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [phoneNumber, setPhone] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
+  const navigate = useNavigate();
+  const handleBouquetsClick = () => {
+    navigate("/bouquets");
+  };
   const handleRegister = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault(); // Запобігає перезавантаженню сторінки
 
@@ -107,7 +111,11 @@ const RegisterForm: React.FC = () => {
                 required
               />
             </div>
-            <button type="submit" className="btn btn-primary btn-sm w-100">
+            <button
+              onChange={handleBouquetsClick}
+              type="submit"
+              className="btn btn-primary btn-sm w-100"
+            >
               Register
             </button>
           </form>

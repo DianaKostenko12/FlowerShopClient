@@ -1,10 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import classes from "../AuthedUserItems/authedUserItems.module.css";
 interface AuthedAdminItemsProps {
   logout: () => void;
 }
 const AuthedAdminItems = (props: AuthedAdminItemsProps) => {
+  const navigate = useNavigate();
+
+  const handleRedirectToAuthClick = () => {
+    navigate("/auth-account");
+  };
   return (
     <>
       <li className="nav-item">
@@ -23,7 +28,13 @@ const AuthedAdminItems = (props: AuthedAdminItemsProps) => {
         </Link>
       </li>
       <li className="nav-item">
-        <button onClick={props.logout} className="btn btn-outline-light ms-3">
+        <button
+          onClick={() => {
+            props.logout();
+            handleRedirectToAuthClick();
+          }}
+          className="btn btn-outline-light ms-3"
+        >
           Вийти
         </button>
       </li>

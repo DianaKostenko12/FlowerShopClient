@@ -46,4 +46,13 @@ export default class OrderService {
       throw error;
     }
   }
+
+  static async updateOrderStatus(orderId: number, status: number) {
+    try {
+      return await axiosInstance.put(`order/${orderId}/status/${status}`);
+    } catch (error) {
+      console.error("Error creating order:", error);
+      throw error;
+    }
+  }
 }

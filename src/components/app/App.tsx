@@ -13,7 +13,10 @@ import { FlowerProvider } from "../../common/FlowerContext";
 import AuthorizationAccount from "../../pages/auth/account/AuthorizationAccount";
 import OrderBouquetPage from "../../pages/orderBouquet/orderBouquetPage/orderBouquetPage";
 import OrderBasketPage from "../../pages/orderBouquet/orderBasketPage/orderBasketPage";
-import OrdersPage from "../../pages/ordersPage/ordersPage";
+import OrdersPage from "../../pages/order/ordersPage/ordersPage";
+import OrderInfoPage from "../../pages/order/orderInfoPage/orderInfoPage";
+import FlowerPage from "../../pages/flowerPage/flowerPage";
+import AddFlowerPage from "../../pages/addFlower/addFlowerPage";
 
 function App() {
   return (
@@ -31,6 +34,9 @@ function App() {
               <Route path="/order-basket" element={<OrderBasketPage />} />
               <Route path="/create-order" element={<OrderBouquetPage />} />
               <Route path="/orders" element={<OrdersPage />} />
+              <Route path="/order-info/:id" element={<OrderInfoPage />}></Route>
+              <Route path="/flowers" element={<FlowerPage />}></Route>
+              <Route path="/add-flower" element={<AddFlowerPage />} />
             </Routes>
           </BrowserRouter>
           <ToastContainer />

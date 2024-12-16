@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import UserService from "../../../API/UserService";
 import { useAuth } from "../../../common/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm: React.FC = () => {
   const { isAuthorized, setIsAuthorized, setUserRole } = useAuth();
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const handleBouquetsClick = () => {
+    navigate("/bouquets");
+  };
 
   const handleLogin = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
@@ -84,7 +90,11 @@ const LoginForm: React.FC = () => {
               />
             </div>
 
-            <button type="submit" className="btn btn-primary btn-sm w-100">
+            <button
+              onClick={handleBouquetsClick}
+              type="submit"
+              className="btn btn-primary btn-sm w-100"
+            >
               Login
             </button>
           </form>

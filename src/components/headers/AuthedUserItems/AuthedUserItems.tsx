@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React from "react";
 import classes from "./authedUserItems.module.css";
 import AccountsPage from "../../../pages/auth/AccountsPage";
@@ -8,6 +8,11 @@ interface AuthedUserItemsProps {
 }
 
 const AuthedUserItems = (props: AuthedUserItemsProps) => {
+  const navigate = useNavigate();
+
+  const handleRedirectToAuthClick = () => {
+    navigate("/auth-account");
+  };
   return (
     <>
       <li className="nav-item">
@@ -21,22 +26,28 @@ const AuthedUserItems = (props: AuthedUserItemsProps) => {
       </li>
       <li className="nav-item">
         <Link className="nav-link text-white fs-6" to="/accounts">
-          Personal Account
+          Особистий кабінет
         </Link>
       </li>
       <li className="nav-item">
         <Link className="nav-link text-white fs-6" to="/bouquets">
-          Bouquets
+          Букети
         </Link>
       </li>
       <li className="nav-item">
         <Link className="nav-link text-white fs-6" to="/contact">
-          Contact Us
+          Зв'язок з нами
         </Link>
       </li>
       <li className="nav-item">
-        <button onClick={props.logout} className="btn btn-outline-light ms-3">
-          Logout
+        <button
+          onClick={() => {
+            props.logout();
+            handleRedirectToAuthClick();
+          }}
+          className="btn btn-outline-light ms-3"
+        >
+          Вийти
         </button>
       </li>
     </>
