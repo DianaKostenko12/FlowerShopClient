@@ -5,6 +5,7 @@ interface FlowerRequest {
   flowerId: number;
   flowerName: string;
   flowerCount: number;
+  imgUrl: string;
   flowerCost: number;
 }
 
@@ -13,6 +14,7 @@ interface AddFlowerProps {
   flowerCount: number;
   flowerCost: number;
 }
+
 export default class FlowerService {
   static async getFlowers(): Promise<AxiosResponse<FlowerRequest[]>> {
     try {

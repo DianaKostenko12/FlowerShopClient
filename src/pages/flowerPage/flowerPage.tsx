@@ -9,6 +9,7 @@ interface FlowerRequest {
   flowerName: string;
   flowerCount: number;
   flowerCost: number;
+  imgUrl: string;
 }
 
 const FlowerPage = () => {
@@ -49,6 +50,7 @@ const FlowerPage = () => {
       </button>
       {flowers.map((flower: FlowerRequest) => (
         <div key={flower.flowerId} className={styles.flowerCard}>
+          <img src={flower.imgUrl} alt={flower.flowerName} />
           <p className={styles.flowerName}>{flower.flowerName}</p>
           <p className={styles.flowerPrice}>Ціна: {flower.flowerCost} грн</p>
           <p>К-сть: {flower.flowerCount} шт</p>
