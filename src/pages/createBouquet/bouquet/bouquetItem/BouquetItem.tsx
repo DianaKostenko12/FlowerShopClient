@@ -1,13 +1,14 @@
 import React, { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./bouquetItem.css";
 import OrderModal from "../../../OrderModal";
 import { useAuth } from "../../../../common/AuthContext";
 import BouquetService from "../../../../API/BouquetService";
+import styles from "./bouquetItem.module.css"; // Імпорт CSS-модулів
 
 export interface Bouquet {
   bouquetId: number;
   bouquetName: string;
+  photoFileName: string;
   price: number;
 }
 
@@ -35,29 +36,38 @@ const BouquetItem: FC<BouquetItemProps> = ({ bouquet }) => {
   };
 
   return (
-    <div className="bouquet-card card">
-      <div className="card-body text-center">
-        <h5 className="card-title">{bouquet.bouquetName}</h5>
-        <div className="price-section">
-          <span className="current-price">{bouquet.price} грн</span>
-        </div>
-        <button className="btn btn-primary mt-2" onClick={handleClick}>
-          Детальніше
-        </button>
+    <div className={styles.bouquetCard}>
+      <div className={styles.bouquetImg}>
+        <img
+          src={bouquet.photoFileName}
+          alt={bouquet.bouquetName}
+          className={styles.image}
+        />
       </div>
-      {userRole !== "Admin" && (
-        <button className="btn-secondary" onClick={() => setShow(true)}>
-          Додати до кошика
-        </button>
-      )}
-      {userRole === "Admin" && (
-        <button
-          className="btn btn-danger mt-2"
-          onClick={() => handleDelete(bouquet.bouquetId)}
-        >
-          Видалити
-        </button>
-      )}
+      <div className={styles.cardBody}>
+        <p className={styles.cardTitle}>{bouquet.bouquetName}</p>
+        <p className={styles.currentPrice}>{bouquet.price} грн</p>
+        <div className={styles.cardButtons}>
+          <button className={styles.btnPrimary} onClick={handleClick}>
+            Детальніше
+          </button>
+          {userRole === "Admin" ? (
+            <button
+              className={`${styles.btnPrimary} ${styles.btnDanger}`}
+              onClick={() => handleDelete(bouquet.bouquetId)}
+            >
+              Видалити
+            </button>
+          ) : (
+            <button
+              className={styles.btnSecondary}
+              onClick={() => setShow(true)}
+            >
+              Додати до кошика
+            </button>
+          )}
+        </div>
+      </div>
       <OrderModal
         id={bouquet.bouquetId}
         name={bouquet.bouquetName}

@@ -10,13 +10,17 @@ interface Flower {
   id: number;
   name: string;
   cost: number;
+  photo: string;
   selectedQuantity: number;
   availableQuantity: number;
 }
+
 const CreateBouquetPage: FC = () => {
   const [bouquetName, setBouquetName] = useState<string>("");
   const [bouquetDescription, setBouquetDescription] = useState<string>("");
+  const [photo, setPhoto] = useState<File | null>(null);
   const [selectedFlowers, setSelectedFlowers] = useState<Flower[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   const incrementFlower = (flower: Flower) => {
     setSelectedFlowers((prev) => {
@@ -61,12 +65,25 @@ const CreateBouquetPage: FC = () => {
     });
   };
 
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPhoto(file);
+    }
+  };
+
   const handleCreate = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
+    setError(null);
 
+    if (!photo) {
+      setError("Будь ласка, оберіть фото для букета.");
+      return;
+    }
     const bouquetToCreate = {
       bouquetName,
       bouquetDescription,
+      photo,
       flowers: selectedFlowers.map((flower) => ({
         flowerId: flower.id,
         flowerCount: flower.selectedQuantity,
@@ -80,9 +97,11 @@ const CreateBouquetPage: FC = () => {
 
       setBouquetName("");
       setBouquetDescription("");
+      setPhoto(null);
       setSelectedFlowers([]);
     } catch (error) {
       console.error("Failed to create a bouquet:", error);
+      setError("Не вдалося створити букет. Спробуйте ще раз.");
     }
   };
 
@@ -102,6 +121,15 @@ const CreateBouquetPage: FC = () => {
             value={bouquetDescription}
             onChange={(e) => setBouquetDescription(e.target.value)}
           ></textarea>
+          <label className="formLabel">Фото</label>
+          <div className="fileInputWrapper">
+            <input
+              type="file"
+              onChange={handlePhotoChange}
+              id="photoInput"
+              className="fileInput"
+            />
+          </div>
         </div>
         <div className={classes.flowerList}>
           <FlowerList
@@ -111,6 +139,7 @@ const CreateBouquetPage: FC = () => {
           />
         </div>
       </div>
+      {error && <p className={classes.error}>{error}</p>}
       <button onClick={handleCreate} className={classes.button}>
         Створити
       </button>

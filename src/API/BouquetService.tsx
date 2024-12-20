@@ -5,6 +5,7 @@ interface BouquetInfo {
   bouquetId: number;
   bouquetName: string;
   price: number;
+  photoFileName: string;
 }
 
 interface BouquetFilterInfo {
@@ -16,6 +17,7 @@ interface BouquetFilterInfo {
 interface CreateBouquetInfo {
   bouquetName: string;
   bouquetDescription: string;
+  photo: File;
   flowers: SelectedFlower[];
 }
 
@@ -41,9 +43,34 @@ export default class BouquetService {
 
   static async createBouquet(createBouquetInfo: CreateBouquetInfo) {
     try {
-      return await axiosInstance.post("bouquet", createBouquetInfo);
+      const formData = new FormData();
+
+      formData.append("bouquetName", createBouquetInfo.bouquetName);
+      formData.append(
+        "bouquetDescription",
+        createBouquetInfo.bouquetDescription,
+      );
+
+      formData.append("photo", createBouquetInfo.photo);
+
+      createBouquetInfo.flowers.forEach((flower, index) => {
+        formData.append(
+          `Flowers[${index}].FlowerId`,
+          flower.flowerId.toString(),
+        );
+        formData.append(
+          `Flowers[${index}].FlowerCount`,
+          flower.flowerCount.toString(),
+        );
+      });
+
+      return await axiosInstance.post("bouquet", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
     } catch (error) {
-      console.error("Error finding bouquets:", error);
+      console.error("Error creating bouquet:", error);
       throw error;
     }
   }

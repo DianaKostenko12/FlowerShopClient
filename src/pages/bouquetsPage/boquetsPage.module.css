@@ -1,4 +1,4 @@
-.custom-button {
+.customButton {
     margin-top: 10px;
     margin-left: 20px;
     background-color: #a8d5ba; /* Світлий м'ятний зелений */
@@ -12,10 +12,10 @@
     transition: background-color 0.3s ease; /* Плавна зміна кольору при наведенні */
 }
 
-.custom-button:hover {
+.customButton:hover {
     background-color: #94c9a8; /* Темніший пастельний зелений при наведенні */
 }
 
-.bouquet-page {
+.bouquetPage {
     display: flex;
 }

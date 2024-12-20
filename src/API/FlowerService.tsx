@@ -9,9 +9,10 @@ interface FlowerRequest {
   flowerCost: number;
 }
 
-interface AddFlowerProps {
+interface CreateFlowerProps {
   flowerName: string;
   flowerCount: number;
+  photo: File; // File об'єкт для передачі файлу
   flowerCost: number;
 }
 
@@ -25,9 +26,19 @@ export default class FlowerService {
     }
   }
 
-  static async addFlower(addFlowerProps: AddFlowerProps) {
+  static async addFlower(createFlowerProps: CreateFlowerProps) {
     try {
-      return await axiosInstance.post("flower", addFlowerProps);
+      const formData = new FormData();
+      formData.append("FlowerName", createFlowerProps.flowerName);
+      formData.append("FlowerCount", createFlowerProps.flowerCount.toString());
+      formData.append("Photo", createFlowerProps.photo);
+      formData.append("FlowerCost", createFlowerProps.flowerCost.toString());
+
+      return await axiosInstance.post("flower", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
     } catch (error) {
       console.error("Error adding flowers:", error);
       throw error;

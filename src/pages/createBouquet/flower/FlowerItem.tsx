@@ -5,6 +5,7 @@ interface Flower {
   id: number;
   name: string;
   cost: number;
+  photo: string;
   selectedQuantity: number;
   availableQuantity: number;
 }
@@ -27,6 +28,7 @@ const FlowerItem: FC<FlowerItemProps> = ({
 
   return (
     <div className={classes.flowerItem}>
+      <img src={flower.photo} alt={flower.name} />
       <p>{flower.name}</p>
       <p>Ціна: {flower.cost} грн </p>
       <div className={classes.counter}>

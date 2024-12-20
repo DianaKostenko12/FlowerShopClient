@@ -4,7 +4,7 @@ import styles from "./flowerPage.module.css";
 import { useNavigate } from "react-router-dom";
 import BouquetService from "../../API/BouquetService";
 
-interface FlowerRequest {
+export interface FlowerRequest {
   flowerId: number;
   flowerName: string;
   flowerCount: number;

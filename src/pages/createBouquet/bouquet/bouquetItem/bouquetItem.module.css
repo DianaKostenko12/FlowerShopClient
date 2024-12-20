@@ -1,0 +1,86 @@
+.bouquetCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Вирівнювання елементів по вертикалі */
+    justify-content: space-between; /* Вирівнювання простору між елементами */
+    background-color: #fce4ec; /* Світло-рожевий фон */
+    padding: 15px; /* Відступи всередині контейнера */
+    border-radius: 10px; /* Закруглені кути */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Легка тінь */
+    max-width: 500px; /* Максимальна ширина елемента */
+    margin: 10px;
+}
+
+.bouquetCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cardTitle {
+    font-size: 1.25rem;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #388e3c;
+    text-align: center;
+}
+
+.currentPrice {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2e7d32;
+}
+
+.btnPrimary {
+    background-color: #f8bbd0;
+    border-color: #f8bbd0;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: #fff;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-right: 10px;
+}
+
+.btnPrimary:hover {
+    background-color: #f48fb1;
+    transform: scale(1.05);
+}
+
+.btnDanger {
+    background-color: #e57373;
+    border-color: #e57373;
+    color: #fff;
+}
+
+.btnDanger:hover {
+    background-color: #d32f2f;
+}
+
+.bouquetCard img {
+    width: 100%;
+    height: 200px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bouquetCard img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.bouquetImg {
+    width: 170px;
+    height: 200px;
+}
+
+.cardBody {
+    display: flex;
+    flex-direction: column;
+}
+
+.cardButtons {
+    display: flex;
+    flex-direction: row;
+}

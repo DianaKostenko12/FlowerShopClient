@@ -86,3 +86,26 @@ textarea {
     background-color: #d3d3d3; /* Сірий фон для вимкненої кнопки */
     cursor: not-allowed; /* Індикатор, що кнопка недоступна */
 }
+
+input[type="file"] {
+    display: block;
+    width: 100%; /* Ширина інпута */
+    font-size: 14px; /* Розмір тексту */
+    color: #333; /* Темний текст */
+    padding: 10px; /* Відступи всередині */
+    background-color: #f9f9f9; /* Світлий фон */
+    border: 1px solid #b3e8b3; /* М'ятний бордер */
+    border-radius: 5px; /* Закруглені кути */
+    outline: none; /* Забираємо стандартний фокус */
+    cursor: pointer; /* Вказівник для клікабельності */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Плавна анімація */
+}
+
+input[type="file"]:hover {
+    background-color: #eef8ee; /* Світліший фон при наведенні */
+}
+
+input[type="file"]:focus {
+    border-color: #78c978; /* Темніший м'ятний при фокусі */
+    box-shadow: 0 0 5px rgba(120, 201, 120, 0.5); /* Легка тінь при фокусі */
+}

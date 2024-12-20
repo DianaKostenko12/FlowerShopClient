@@ -6,12 +6,14 @@ interface AddFlowerProps {
   flowerName: string;
   flowerCount: number;
   flowerCost: number;
+  photo: File;
 }
 
 const AddFlowerPage = () => {
   const [name, setName] = useState<string>("");
   const [count, setCount] = useState<string>(""); // Рядок замість числа
-  const [cost, setCost] = useState<string>(""); // Рядок замість числа
+  const [cost, setCost] = useState<string>("");
+  const [photo, setPhoto] = useState<File | null>(null); // Рядок замість числа
   const [error, setError] = useState<string>("");
 
   const handleAddFlower = async (e: React.FormEvent): Promise<void> => {
@@ -25,7 +27,8 @@ const AddFlowerPage = () => {
       isNaN(parsedCount) ||
       parsedCount <= 0 ||
       isNaN(parsedCost) ||
-      parsedCost <= 0
+      parsedCost <= 0 ||
+      !photo
     ) {
       setError("Заповніть всі поля коректними даними.");
       return;
@@ -35,6 +38,7 @@ const AddFlowerPage = () => {
       flowerName: name,
       flowerCount: parsedCount,
       flowerCost: parsedCost,
+      photo: photo,
     };
 
     try {
@@ -44,10 +48,17 @@ const AddFlowerPage = () => {
       setName("");
       setCount("");
       setCost("");
-      setError(""); // Очистити повідомлення про помилку
+      setPhoto(null);
+      setError("");
     } catch (err) {
       console.error("Failed to add a flower:", err);
       setError("Не вдалося додати квітку. Спробуйте ще раз.");
+    }
+  };
+
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setPhoto(e.target.files[0]);
     }
   };
 
@@ -80,6 +91,20 @@ const AddFlowerPage = () => {
             onChange={(e) => setCost(e.target.value)}
             placeholder="Введіть вартість"
           />
+        </div>
+        <div className={classes.inputGroup}>
+          <label>Фото</label>
+          <div className={classes.fileInputWrapper}>
+            <input
+              type="file"
+              onChange={handlePhotoChange}
+              id="photoInput"
+              className={classes.fileInput}
+            />
+            <label htmlFor="photoInput" className={classes.filePlaceholder}>
+              {photo ? photo.name : "Виберіть фото"}
+            </label>
+          </div>
         </div>
         {error && <p className={classes.error}>{error}</p>}
         <button type="submit" className={classes.addButton}>

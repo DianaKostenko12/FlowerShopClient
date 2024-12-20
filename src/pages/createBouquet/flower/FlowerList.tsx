@@ -7,6 +7,7 @@ interface Flower {
   id: number;
   name: string;
   cost: number;
+  photo: string;
   selectedQuantity: number;
   availableQuantity: number;
 }
@@ -33,6 +34,7 @@ const FlowerList: React.FC<FlowerListProps> = ({
           id: flower.flowerId,
           name: flower.flowerName,
           cost: flower.flowerCost,
+          photo: flower.imgUrl,
           availableQuantity: flower.flowerCount,
           selectedQuantity: 0,
         }));
