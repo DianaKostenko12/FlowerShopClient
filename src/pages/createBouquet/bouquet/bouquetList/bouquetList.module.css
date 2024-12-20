@@ -1,18 +1,14 @@
 .bouquetsContainer {
-    display: flex;
-    flex-wrap: wrap; /* Для переносу карток на наступний рядок */
-    gap: 20px; /* Відстань між картками */
-    justify-content: center; /* Вирівнювання по центру */
     margin-top: 50px; /* Відступ зверху */
 }
 
 .bouquetCard {
-    width: 300px; /* Фіксована ширина для картки */
-    height: 500px; /* Фіксована висота для картки */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    padding: 10px; /* Однакові відступи для всіх карток */
+    box-sizing: border-box;
 }
 
 .noBouquets {

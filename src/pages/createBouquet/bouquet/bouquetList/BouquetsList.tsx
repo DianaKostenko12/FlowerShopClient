@@ -13,9 +13,12 @@ const BouquetsList: FC<BouquetListProps> = ({ bouquets }) => {
   }
 
   return (
-    <div className={styles.bouquetsContainer}>
+    <div className={"row " + styles.bouquetsContainer}>
       {bouquets.map((bouquet) => (
-        <div key={bouquet.bouquetId} className={styles.bouquetCard}>
+        <div
+          key={bouquet.bouquetId}
+          className={"col-6 col-md-4 col-lg-3 col-xxl-2 " + styles.bouquetCard}
+        >
           <BouquetItem bouquet={bouquet} />
         </div>
       ))}

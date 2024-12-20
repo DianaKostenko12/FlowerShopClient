@@ -47,25 +47,30 @@ const BouquetItem: FC<BouquetItemProps> = ({ bouquet }) => {
       <div className={styles.cardBody}>
         <p className={styles.cardTitle}>{bouquet.bouquetName}</p>
         <p className={styles.currentPrice}>{bouquet.price} грн</p>
-        <div className={styles.cardButtons}>
+        <div
+          className={`${styles.cardButton} ${
+            userRole ? styles.cardButtons : styles.cardButton
+          }`}
+        >
           <button className={styles.btnPrimary} onClick={handleClick}>
             Детальніше
           </button>
-          {userRole === "Admin" ? (
-            <button
-              className={`${styles.btnPrimary} ${styles.btnDanger}`}
-              onClick={() => handleDelete(bouquet.bouquetId)}
-            >
-              Видалити
-            </button>
-          ) : (
-            <button
-              className={styles.btnSecondary}
-              onClick={() => setShow(true)}
-            >
-              Додати до кошика
-            </button>
-          )}
+          {userRole &&
+            (userRole === "Admin" ? (
+              <button
+                className={`${styles.btnPrimary} ${styles.btnDanger}`}
+                onClick={() => handleDelete(bouquet.bouquetId)}
+              >
+                Видалити
+              </button>
+            ) : (
+              <button
+                className={styles.btnSecondary}
+                onClick={() => setShow(true)}
+              >
+                Додати до кошика
+              </button>
+            ))}
         </div>
       </div>
       <OrderModal

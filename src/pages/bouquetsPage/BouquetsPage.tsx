@@ -30,6 +30,7 @@ const BouquetsPage = () => {
   const { setSelectedFlowers } = useFlowers();
   const navigate = useNavigate();
   const [flowers, setFlowers] = useState<FlowerRequest[]>([]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleCreateBouquetClick = () => {
     navigate("/create-bouquet");
@@ -37,6 +38,18 @@ const BouquetsPage = () => {
 
   const handleFilterChange = () => {
     fetchBouquetInfo();
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleFlowerSelect = (flowerId: number) => {
+    setFlowerIds((prev) =>
+      prev.includes(flowerId)
+        ? prev.filter((id) => id !== flowerId)
+        : [...prev, flowerId],
+    );
   };
 
   const fetchBouquetInfo = async () => {
@@ -75,64 +88,75 @@ const BouquetsPage = () => {
   return (
     <div className={styles.bouquetPage}>
       <div className={styles.filters}>
+        <div>
+          <div>
+            <input
+              type="number"
+              value={minPrice || ""}
+              placeholder="Мінімальна ціна"
+              onChange={(e) =>
+                setMinPrice(e.target.value ? Number(e.target.value) : "")
+              }
+            />
+          </div>
+          <div>
+            <input
+              type="number"
+              value={maxPrice || ""}
+              placeholder="Максимальна ціна"
+              onChange={(e) =>
+                setMaxPrice(e.target.value ? Number(e.target.value) : "")
+              }
+            />
+          </div>
+        </div>
+
+        <div className={styles.dropdownContainer}>
+          <div
+            className={styles.dropdown}
+            onMouseEnter={toggleDropdown}
+            onMouseLeave={toggleDropdown}
+          >
+            <button className={styles.dropdownButton}>
+              <h6>Квіти</h6> <img src="/down.png" alt="" />
+            </button>
+            {isDropdownOpen && (
+              <ul className={styles.dropdownList}>
+                {flowers.map((flower: FlowerRequest) => (
+                  <li
+                    key={flower.flowerId}
+                    className={
+                      flowerIds.includes(flower.flowerId)
+                        ? styles.selectedItem
+                        : ""
+                    }
+                    onClick={() => handleFlowerSelect(flower.flowerId)}
+                  >
+                    {flower.flowerName}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+
+        <button onClick={handleFilterChange} className={styles.customButton}>
+          Застосувати фільтри
+        </button>
         <button
           onClick={handleCreateBouquetClick}
-          className={`btn btn-primary ${styles.customButton}`}
+          className={`${styles.customButton} ${styles.additionalStyle}`}
         >
           Create Bouquet
         </button>
-
-        <div>
-          <label>Мінімальна ціна:</label>
-          <input
-            type="number"
-            value={minPrice || ""}
-            onChange={(e) =>
-              setMinPrice(e.target.value ? Number(e.target.value) : "")
-            }
-          />
-        </div>
-        <div>
-          <label>Максимальна ціна:</label>
-          <input
-            type="number"
-            value={maxPrice || ""}
-            onChange={(e) =>
-              setMaxPrice(e.target.value ? Number(e.target.value) : "")
-            }
-          />
-        </div>
-        <div>
-          <label>Квіти:</label>
-          <select
-            multiple
-            value={flowerIds.map(String)}
-            onChange={(e) =>
-              setFlowerIds(
-                Array.from(e.target.selectedOptions, (option) =>
-                  Number(option.value),
-                ),
-              )
-            }
-          >
-            {flowers.map((flower: FlowerRequest) => (
-              <option key={flower.flowerId} value={flower.flowerId}>
-                {flower.flowerName}
-              </option>
-            ))}
-          </select>
-        </div>
-        <button onClick={handleFilterChange} className="btn btn-primary">
-          Застосувати фільтри
-        </button>
       </div>
 
-      {error && <div className="alert alert-danger">{error}</div>}
+      {error && <div className={`${styles.alert} alert-danger`}>{error}</div>}
 
       {bouquetInfo.length > 0 ? (
         <BouquetsList bouquets={bouquetInfo} />
       ) : (
-        <div className="text-center">
+        <div className={styles.textCenter}>
           <p>Завантаження даних...</p>
         </div>
       )}
