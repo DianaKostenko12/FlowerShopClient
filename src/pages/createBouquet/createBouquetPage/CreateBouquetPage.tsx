@@ -127,6 +127,7 @@ const CreateBouquetPage: FC = () => {
               className="fileInput"
             />
           </div>
+          {error && <p className={classes.error}>{error}</p>}
           <button onClick={handleCreate} className={classes.button}>
             Створити
           </button>
@@ -140,7 +141,6 @@ const CreateBouquetPage: FC = () => {
           />
         </div>
       </div>
-      {error && <p className={classes.error}>{error}</p>}
     </div>
   );
 };

@@ -48,11 +48,11 @@ const RegisterForm: React.FC = () => {
             className="card-title text-center mb-4"
             style={{ fontSize: "1.5rem" }}
           >
-            Register
+            Реєстрація
           </h3>
           <form onSubmit={handleRegister}>
             <div className="mb-2 d-flex flex-column align-items-start">
-              <label className="form-label small">First Name</label>
+              <label className="form-label small">Ім'я</label>
               <input
                 type="text"
                 className="form-control form-control-sm"
@@ -62,7 +62,7 @@ const RegisterForm: React.FC = () => {
               />
             </div>
             <div className="mb-2 d-flex flex-column align-items-start">
-              <label className="form-label small">Last Name</label>
+              <label className="form-label small">Прізвище</label>
               <input
                 type="text"
                 className="form-control form-control-sm"
@@ -72,7 +72,7 @@ const RegisterForm: React.FC = () => {
               />
             </div>
             <div className="mb-2 d-flex flex-column align-items-start">
-              <label className="form-label small">Username</label>
+              <label className="form-label small">Ім'я користувача</label>
               <input
                 type="text"
                 className="form-control form-control-sm"
@@ -82,7 +82,7 @@ const RegisterForm: React.FC = () => {
               />
             </div>
             <div className="mb-2 d-flex flex-column align-items-start">
-              <label className="form-label small">Email</label>
+              <label className="form-label small">Електронна пошта</label>
               <input
                 type="email"
                 className="form-control form-control-sm"
@@ -92,7 +92,7 @@ const RegisterForm: React.FC = () => {
               />
             </div>
             <div className="mb-2 d-flex flex-column align-items-start">
-              <label className="form-label small">Phone</label>
+              <label className="form-label small">Телефон</label>
               <input
                 type="tel"
                 className="form-control form-control-sm"
@@ -102,7 +102,7 @@ const RegisterForm: React.FC = () => {
               />
             </div>
             <div className="mb-2 d-flex flex-column align-items-start">
-              <label className="form-label small">Password</label>
+              <label className="form-label small">Пароль</label>
               <input
                 type="password"
                 className="form-control form-control-sm"
@@ -116,7 +116,7 @@ const RegisterForm: React.FC = () => {
               type="submit"
               className="btn btn-primary btn-sm w-100"
             >
-              Register
+              Зареєструватися
             </button>
           </form>
         </div>

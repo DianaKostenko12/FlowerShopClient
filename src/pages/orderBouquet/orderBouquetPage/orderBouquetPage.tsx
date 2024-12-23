@@ -79,8 +79,8 @@ const OrderBouquetPage = () => {
 
     console.log(orderToCreate);
     try {
-      /*const response = await OrderService.createOrder(orderToCreate);
-      console.log("Order created successfully:", response.data);*/
+      const response = await OrderService.createOrder(orderToCreate);
+      console.log("Order created successfully:", response.data);
 
       setStreet("");
       localStorage.removeItem("orderBouquets");

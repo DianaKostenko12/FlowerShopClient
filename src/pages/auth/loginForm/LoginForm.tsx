@@ -58,7 +58,7 @@ const LoginForm: React.FC = () => {
             className="card-title text-center mb-4"
             style={{ fontSize: "1.5rem" }}
           >
-            Login
+            Авторизація
           </h3>
 
           {errorMessage && (
@@ -69,7 +69,7 @@ const LoginForm: React.FC = () => {
 
           <form onSubmit={handleLogin}>
             <div className="mb-2 d-flex flex-column align-items-start">
-              <label className="form-label small">Username</label>
+              <label className="form-label small">Ім'я користувача</label>
               <input
                 type="text"
                 className="form-control form-control-sm"
@@ -80,7 +80,7 @@ const LoginForm: React.FC = () => {
             </div>
 
             <div className="mb-2 d-flex flex-column align-items-start">
-              <label className="form-label small">Password</label>
+              <label className="form-label small">Пароль</label>
               <input
                 type="password"
                 className="form-control form-control-sm"
@@ -95,7 +95,7 @@ const LoginForm: React.FC = () => {
               type="submit"
               className="btn btn-primary btn-sm w-100"
             >
-              Login
+              Авторизуватися
             </button>
           </form>
         </div>
