@@ -11,3 +11,21 @@ body {
   background-repeat: no-repeat; /* Уникає повторення */
   background-attachment: fixed;
 }
+
+
+.btn-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: #f48fb1; /* Основний фон */
+  --bs-btn-border-color: #f48fb1; /* Основний колір межі */
+  --bs-btn-hover-color: #fff; /* Колір тексту при наведенні */
+  --bs-btn-hover-bg: #f06292; /* Фон при наведенні */
+  --bs-btn-hover-border-color: #ec407a; /* Колір межі при наведенні */
+  --bs-btn-focus-shadow-rgb: 244, 143, 177; /* Тінь при фокусі */
+  --bs-btn-active-color: #fff; /* Колір тексту при активному стані */
+  --bs-btn-active-bg: #ec407a; /* Фон при активному стані */
+  --bs-btn-active-border-color: #d81b60; /* Колір межі при активному стані */
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); /* Тінь при активному стані */
+  --bs-btn-disabled-color: #fff; /* Колір тексту для неактивної кнопки */
+  --bs-btn-disabled-bg: #f48fb1; /* Фон для неактивної кнопки */
+  --bs-btn-disabled-border-color: #f48fb1; /* Колір межі для неактивної кнопки */
+}

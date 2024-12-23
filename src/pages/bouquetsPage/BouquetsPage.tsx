@@ -147,7 +147,7 @@ const BouquetsPage = () => {
           onClick={handleCreateBouquetClick}
           className={`${styles.customButton} ${styles.additionalStyle}`}
         >
-          Create Bouquet
+          Створити букет
         </button>
       </div>
 

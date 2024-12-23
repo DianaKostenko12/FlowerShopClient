@@ -8,7 +8,7 @@ interface UserData {
   username: string;
   lastName: string;
   firstName: string;
-  phoneNumber: string;
+  phone: string;
   email: string;
 }
 
@@ -75,7 +75,7 @@ const PersonalAccount: React.FC = () => {
                 <strong>Ім'я:</strong> {userData.firstName}
               </p>
               <p>
-                <strong>Телефон:</strong> {userData.phoneNumber}
+                <strong>Телефон:</strong> {userData.phone}
               </p>
               <p>
                 <strong>Email:</strong> {userData.email}

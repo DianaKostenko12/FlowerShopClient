@@ -7,7 +7,7 @@ const RegisterForm: React.FC = () => {
   const [lastName, setLastName] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [phoneNumber, setPhone] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
   const handleBouquetsClick = () => {
@@ -21,7 +21,7 @@ const RegisterForm: React.FC = () => {
       lastName,
       username,
       email,
-      phoneNumber,
+      phone,
       password,
     };
 
@@ -96,7 +96,7 @@ const RegisterForm: React.FC = () => {
               <input
                 type="tel"
                 className="form-control form-control-sm"
-                value={phoneNumber}
+                value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 required
               />

@@ -1,8 +1,5 @@
 import React, { FC, useState } from "react";
-import { Bouquet } from "../bouquet/bouquetItem/BouquetItem";
-import UserService from "../../../API/UserService";
 import BouquetService from "../../../API/BouquetService";
-import { useFlowers } from "../../../common/FlowerContext";
 import FlowerList from "../flower/FlowerList";
 import classes from "./createBouquet.module.css";
 

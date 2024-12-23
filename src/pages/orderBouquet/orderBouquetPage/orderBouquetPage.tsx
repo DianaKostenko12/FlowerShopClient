@@ -9,7 +9,7 @@ interface UserData {
   username: string;
   lastName: string;
   firstName: string;
-  phoneNumber: string;
+  phone: string;
   email: string;
 }
 
@@ -110,7 +110,7 @@ const OrderBouquetPage = () => {
             <div className={styles.userInfo}>
               <h2 className={styles.subTitle}>Ваші дані</h2>
               <p>
-                <strong>Телефон:</strong> {userData.phoneNumber}
+                <strong>Телефон:</strong> {userData.phone}
               </p>
               <p>
                 <strong>Ім'я та прізвище:</strong> {userData.lastName}{" "}
