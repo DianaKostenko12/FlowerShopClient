@@ -103,10 +103,10 @@ const CreateBouquetPage: FC = () => {
   };
 
   return (
-    <div>
+    <div className="p-4 pe-0">
       <h2 className={classes.title}>Створення букету</h2>
-      <div className={classes.createBouquetCard}>
-        <div className={classes.bouquetInfo}>
+      <div className="row w-100">
+        <div className={"col-4 col-xl-3 " + classes.bouquetInfo}>
           <label className={`${classes.formLabel} small`}>Назва букету</label>
           <input
             type="text"
@@ -127,8 +127,12 @@ const CreateBouquetPage: FC = () => {
               className="fileInput"
             />
           </div>
+          <button onClick={handleCreate} className={classes.button}>
+            Створити
+          </button>
         </div>
-        <div className={classes.flowerList}>
+
+        <div className={"col-8 col-xl-9 " + classes.flowerList}>
           <FlowerList
             selectedFlowers={selectedFlowers}
             onIncrementFlower={incrementFlower}
@@ -137,9 +141,6 @@ const CreateBouquetPage: FC = () => {
         </div>
       </div>
       {error && <p className={classes.error}>{error}</p>}
-      <button onClick={handleCreate} className={classes.button}>
-        Створити
-      </button>
     </div>
   );
 };

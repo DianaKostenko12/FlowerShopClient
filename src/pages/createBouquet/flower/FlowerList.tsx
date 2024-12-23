@@ -50,15 +50,16 @@ const FlowerList: React.FC<FlowerListProps> = ({
   return (
     <div>
       <h3>Квіти</h3>
-      <div className={`${classes.flowerList}`}>
+      <div className="row w-100">
         {availableFlowers.map((flower) => (
-          <FlowerItem
-            key={flower.id}
-            flower={flower}
-            selectedFlowers={selectedFlowers}
-            onIncrementFlower={onIncrementFlower}
-            onDecrementFlower={onDecrementFlower}
-          />
+          <div key={flower.id} className="col-4 col-xl-3">
+            <FlowerItem
+              flower={flower}
+              selectedFlowers={selectedFlowers}
+              onIncrementFlower={onIncrementFlower}
+              onDecrementFlower={onDecrementFlower}
+            />
+          </div>
         ))}
       </div>
     </div>

@@ -1,18 +1,7 @@
-.createBouquetCard {
-    display: flex;
-    justify-content: center;
-}
+
 
 .bouquetInfo {
-    display: flex;
-    flex-direction: column; /* Елементи розташовуються вертикально */
-    gap: 15px; /* Відстань між елементами */
-    background-color: #ffe4e4; /* Світло-рожевий фон */
-    padding: 20px; /* Відступи всередині форми */
-    border-radius: 10px; /* Закруглені кути форми */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Легка тінь */
-    max-width: 400px; /* Максимальна ширина форми */
-    margin: 20px;
+
 }
 
 .formLabel {
@@ -44,9 +33,7 @@ textarea {
 }
 
 .flowerList {
-    display: flex;
-    flex-direction: row;
-    margin: 30px;
+
 }
 
 .title {
@@ -72,6 +59,8 @@ textarea {
     cursor: pointer; /* Індикатор клікабельності */
     transition: background-color 0.3s ease, transform 0.2s ease; /* Плавна анімація кольору та натискання */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Легка тінь */
+    width: 100%;
+    margin-top: 20px;
 }
 
 .button:hover {
