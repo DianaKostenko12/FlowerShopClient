@@ -1,19 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { AxiosResponse } from "axios";
-import UserService from "../../../../API/UserService";
+import UserService, { GetUserData } from "../../../../API/UserService";
 import styles from "./personalAccount.module.css";
 import { useNavigate } from "react-router-dom"; // CSS Modules
 
-interface UserData {
-  username: string;
-  lastName: string;
-  firstName: string;
-  phone: string;
-  email: string;
-}
-
 const PersonalAccount: React.FC = () => {
-  const [userData, setUserData] = useState<UserData | null>(null);
+  const [userData, setUserData] = useState<GetUserData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -24,7 +16,7 @@ const PersonalAccount: React.FC = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response: AxiosResponse<UserData> =
+        const response: AxiosResponse<GetUserData> =
           await UserService.getUserById();
         setUserData(response.data);
       } catch (error) {
@@ -75,7 +67,7 @@ const PersonalAccount: React.FC = () => {
                 <strong>Ім'я:</strong> {userData.firstName}
               </p>
               <p>
-                <strong>Телефон:</strong> {userData.phone}
+                <strong>Телефон:</strong> {userData.phoneNumber}
               </p>
               <p>
                 <strong>Email:</strong> {userData.email}

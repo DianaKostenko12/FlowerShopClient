@@ -10,6 +10,14 @@ interface UserData {
   password: string;
 }
 
+export interface GetUserData {
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  phoneNumber: string;
+}
+
 interface LoginData {
   username: string;
   password: string;
@@ -41,9 +49,9 @@ export default class UserService {
     }
   }
 
-  static async getUserById(): Promise<AxiosResponse<UserData>> {
+  static async getUserById(): Promise<AxiosResponse<GetUserData>> {
     try {
-      return await axiosInstance.get<UserData>(`user`);
+      return await axiosInstance.get<GetUserData>(`user`);
     } catch (error) {
       console.error("Error finding user:", error);
       throw error;

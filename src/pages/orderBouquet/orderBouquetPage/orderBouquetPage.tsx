@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { AxiosResponse } from "axios";
-import UserService from "../../../API/UserService";
+import UserService, { GetUserData } from "../../../API/UserService";
 import styles from "./orderPage.module.css";
 import BouquetService from "../../../API/BouquetService";
 import OrderService from "../../../API/OrderService";
 import { useNavigate } from "react-router-dom";
-interface UserData {
-  username: string;
-  lastName: string;
-  firstName: string;
-  phone: string;
-  email: string;
-}
 
 interface OrderBouquet {
   bouquetId: number;
@@ -20,7 +13,7 @@ interface OrderBouquet {
   bouquetPrice: number;
 }
 const OrderBouquetPage = () => {
-  const [userData, setUserData] = useState<UserData | null>(null);
+  const [userData, setUserData] = useState<GetUserData | null>(null);
   const navigate = useNavigate();
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [street, setStreet] = useState<string>("");
@@ -41,7 +34,7 @@ const OrderBouquetPage = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response: AxiosResponse<UserData> =
+        const response: AxiosResponse<GetUserData> =
           await UserService.getUserById();
         console.log(response);
         setUserData(response.data);
@@ -110,7 +103,7 @@ const OrderBouquetPage = () => {
             <div className={styles.userInfo}>
               <h2 className={styles.subTitle}>Ваші дані</h2>
               <p>
-                <strong>Телефон:</strong> {userData.phone}
+                <strong>Телефон:</strong> {userData.phoneNumber}
               </p>
               <p>
                 <strong>Ім'я та прізвище:</strong> {userData.lastName}{" "}
