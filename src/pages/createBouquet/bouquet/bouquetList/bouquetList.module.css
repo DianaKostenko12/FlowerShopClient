@@ -1,19 +1,19 @@
 .bouquetsContainer {
-    margin-top: 50px; /* Відступ зверху */
+  margin-top: 50px; /* Відступ зверху */
 }
 
 .bouquetCard {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 10px; /* Однакові відступи для всіх карток */
-    box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px; /* Однакові відступи для всіх карток */
+  box-sizing: border-box;
 }
 
 .noBouquets {
-    text-align: center;
-    font-size: 1.5rem;
-    color: #555; /* Сірий колір тексту */
-    margin-top: 50px;
+  text-align: center;
+  font-size: 1.5rem;
+  color: #555; /* Сірий колір тексту */
+  margin-top: 50px;
 }

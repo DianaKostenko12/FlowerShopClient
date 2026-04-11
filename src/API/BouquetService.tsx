@@ -28,17 +28,21 @@ interface SelectedFlower {
 
 export default class BouquetService {
   static async getBouquets(
-    bouquetFilterInfo: BouquetFilterInfo,
+    bouquetFilterInfo: BouquetFilterInfo
   ): Promise<AxiosResponse<BouquetInfo[]>> {
     try {
       return await axiosInstance.post<BouquetInfo[]>(
         "bouquet/filter",
-        bouquetFilterInfo,
+        bouquetFilterInfo
       );
     } catch (error) {
       console.error("Error finding bouquets:", error);
       throw error;
     }
+  }
+
+  static getBouquetImageUrl(bouquetId: number): string {
+    return `${axiosInstance.defaults.baseURL}/bouquet/${bouquetId}/image`;
   }
 
   static async createBouquet(createBouquetInfo: CreateBouquetInfo) {
@@ -48,7 +52,7 @@ export default class BouquetService {
       formData.append("bouquetName", createBouquetInfo.bouquetName);
       formData.append(
         "bouquetDescription",
-        createBouquetInfo.bouquetDescription,
+        createBouquetInfo.bouquetDescription
       );
 
       formData.append("photo", createBouquetInfo.photo);
@@ -56,11 +60,11 @@ export default class BouquetService {
       createBouquetInfo.flowers.forEach((flower, index) => {
         formData.append(
           `Flowers[${index}].FlowerId`,
-          flower.flowerId.toString(),
+          flower.flowerId.toString()
         );
         formData.append(
           `Flowers[${index}].FlowerCount`,
-          flower.flowerCount.toString(),
+          flower.flowerCount.toString()
         );
       });
 

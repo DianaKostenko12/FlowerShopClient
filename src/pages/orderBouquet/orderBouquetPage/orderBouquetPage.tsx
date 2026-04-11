@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { AxiosResponse } from "axios";
 import UserService, { GetUserData } from "../../../API/UserService";
 import styles from "./orderPage.module.css";
-import BouquetService from "../../../API/BouquetService";
 import OrderService from "../../../API/OrderService";
 import { useNavigate } from "react-router-dom";
 
@@ -28,7 +27,7 @@ const OrderBouquetPage = () => {
     (total: number, order: OrderBouquet) => {
       return total + order.bouquetPrice * order.bouquetCount;
     },
-    0,
+    0
   );
 
   useEffect(() => {
@@ -77,7 +76,6 @@ const OrderBouquetPage = () => {
 
       setStreet("");
       localStorage.removeItem("orderBouquets");
-      // Встановлення повідомлення про успіх
       setSuccessMessage("Замовлення успішно оформлене");
 
       setTimeout(() => {

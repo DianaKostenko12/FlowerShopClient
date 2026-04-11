@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import OrderModal from "../../../OrderModal";
 import { useAuth } from "../../../../common/AuthContext";
 import BouquetService from "../../../../API/BouquetService";
-import styles from "./bouquetItem.module.css"; // Імпорт CSS-модулів
+import styles from "./bouquetItem.module.css";
 
 export interface Bouquet {
   bouquetId: number;
@@ -39,7 +39,7 @@ const BouquetItem: FC<BouquetItemProps> = ({ bouquet }) => {
     <div className={styles.bouquetCard}>
       <div className={styles.bouquetImg}>
         <img
-          src={bouquet.photoFileName}
+          src={BouquetService.getBouquetImageUrl(bouquet.bouquetId)}
           alt={bouquet.bouquetName}
           className={styles.image}
         />
