@@ -37,7 +37,7 @@ select {
 
 button {
     padding: 8px 15px;
-    background-color: #f48fb1; /* рожевий колір сайту */
+    background-color: #5a7d5a; /* зелений колір сайту */
     border: none;
     color: white;
     border-radius: 5px;
@@ -47,7 +47,7 @@ button {
 }
 
 button:hover {
-    background-color: #d16ba5;
+    background-color: #3d5a3d;
 }
 
 .error-message {

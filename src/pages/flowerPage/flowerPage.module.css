@@ -10,7 +10,7 @@
     position: absolute;
     top: 80px;
     right: 30px;
-    background-color: #ffb6c1;
+    background-color: #5a7d5a;
     border: none;
     color: white;
     font-size: 16px;
@@ -23,11 +23,11 @@
 }
 
 .addButton:hover {
-    background-color: #ff91a4;
+    background-color: #3d5a3d;
 }
 
 .flowerCard {
-    background-color: #ffebf0; /* Світло-рожевий фон для карточок */
+    background-color: #eef5ee; /* Світло-зелений фон для карточок */
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     padding: 15px;
@@ -49,7 +49,7 @@
 
 .flowerPrice {
     font-size: 16px;
-    color: #ff91a4;
+    color: #2d5a3d;
 }
 
 img {

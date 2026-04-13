@@ -12,15 +12,15 @@
 .basketTitle {
     font-size: 26px;
     font-weight: bold;
-    color: #f48fb1; /* Світло-рожевий */
+    color: #2d5a3d; /* Темно-зелений */
     text-align: center;
     margin-bottom: 20px;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05); /* Легка тінь для тексту */
 }
 
 .basketItem {
-    background-color: #fbeef3; /* Пастельний рожевий фон для елементів */
-    border: 1px solid #f8d7e3; /* Легкий рожевий бордер */
+    background-color: #f0f7f0; /* Пастельний зелений фон для елементів */
+    border: 1px solid #c8e6c9; /* Легкий зелений бордер */
     border-radius: 10px;
     padding: 15px;
     margin-bottom: 15px;
@@ -43,7 +43,7 @@
 }
 
 .removeButton {
-    background-color: #f48fb1; /* Пастельний рожевий */
+    background-color: #5a7d5a; /* Зелений */
     color: white;
     border: none;
     padding: 8px 15px;
@@ -54,7 +54,7 @@
 }
 
 .removeButton:hover {
-    background-color: #f06292; /* Трохи насиченіший рожевий при наведенні */
+    background-color: #3d5a3d; /* Трохи темніший зелений при наведенні */
     transform: scale(1.05); /* Легке збільшення при наведенні */
 }
 

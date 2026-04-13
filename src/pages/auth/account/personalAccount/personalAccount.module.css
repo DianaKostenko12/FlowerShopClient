@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f5f0f0; /* Світло-сірий, як загальний фон */
+    background-color: transparent; /* Прозорий — видно градієнтний фон */
     padding: 20px;
 }
 
@@ -25,7 +25,7 @@
     width: 100%;
     padding: 10px 15px;
     margin-bottom: 10px;
-    background-color: #ff87ab; /* Рожевий основний колір */
+    background-color: #5a7d5a; /* Зелений основний колір */
     color: white;
     border: none;
     border-radius: 8px;
@@ -36,7 +36,7 @@
 }
 
 .sidebarButton:hover {
-    background-color: #f85c8a; /* Темніший рожевий при наведенні */
+    background-color: #3d5a3d; /* Темніший зелений при наведенні */
 }
 
 .mainContent {
@@ -51,7 +51,7 @@
 }
 
 .cardHeader {
-    background-color: #ff87ab; /* Рожевий хедер картки */
+    background-color: #2d5a3d; /* Зелений хедер картки */
     color: white;
     border-radius: 12px 12px 0 0;
     padding: 15px;
@@ -68,5 +68,5 @@
 }
 
 p strong {
-    color: #ff87ab; /* Рожевий акцент для заголовків */
+    color: #2d5a3d; /* Зелений акцент для заголовків */
 }

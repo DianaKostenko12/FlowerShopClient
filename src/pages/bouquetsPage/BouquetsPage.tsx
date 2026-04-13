@@ -24,15 +24,26 @@ interface BouquetFilterInfo {
 const PRICE_MIN = 0;
 const PRICE_MAX = 10000;
 
+const clampPrice = (value: number, min: number, max: number) =>
+  Math.min(Math.max(value, min), max);
+
 const BouquetsPage = () => {
   const [bouquetInfo, setBouquetInfo] = useState<BouquetInfo[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [priceRange, setPriceRange] = useState<[number, number]>([PRICE_MIN, PRICE_MAX]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([
+    PRICE_MIN,
+    PRICE_MAX,
+  ]);
+  const [priceInputs, setPriceInputs] = useState<{ min: string; max: string }>({
+    min: String(PRICE_MIN),
+    max: String(PRICE_MAX),
+  });
   const [categoriesListIds, setcategoriesListIds] = useState<number[]>([]);
   const [categories, setCategories] = useState<CategoryInfo[]>([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
+  const [minPrice, maxPrice] = priceRange;
 
   const handleCreateBouquetClick = () => {
     navigate("/create-bouquet");
@@ -54,11 +65,47 @@ const BouquetsPage = () => {
     setIsDropdownOpen((prev) => !prev);
   };
 
+  const handleSliderChange = (value: number | number[]) => {
+    if (Array.isArray(value) && value.length === 2) {
+      setPriceRange([value[0], value[1]]);
+    }
+  };
+
+  const handlePriceInputChange = (field: "min" | "max", value: string) => {
+    if (!/^\d*$/.test(value)) {
+      return;
+    }
+
+    setPriceInputs((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const commitPriceInput = (field: "min" | "max") => {
+    const rawValue = priceInputs[field];
+    const parsedValue =
+      rawValue === ""
+        ? field === "min"
+          ? PRICE_MIN
+          : PRICE_MAX
+        : Number(rawValue);
+
+    if (field === "min") {
+      const nextMin = clampPrice(parsedValue, PRICE_MIN, maxPrice);
+      setPriceRange([nextMin, maxPrice]);
+      return;
+    }
+
+    const nextMax = clampPrice(parsedValue, minPrice, PRICE_MAX);
+    setPriceRange([minPrice, nextMax]);
+  };
+
   const fetchBouquetInfo = async () => {
     try {
       const bouquetFilterInfo: BouquetFilterInfo = {
-        minPrice: priceRange[0] === PRICE_MIN ? undefined : priceRange[0],
-        maxPrice: priceRange[1] === PRICE_MAX ? undefined : priceRange[1],
+        minPrice: minPrice === PRICE_MIN ? undefined : minPrice,
+        maxPrice: maxPrice === PRICE_MAX ? undefined : maxPrice,
         categoriesIds:
           categoriesListIds.length > 0 ? categoriesListIds : undefined,
       };
@@ -68,9 +115,16 @@ const BouquetsPage = () => {
       setBouquetInfo(response.data);
     } catch (error) {
       console.error("Error fetching bouquets:", error);
-      setError("Не вдалося завантажити дані букетів");
+      setError("�� ������� ����������� ���� ������");
     }
   };
+
+  useEffect(() => {
+    setPriceInputs({
+      min: String(minPrice),
+      max: String(maxPrice),
+    });
+  }, [minPrice, maxPrice]);
 
   useEffect(() => {
     fetchBouquetInfo();
@@ -110,16 +164,53 @@ const BouquetsPage = () => {
     <div className={styles.bouquetPage}>
       <div className={styles.filters}>
         <div className={styles.priceSliderContainer}>
-          <label className={styles.priceSliderLabel}>
-            Ціна: {priceRange[0]} – {priceRange[1]} грн
-          </label>
+          <div className={styles.priceInputsRow}>
+            <label className={styles.priceInputGroup}>
+              <span className={styles.priceSliderLabel}>Мін. ціна</span>
+              <input
+                type="text"
+                inputMode="numeric"
+                value={priceInputs.min}
+                onChange={(event) =>
+                  handlePriceInputChange("min", event.target.value)
+                }
+                onBlur={() => commitPriceInput("min")}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    commitPriceInput("min");
+                    event.currentTarget.blur();
+                  }
+                }}
+                className={styles.priceInput}
+              />
+            </label>
+            <label className={styles.priceInputGroup}>
+              <span className={styles.priceSliderLabel}>Макс. ціна</span>
+              <input
+                type="text"
+                inputMode="numeric"
+                value={priceInputs.max}
+                onChange={(event) =>
+                  handlePriceInputChange("max", event.target.value)
+                }
+                onBlur={() => commitPriceInput("max")}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    commitPriceInput("max");
+                    event.currentTarget.blur();
+                  }
+                }}
+                className={styles.priceInput}
+              />
+            </label>
+          </div>
           <Slider
             range
             min={PRICE_MIN}
             max={PRICE_MAX}
             step={50}
             value={priceRange}
-            onChange={(value) => setPriceRange(value as [number, number])}
+            onChange={handleSliderChange}
             className={styles.priceSlider}
           />
         </div>

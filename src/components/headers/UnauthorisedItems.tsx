@@ -14,7 +14,7 @@ const UnauthorisedItems = (props: UnauthorisedItemsProps) => {
           Букети
         </Link>
       </li>
-      <button onClick={props.login} className="btn btn-outline-light ms-3">
+      <button onClick={props.login} className="btn btn-outline-nav ms-3">
         Увійти
       </button>
     </>

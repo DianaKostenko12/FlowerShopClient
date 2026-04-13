@@ -31,13 +31,13 @@
 
 .inputGroup input:focus {
     outline: none;
-    border-color: #f08db0; /* Акцентний рожевий */
-    box-shadow: 0 0 5px rgba(240, 141, 176, 0.5);
+    border-color: #5a7d5a; /* Акцентний зелений */
+    box-shadow: 0 0 5px rgba(90, 125, 90, 0.5);
 }
 
 /* Кнопка додавання */
 .addButton {
-    background-color: #f08db0; /* Рожевий */
+    background-color: #5a7d5a; /* Зелений */
     color: white;
     font-size: 14px;
     font-weight: 600;
@@ -49,7 +49,7 @@
 }
 
 .addButton:hover {
-    background-color: #e66a94; /* Темніший рожевий при наведенні */
+    background-color: #3d5a3d; /* Темніший зелений при наведенні */
 }
 
 /* Повідомлення про помилку */

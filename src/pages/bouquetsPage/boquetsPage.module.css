@@ -38,7 +38,7 @@
 
 .customButton {
   margin-bottom: 56px;
-  background-color: #f8bbd0;
+  background-color: #5a7d5a;
   border: none;
   color: #ffffff;
   padding: 10px 20px;
@@ -50,7 +50,7 @@
 }
 
 .customButton:hover {
-  background-color: #f48fb1;
+  background-color: #3d5a3d;
 }
 
 .alert {
@@ -114,11 +114,11 @@
 }
 
 .dropdownList li:hover {
-  background-color: #fbe4ed;
+  background-color: #e8f0e8;
 }
 
 .selectedItem {
-  background-color: #f7d4e2;
+  background-color: #d4e8d4;
   font-weight: bold;
 }
 
@@ -128,28 +128,53 @@
   min-width: 250px;
   padding: 0 10px;
   align-self: center;
+  gap: 10px;
+}
+
+.priceInputsRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  gap: 17px;
+}
+
+.priceInputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 0;
 }
 
 .priceSliderLabel {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
-  margin-bottom: 12px;
+  margin-bottom: 0;
   color: #333;
 }
 
+.priceInput {
+  width: 64px;
+  min-width: 64px;
+  padding: 4px 6px;
+  margin-bottom: 0;
+  text-align: center;
+  font-size: 12px;
+}
+
 .priceSlider :global(.rc-slider-track) {
-  background-color: #f48fb1;
+  background-color: #5a7d5a;
   height: 6px;
 }
 
 .priceSlider :global(.rc-slider-rail) {
-  background-color: #fce4ec;
+  background-color: #d4e8d4;
   height: 6px;
 }
 
 .priceSlider :global(.rc-slider-handle) {
-  border-color: #f48fb1;
-  background-color: #f8bbd0;
+  border-color: #5a7d5a;
+  background-color: #8fb38f;
   width: 18px;
   height: 18px;
   margin-top: -6px;
@@ -158,8 +183,8 @@
 
 .priceSlider :global(.rc-slider-handle):hover,
 .priceSlider :global(.rc-slider-handle-dragging) {
-  border-color: #ec407a;
-  box-shadow: 0 0 0 4px rgba(244, 143, 177, 0.3);
+  border-color: #3d5a3d;
+  box-shadow: 0 0 0 4px rgba(90, 125, 90, 0.3);
 }
 
 .dropdownLabel {

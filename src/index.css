@@ -6,26 +6,25 @@ body {
     "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
     "Helvetica Neue", sans-serif;
 
-  background-image: url("../public/pexels-karolina-grabowska-7291997.jpg"); /* Замість цього шляху використовуйте ваш */
-  background-size: cover; /* Адаптує фон для покриття всього екрану */
-  background-repeat: no-repeat; /* Уникає повторення */
+  background: linear-gradient(135deg, #f5f0e8 0%, #e8f0e8 100%);
   background-attachment: fixed;
+  min-height: 100vh;
 }
 
 
 .btn-primary {
   --bs-btn-color: #fff;
-  --bs-btn-bg: #f48fb1; /* Основний фон */
-  --bs-btn-border-color: #f48fb1; /* Основний колір межі */
+  --bs-btn-bg: #5a7d5a; /* Основний зелений фон */
+  --bs-btn-border-color: #5a7d5a; /* Основний колір межі */
   --bs-btn-hover-color: #fff; /* Колір тексту при наведенні */
-  --bs-btn-hover-bg: #f06292; /* Фон при наведенні */
-  --bs-btn-hover-border-color: #ec407a; /* Колір межі при наведенні */
-  --bs-btn-focus-shadow-rgb: 244, 143, 177; /* Тінь при фокусі */
+  --bs-btn-hover-bg: #3d5a3d; /* Фон при наведенні */
+  --bs-btn-hover-border-color: #2d5a3d; /* Колір межі при наведенні */
+  --bs-btn-focus-shadow-rgb: 90, 125, 90; /* Тінь при фокусі */
   --bs-btn-active-color: #fff; /* Колір тексту при активному стані */
-  --bs-btn-active-bg: #ec407a; /* Фон при активному стані */
-  --bs-btn-active-border-color: #d81b60; /* Колір межі при активному стані */
+  --bs-btn-active-bg: #2d5a3d; /* Фон при активному стані */
+  --bs-btn-active-border-color: #1e3d1e; /* Колір межі при активному стані */
   --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); /* Тінь при активному стані */
   --bs-btn-disabled-color: #fff; /* Колір тексту для неактивної кнопки */
-  --bs-btn-disabled-bg: #f48fb1; /* Фон для неактивної кнопки */
-  --bs-btn-disabled-border-color: #f48fb1; /* Колір межі для неактивної кнопки */
+  --bs-btn-disabled-bg: #8fb38f; /* Фон для неактивної кнопки */
+  --bs-btn-disabled-border-color: #8fb38f; /* Колір межі для неактивної кнопки */
 }

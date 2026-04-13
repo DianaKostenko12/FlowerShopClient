@@ -20,9 +20,9 @@ function Header() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-pink">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-navbar">
       <div className="container-fluid">
-        <Link className="navbar-brand text-white fs-3 fw-bold" to="/">
+        <Link className="navbar-brand navbar-brand-custom fs-3 fw-bold" to="/">
           Floral Bliss
         </Link>
         <button

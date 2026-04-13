@@ -5,7 +5,7 @@
   flex-direction: column;
   align-items: center; /* Вирівнювання елементів по вертикалі */
   justify-content: space-between; /* Вирівнювання простору між елементами */
-  background-color: #fce4ec; /* Світло-рожевий фон */
+  background-color: #eef5ee; /* Світло-зелений фон */
   padding: 15px; /* Відступи всередині контейнера */
   border-radius: 10px; /* Закруглені кути */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Легка тінь */
@@ -32,8 +32,8 @@
 }
 
 .btnPrimary {
-  background-color: #f8bbd0;
-  border-color: #f8bbd0;
+  background-color: #5a7d5a;
+  border-color: #5a7d5a;
   font-size: 1rem;
   padding: 10px 20px;
   border-radius: 5px;
@@ -45,7 +45,7 @@
 }
 
 .btnPrimary:hover {
-  background-color: #f48fb1;
+  background-color: #3d5a3d;
   transform: scale(1.05);
 }
 

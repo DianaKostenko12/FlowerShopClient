@@ -1,8 +1,26 @@
 .App {
   text-align: center;
 }
-.bg-pink {
-  background-color: #ff91c1; /* Рожевий колір для свята */
+.bg-navbar {
+  background-color: #2d5a3d;
+}
+
+.btn-outline-nav {
+  border-color: #c8b88a;
+  color: #c8b88a;
+  background-color: transparent;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-nav:hover {
+  background-color: #c8b88a;
+  color: #2d5a3d;
+  border-color: #c8b88a;
+}
+
+.navbar-brand-custom {
+  color: #f5f0e8 !important;
+  letter-spacing: 0.5px;
 }
 
 

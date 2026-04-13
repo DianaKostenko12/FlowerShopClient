@@ -33,7 +33,7 @@ const AuthedAdminItems = (props: AuthedAdminItemsProps) => {
             props.logout();
             handleRedirectToAuthClick();
           }}
-          className="btn btn-outline-light ms-3"
+          className="btn btn-outline-nav ms-3"
         >
           Вийти
         </button>
