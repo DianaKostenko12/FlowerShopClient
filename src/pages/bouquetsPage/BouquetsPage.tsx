@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import BouquetsList from "../createBouquet/bouquet/bouquetList/BouquetsList";
+import React, { useEffect, useRef, useState } from "react";
 import { AxiosResponse } from "axios";
-import BouquetService from "../../API/BouquetService";
-import { useFlowers } from "../../common/FlowerContext";
 import { useNavigate } from "react-router-dom";
-import styles from "./boquetsPage.module.css"; // Імпорт CSS-модулів
-import FlowerService from "../../API/FlowerService";
-import { FlowerRequest } from "../flowerPage/flowerPage";
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
+import BouquetService from "../../API/BouquetService";
+import BouquetsList from "../createBouquet/bouquet/bouquetList/BouquetsList";
+import styles from "./boquetsPage.module.css";
+import CategoryService, { CategoryInfo } from "../../API/CategoryService";
 
 interface BouquetInfo {
   bouquetId: number;
@@ -18,19 +18,21 @@ interface BouquetInfo {
 interface BouquetFilterInfo {
   minPrice?: number;
   maxPrice?: number;
-  flowerIds?: number[];
+  categoriesIds?: number[];
 }
+
+const PRICE_MIN = 0;
+const PRICE_MAX = 10000;
 
 const BouquetsPage = () => {
   const [bouquetInfo, setBouquetInfo] = useState<BouquetInfo[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [minPrice, setMinPrice] = useState<number | "">(0);
-  const [maxPrice, setMaxPrice] = useState<number | "">(0);
-  const [flowerIds, setFlowerIds] = useState<number[]>([]);
-  const { setSelectedFlowers } = useFlowers();
-  const navigate = useNavigate();
-  const [flowers, setFlowers] = useState<FlowerRequest[]>([]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([PRICE_MIN, PRICE_MAX]);
+  const [categoriesListIds, setcategoriesListIds] = useState<number[]>([]);
+  const [categories, setCategories] = useState<CategoryInfo[]>([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
 
   const handleCreateBouquetClick = () => {
     navigate("/create-bouquet");
@@ -40,24 +42,25 @@ const BouquetsPage = () => {
     fetchBouquetInfo();
   };
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+  const handleCategorySelect = (categoryId: number) => {
+    setcategoriesListIds((prev) =>
+      prev.includes(categoryId)
+        ? prev.filter((id) => id !== categoryId)
+        : [...prev, categoryId]
+    );
   };
 
-  const handleFlowerSelect = (flowerId: number) => {
-    setFlowerIds((prev) =>
-      prev.includes(flowerId)
-        ? prev.filter((id) => id !== flowerId)
-        : [...prev, flowerId],
-    );
+  const handleDropdownToggle = () => {
+    setIsDropdownOpen((prev) => !prev);
   };
 
   const fetchBouquetInfo = async () => {
     try {
       const bouquetFilterInfo: BouquetFilterInfo = {
-        minPrice: minPrice === "" ? undefined : minPrice,
-        maxPrice: maxPrice === "" ? undefined : maxPrice,
-        flowerIds: flowerIds.length > 0 ? flowerIds : undefined,
+        minPrice: priceRange[0] === PRICE_MIN ? undefined : priceRange[0],
+        maxPrice: priceRange[1] === PRICE_MAX ? undefined : priceRange[1],
+        categoriesIds:
+          categoriesListIds.length > 0 ? categoriesListIds : undefined,
       };
 
       const response: AxiosResponse<BouquetInfo[]> =
@@ -74,65 +77,78 @@ const BouquetsPage = () => {
   }, []);
 
   useEffect(() => {
-    const initialFlowers = async () => {
+    const categoriesList = async () => {
       try {
-        const response = await FlowerService.getFlowers();
-        setFlowers(response.data);
-      } catch (error) {
-        console.error("Error fetching flowers:", error);
+        const response = await CategoryService.getCategories();
+        setCategories(response.data);
+      } catch (fetchError) {
+        console.error("Error fetching flower categories:", fetchError);
       }
     };
-    initialFlowers();
+
+    categoriesList();
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   return (
     <div className={styles.bouquetPage}>
       <div className={styles.filters}>
-        <div>
-          <div>
-            <input
-              type="number"
-              value={minPrice || ""}
-              placeholder="Мінімальна ціна"
-              onChange={(e) =>
-                setMinPrice(e.target.value ? Number(e.target.value) : "")
-              }
-            />
-          </div>
-          <div>
-            <input
-              type="number"
-              value={maxPrice || ""}
-              placeholder="Максимальна ціна"
-              onChange={(e) =>
-                setMaxPrice(e.target.value ? Number(e.target.value) : "")
-              }
-            />
-          </div>
+        <div className={styles.priceSliderContainer}>
+          <label className={styles.priceSliderLabel}>
+            Ціна: {priceRange[0]} – {priceRange[1]} грн
+          </label>
+          <Slider
+            range
+            min={PRICE_MIN}
+            max={PRICE_MAX}
+            step={50}
+            value={priceRange}
+            onChange={(value) => setPriceRange(value as [number, number])}
+            className={styles.priceSlider}
+          />
         </div>
 
-        <div className={styles.dropdownContainer}>
-          <div
-            className={styles.dropdown}
-            onMouseEnter={toggleDropdown}
-            onMouseLeave={toggleDropdown}
-          >
-            <button className={styles.dropdownButton}>
-              <h6>Квіти</h6> <img src="/down.png" alt="" />
+        <div className={styles.dropdownContainer} ref={dropdownRef}>
+          <div className={styles.dropdown}>
+            <button
+              type="button"
+              className={`${styles.customButton} ${styles.dropdownButton}`}
+              onClick={handleDropdownToggle}
+              aria-expanded={isDropdownOpen}
+              aria-haspopup="listbox"
+            >
+              <span className={styles.dropdownLabel}>{"Вид квітки"}</span>
+              <span className={styles.dropdownArrow} aria-hidden="true" />
             </button>
             {isDropdownOpen && (
-              <ul className={styles.dropdownList}>
-                {flowers.map((flower: FlowerRequest) => (
+              <ul className={styles.dropdownList} role="listbox">
+                {categories.map((category: CategoryInfo) => (
                   <li
-                    key={flower.flowerId}
+                    key={category.categoryId}
                     className={
-                      flowerIds.includes(flower.flowerId)
+                      categoriesListIds.includes(category.categoryId)
                         ? styles.selectedItem
                         : ""
                     }
-                    onClick={() => handleFlowerSelect(flower.flowerId)}
+                    onClick={() => handleCategorySelect(category.categoryId)}
                   >
-                    {flower.flowerName}
+                    {category.categoryName}
                   </li>
                 ))}
               </ul>

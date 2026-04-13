@@ -11,7 +11,7 @@ interface BouquetInfo {
 interface BouquetFilterInfo {
   minPrice?: number;
   maxPrice?: number;
-  flowerIds?: number[];
+  categoriesIds?: number[];
 }
 
 interface CreateBouquetInfo {

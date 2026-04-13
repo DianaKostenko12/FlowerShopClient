@@ -8,10 +8,10 @@
   display: flex;
   flex-direction: row;
   gap: 15px;
-  background-color: rgba(255, 255, 255, 0.5); /* Білий фон */
+  background-color: rgba(255, 255, 255, 0.5);
   padding: 20px;
-  border-radius: 10px; /* Закруглені кути */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тінь */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
 }
 
@@ -29,37 +29,37 @@
   border: 1px solid #ddd;
   border-radius: 5px;
   margin-bottom: 10px;
-  box-sizing: border-box; /* Для коректних відступів */
+  box-sizing: border-box;
 }
 
 .filters button {
-  align-self: center; /* Вирівнювання кнопки по центру */
+  align-self: center;
 }
 
 .customButton {
   margin-bottom: 56px;
-  background-color: #f8bbd0; /* Світлий м'ятний зелений */
-  border: none; /* Забираємо рамку */
-  color: #ffffff; /* Білий текст */
-  padding: 10px 20px; /* Відступи всередині кнопки */
-  font-size: 16px; /* Розмір тексту */
-  font-weight: bold; /* Жирний текст */
-  border-radius: 10px; /* Закруглені кути */
-  cursor: pointer; /* Індикатор кліка */
-  transition: background-color 0.3s ease; /* Плавна зміна кольору при наведенні */
+  background-color: #f8bbd0;
+  border: none;
+  color: #ffffff;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .customButton:hover {
-  background-color: #f48fb1; /* Темніший пастельний зелений при наведенні */
+  background-color: #f48fb1;
 }
 
 .alert {
   margin-top: 20px;
   padding: 10px 15px;
   border: 1px solid #d9534f;
-  background-color: #f8d7da; /* Фон помилки */
-  color: #721c24; /* Колір тексту */
-  border-radius: 5px; /* Закруглені кути */
+  background-color: #f8d7da;
+  color: #721c24;
+  border-radius: 5px;
 }
 
 .text-center {
@@ -73,55 +73,106 @@
   padding: 0;
 }
 
-.dropdownButton {
-  display: flex;
-  justify-content: space-around;
-  color: white;
-  border: none;
-  padding: 7px 18px;
-  border-radius: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 150px;
-  align-items: center;
-  background-color: #f8bbd0;
+.dropdownContainer {
+  position: relative;
+  align-self: center;
 }
 
-.dropdownButton:hover {
-  background-color: #f48fb1;
+.dropdown {
+  position: relative;
+}
+
+.dropdownButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 190px;
 }
 
 .dropdownList {
-  position: fixed;
+  position: absolute;
+  top: calc(100% - 50px);
+  left: 0;
+  width: 100%;
   background-color: white;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 5px;
+  border-radius: 10px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
   list-style: none;
-  padding: 0;
+  padding: 6px 0;
+  margin: 0;
   z-index: 1000;
-  max-height: 200px;
+  max-height: 220px;
   overflow-y: auto;
 }
 
 .dropdownList li {
-  padding: 10px;
+  padding: 10px 16px;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
 .dropdownList li:hover {
-  background-color: #f1f1f1;
+  background-color: #fbe4ed;
 }
 
 .selectedItem {
-  background-color: #e9ecef;
+  background-color: #f7d4e2;
   font-weight: bold;
 }
 
-.dropdownButton img {
-  width: 20px;
-  height: 20px;
+.priceSliderContainer {
+  display: flex;
+  flex-direction: column;
+  min-width: 250px;
+  padding: 0 10px;
+  align-self: center;
+}
+
+.priceSliderLabel {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.priceSlider :global(.rc-slider-track) {
+  background-color: #f48fb1;
+  height: 6px;
+}
+
+.priceSlider :global(.rc-slider-rail) {
+  background-color: #fce4ec;
+  height: 6px;
+}
+
+.priceSlider :global(.rc-slider-handle) {
+  border-color: #f48fb1;
+  background-color: #f8bbd0;
+  width: 18px;
+  height: 18px;
+  margin-top: -6px;
+  opacity: 1;
+}
+
+.priceSlider :global(.rc-slider-handle):hover,
+.priceSlider :global(.rc-slider-handle-dragging) {
+  border-color: #ec407a;
+  box-shadow: 0 0 0 4px rgba(244, 143, 177, 0.3);
+}
+
+.dropdownLabel {
+  margin: 0;
+}
+
+.dropdownArrow {
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  box-shadow: none;
+  background: transparent;
 }
