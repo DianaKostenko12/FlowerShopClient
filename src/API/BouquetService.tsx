@@ -12,6 +12,8 @@ interface BouquetFilterInfo {
   minPrice?: number;
   maxPrice?: number;
   categoriesIds?: number[];
+  shapesList?: string[];
+  colorsList?: string[];
 }
 
 interface CreateBouquetInfo {
@@ -19,6 +21,8 @@ interface CreateBouquetInfo {
   bouquetDescription: string;
   photo: File;
   flowers: SelectedFlower[];
+  colorsList?: string[];
+  shapesList?: string[];
 }
 
 interface SelectedFlower {
@@ -31,8 +35,11 @@ export default class BouquetService {
     bouquetFilterInfo: BouquetFilterInfo
   ): Promise<AxiosResponse<BouquetInfo[]>> {
     try {
+      const token = localStorage.getItem("jwtToken");
+      const endpoint = token ? "bouquet/filter/my" : "bouquet/filter";
+
       return await axiosInstance.post<BouquetInfo[]>(
-        "bouquet/filter",
+        endpoint,
         bouquetFilterInfo
       );
     } catch (error) {
@@ -66,6 +73,14 @@ export default class BouquetService {
           `Flowers[${index}].FlowerCount`,
           flower.flowerCount.toString()
         );
+      });
+
+      createBouquetInfo.colorsList?.forEach((color, index) => {
+        formData.append(`ColorsList[${index}]`, color);
+      });
+
+      createBouquetInfo.shapesList?.forEach((shape, index) => {
+        formData.append(`ShapesList[${index}]`, shape);
       });
 
       return await axiosInstance.post("bouquet", formData, {

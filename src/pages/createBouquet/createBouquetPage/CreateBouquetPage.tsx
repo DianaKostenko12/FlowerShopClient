@@ -1,5 +1,8 @@
 import React, { FC, useState } from "react";
 import BouquetService from "../../../API/BouquetService";
+import MultiSelectDropdown, {
+  MultiSelectOption,
+} from "../../bouquetsPage/MultiSelectDropdown";
 import FlowerList from "../flower/FlowerList";
 import classes from "./createBouquet.module.css";
 
@@ -12,12 +15,44 @@ interface Flower {
   availableQuantity: number;
 }
 
+const colorOptions: MultiSelectOption[] = [
+  { id: "червоний", label: "Червоний" },
+  { id: "рожевий", label: "Рожевий" },
+  { id: "білий", label: "Білий" },
+  { id: "жовтий", label: "Жовтий" },
+  { id: "помаранчевий", label: "Помаранчевий" },
+  { id: "фіолетовий", label: "Фіолетовий" },
+  { id: "синій", label: "Синій" },
+  { id: "блакитний", label: "Блакитний" },
+  { id: "зелений", label: "Зелений" },
+  { id: "бежевий", label: "Бежевий" },
+];
+
+const shapeOptions: MultiSelectOption[] = [
+  { id: "кругла", label: "Кругла" },
+  { id: "подовжена", label: "Подовжена" },
+  { id: "асиметрична", label: "Асиметрична" },
+];
+
 const CreateBouquetPage: FC = () => {
   const [bouquetName, setBouquetName] = useState<string>("");
   const [bouquetDescription, setBouquetDescription] = useState<string>("");
   const [photo, setPhoto] = useState<File | null>(null);
   const [selectedFlowers, setSelectedFlowers] = useState<Flower[]>([]);
+  const [selectedColors, setSelectedColors] = useState<string[]>([]);
+  const [selectedShapes, setSelectedShapes] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
+
+  const toggleMultiSelectValue = (
+    value: string,
+    setter: React.Dispatch<React.SetStateAction<string[]>>
+  ) => {
+    setter((prev) =>
+      prev.includes(value)
+        ? prev.filter((item) => item !== value)
+        : [...prev, value]
+    );
+  };
 
   const incrementFlower = (flower: Flower) => {
     setSelectedFlowers((prev) => {
@@ -37,9 +72,9 @@ const CreateBouquetPage: FC = () => {
         };
 
         return updatedFlowers;
-      } else {
-        return [...prev, { ...flower, selectedQuantity: 1 }];
       }
+
+      return [...prev, { ...flower, selectedQuantity: 1 }];
     });
   };
 
@@ -49,8 +84,9 @@ const CreateBouquetPage: FC = () => {
       if (flowerIndex !== -1) {
         const selectedFlower = prev[flowerIndex];
         if (selectedFlower.selectedQuantity <= 1) {
-          return prev.filter((f) => f.id !== flower.id); // Видаляємо квітку
+          return prev.filter((f) => f.id !== flower.id);
         }
+
         const updatedFlowers = [...prev];
         updatedFlowers[flowerIndex] = {
           ...selectedFlower,
@@ -58,6 +94,7 @@ const CreateBouquetPage: FC = () => {
         };
         return updatedFlowers;
       }
+
       return prev;
     });
   };
@@ -74,20 +111,22 @@ const CreateBouquetPage: FC = () => {
     setError(null);
 
     if (!photo) {
-      setError("Будь ласка, оберіть фото для букета.");
+      setError("Будь ласка, оберіть фото для букету.");
       return;
     }
+
     const bouquetToCreate = {
       bouquetName,
       bouquetDescription,
       photo,
+      colorsList: selectedColors,
+      shapesList: selectedShapes,
       flowers: selectedFlowers.map((flower) => ({
         flowerId: flower.id,
         flowerCount: flower.selectedQuantity,
       })),
     };
 
-    console.log(bouquetToCreate);
     try {
       const response = await BouquetService.createBouquet(bouquetToCreate);
       console.log("Bouquet created successfully:", response.data);
@@ -96,6 +135,8 @@ const CreateBouquetPage: FC = () => {
       setBouquetDescription("");
       setPhoto(null);
       setSelectedFlowers([]);
+      setSelectedColors([]);
+      setSelectedShapes([]);
     } catch (error) {
       console.error("Failed to create a bouquet:", error);
       setError("Не вдалося створити букет. Спробуйте ще раз.");
@@ -118,6 +159,24 @@ const CreateBouquetPage: FC = () => {
             value={bouquetDescription}
             onChange={(e) => setBouquetDescription(e.target.value)}
           ></textarea>
+          <label className={`${classes.formLabel} small`}>Форма букету</label>
+          <MultiSelectDropdown
+            label="Оберіть форми"
+            options={shapeOptions}
+            selectedIds={selectedShapes}
+            onSelect={(optionId) =>
+              toggleMultiSelectValue(String(optionId), setSelectedShapes)
+            }
+          />
+          <label className={`${classes.formLabel} small`}>Кольори</label>
+          <MultiSelectDropdown
+            label="Оберіть кольори"
+            options={colorOptions}
+            selectedIds={selectedColors}
+            onSelect={(optionId) =>
+              toggleMultiSelectValue(String(optionId), setSelectedColors)
+            }
+          />
           <label className="formLabel">Фото</label>
           <div className="fileInputWrapper">
             <input

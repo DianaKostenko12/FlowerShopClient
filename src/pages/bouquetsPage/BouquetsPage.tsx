@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
-import Slider from "rc-slider";
-import "rc-slider/assets/index.css";
 import BouquetService from "../../API/BouquetService";
 import BouquetsList from "../createBouquet/bouquet/bouquetList/BouquetsList";
 import styles from "./boquetsPage.module.css";
 import CategoryService, { CategoryInfo } from "../../API/CategoryService";
+import PriceFilter, { PriceFilterValue } from "./PriceFilter";
+import MultiSelectDropdown, { MultiSelectOption } from "./MultiSelectDropdown";
 
 interface BouquetInfo {
   bouquetId: number;
@@ -19,95 +19,96 @@ interface BouquetFilterInfo {
   minPrice?: number;
   maxPrice?: number;
   categoriesIds?: number[];
+  shapesList?: string[];
+  colorsList?: string[];
 }
 
 const PRICE_MIN = 0;
 const PRICE_MAX = 10000;
 
-const clampPrice = (value: number, min: number, max: number) =>
-  Math.min(Math.max(value, min), max);
+const flowerColors = [
+  "червоний",
+  "рожевий",
+  "білий",
+  "жовтий",
+  "помаранчевий",
+  "фіолетовий",
+  "синій",
+  "блакитний",
+  "зелений",
+  "бежевий",
+];
+
+const shapes = ["подовжена", "кругла", "асиметрична"];
 
 const BouquetsPage = () => {
   const [bouquetInfo, setBouquetInfo] = useState<BouquetInfo[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [priceRange, setPriceRange] = useState<[number, number]>([
-    PRICE_MIN,
-    PRICE_MAX,
-  ]);
-  const [priceInputs, setPriceInputs] = useState<{ min: string; max: string }>({
-    min: String(PRICE_MIN),
-    max: String(PRICE_MAX),
-  });
-  const [categoriesListIds, setcategoriesListIds] = useState<number[]>([]);
+  const [priceFilter, setPriceFilter] = useState<PriceFilterValue>({});
+  const [categoriesListIds, setCategoriesListIds] = useState<number[]>([]);
+  const [flowerColorsList, setFlowerColorsList] = useState<string[]>([]);
+  const [shapesList, setShapesList] = useState<string[]>([]);
   const [categories, setCategories] = useState<CategoryInfo[]>([]);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
-  const [minPrice, maxPrice] = priceRange;
+
+  const categoryOptions: MultiSelectOption[] = categories.map((category) => ({
+    id: category.categoryId,
+    label: category.categoryName,
+  }));
+
+  const flowerColorOptions: MultiSelectOption[] = flowerColors.map((color) => ({
+    id: color,
+    label: color,
+  }));
+
+  const flowerShapeOptions: MultiSelectOption[] = shapes.map((shape) => ({
+    id: shape,
+    label: shape,
+  }));
+
+  const handleFlowerColorsSelect = (colorName: string) => {
+    setFlowerColorsList((prev) =>
+      prev.includes(colorName)
+        ? prev.filter((name) => name !== colorName)
+        : [...prev, colorName]
+    );
+  };
+
+  const handleShapesSelect = (shapeName: string) => {
+    setShapesList((prev) =>
+      prev.includes(shapeName)
+        ? prev.filter((name) => name !== shapeName)
+        : [...prev, shapeName]
+    );
+  };
 
   const handleCreateBouquetClick = () => {
     navigate("/create-bouquet");
   };
 
-  const handleFilterChange = () => {
-    fetchBouquetInfo();
-  };
+  const handleCategorySelect = (categoryId: number | string) => {
+    const normalizedCategoryId = Number(categoryId);
 
-  const handleCategorySelect = (categoryId: number) => {
-    setcategoriesListIds((prev) =>
-      prev.includes(categoryId)
-        ? prev.filter((id) => id !== categoryId)
-        : [...prev, categoryId]
+    setCategoriesListIds((prev) =>
+      prev.includes(normalizedCategoryId)
+        ? prev.filter((id) => id !== normalizedCategoryId)
+        : [...prev, normalizedCategoryId]
     );
   };
 
-  const handleDropdownToggle = () => {
-    setIsDropdownOpen((prev) => !prev);
-  };
+  const handlePriceChange = useCallback((value: PriceFilterValue) => {
+    setPriceFilter(value);
+  }, []);
 
-  const handleSliderChange = (value: number | number[]) => {
-    if (Array.isArray(value) && value.length === 2) {
-      setPriceRange([value[0], value[1]]);
-    }
-  };
-
-  const handlePriceInputChange = (field: "min" | "max", value: string) => {
-    if (!/^\d*$/.test(value)) {
-      return;
-    }
-
-    setPriceInputs((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
-
-  const commitPriceInput = (field: "min" | "max") => {
-    const rawValue = priceInputs[field];
-    const parsedValue =
-      rawValue === ""
-        ? field === "min"
-          ? PRICE_MIN
-          : PRICE_MAX
-        : Number(rawValue);
-
-    if (field === "min") {
-      const nextMin = clampPrice(parsedValue, PRICE_MIN, maxPrice);
-      setPriceRange([nextMin, maxPrice]);
-      return;
-    }
-
-    const nextMax = clampPrice(parsedValue, minPrice, PRICE_MAX);
-    setPriceRange([minPrice, nextMax]);
-  };
-
-  const fetchBouquetInfo = async () => {
+  const fetchBouquetInfo = useCallback(async () => {
     try {
       const bouquetFilterInfo: BouquetFilterInfo = {
-        minPrice: minPrice === PRICE_MIN ? undefined : minPrice,
-        maxPrice: maxPrice === PRICE_MAX ? undefined : maxPrice,
+        minPrice: priceFilter.minPrice,
+        maxPrice: priceFilter.maxPrice,
         categoriesIds:
           categoriesListIds.length > 0 ? categoriesListIds : undefined,
+        colorsList: flowerColorsList.length > 0 ? flowerColorsList : undefined,
+        shapesList: shapesList.length > 0 ? shapesList : undefined,
       };
 
       const response: AxiosResponse<BouquetInfo[]> =
@@ -115,20 +116,19 @@ const BouquetsPage = () => {
       setBouquetInfo(response.data);
     } catch (error) {
       console.error("Error fetching bouquets:", error);
-      setError("�� ������� ����������� ���� ������");
+      setError("Не вдалося завантажити дані букетів");
     }
-  };
-
-  useEffect(() => {
-    setPriceInputs({
-      min: String(minPrice),
-      max: String(maxPrice),
-    });
-  }, [minPrice, maxPrice]);
+  }, [
+    shapesList,
+    categoriesListIds,
+    flowerColorsList,
+    priceFilter.maxPrice,
+    priceFilter.minPrice,
+  ]);
 
   useEffect(() => {
     fetchBouquetInfo();
-  }, []);
+  }, [fetchBouquetInfo]);
 
   useEffect(() => {
     const categoriesList = async () => {
@@ -143,111 +143,33 @@ const BouquetsPage = () => {
     categoriesList();
   }, []);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   return (
     <div className={styles.bouquetPage}>
       <div className={styles.filters}>
-        <div className={styles.priceSliderContainer}>
-          <div className={styles.priceInputsRow}>
-            <label className={styles.priceInputGroup}>
-              <span className={styles.priceSliderLabel}>Мін. ціна</span>
-              <input
-                type="text"
-                inputMode="numeric"
-                value={priceInputs.min}
-                onChange={(event) =>
-                  handlePriceInputChange("min", event.target.value)
-                }
-                onBlur={() => commitPriceInput("min")}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter") {
-                    commitPriceInput("min");
-                    event.currentTarget.blur();
-                  }
-                }}
-                className={styles.priceInput}
-              />
-            </label>
-            <label className={styles.priceInputGroup}>
-              <span className={styles.priceSliderLabel}>Макс. ціна</span>
-              <input
-                type="text"
-                inputMode="numeric"
-                value={priceInputs.max}
-                onChange={(event) =>
-                  handlePriceInputChange("max", event.target.value)
-                }
-                onBlur={() => commitPriceInput("max")}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter") {
-                    commitPriceInput("max");
-                    event.currentTarget.blur();
-                  }
-                }}
-                className={styles.priceInput}
-              />
-            </label>
-          </div>
-          <Slider
-            range
-            min={PRICE_MIN}
-            max={PRICE_MAX}
-            step={50}
-            value={priceRange}
-            onChange={handleSliderChange}
-            className={styles.priceSlider}
-          />
-        </div>
-
-        <div className={styles.dropdownContainer} ref={dropdownRef}>
-          <div className={styles.dropdown}>
-            <button
-              type="button"
-              className={`${styles.customButton} ${styles.dropdownButton}`}
-              onClick={handleDropdownToggle}
-              aria-expanded={isDropdownOpen}
-              aria-haspopup="listbox"
-            >
-              <span className={styles.dropdownLabel}>{"Вид квітки"}</span>
-              <span className={styles.dropdownArrow} aria-hidden="true" />
-            </button>
-            {isDropdownOpen && (
-              <ul className={styles.dropdownList} role="listbox">
-                {categories.map((category: CategoryInfo) => (
-                  <li
-                    key={category.categoryId}
-                    className={
-                      categoriesListIds.includes(category.categoryId)
-                        ? styles.selectedItem
-                        : ""
-                    }
-                    onClick={() => handleCategorySelect(category.categoryId)}
-                  >
-                    {category.categoryName}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </div>
-
-        <button onClick={handleFilterChange} className={styles.customButton}>
+        <PriceFilter
+          minLimit={PRICE_MIN}
+          maxLimit={PRICE_MAX}
+          onChange={handlePriceChange}
+        />
+        <MultiSelectDropdown
+          label="Вид квітки"
+          options={categoryOptions}
+          selectedIds={categoriesListIds}
+          onSelect={handleCategorySelect}
+        />
+        <MultiSelectDropdown
+          label="Колір"
+          options={flowerColorOptions}
+          selectedIds={flowerColorsList}
+          onSelect={(optionId) => handleFlowerColorsSelect(String(optionId))}
+        />
+        <MultiSelectDropdown
+          label="Форма"
+          options={flowerShapeOptions}
+          selectedIds={shapesList}
+          onSelect={(optionId) => handleShapesSelect(String(optionId))}
+        />
+        <button onClick={fetchBouquetInfo} className={styles.customButton}>
           Застосувати фільтри
         </button>
         <button
