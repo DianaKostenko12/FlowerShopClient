@@ -4,16 +4,12 @@ import { useAuth } from "../../../common/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const LoginForm: React.FC = () => {
-  const { isAuthorized, setIsAuthorized, setUserRole } = useAuth();
+  const { setIsAuthorized, setUserRole } = useAuth();
   const navigate = useNavigate();
 
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const handleBouquetsClick = () => {
-    navigate("/bouquets");
-  };
 
   const handleLogin = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
@@ -21,7 +17,6 @@ const LoginForm: React.FC = () => {
     const loginData = { username, password };
     try {
       const response = await UserService.loginUser(loginData);
-
       if (response.data) {
         localStorage.setItem("jwtToken", response.data);
         setIsAuthorized(true);
@@ -40,10 +35,15 @@ const LoginForm: React.FC = () => {
           setIsAuthorized(false);
           setUserRole(null);
         }
+        setErrorMessage(null);
+        setUsername("");
+        setPassword("");
+        navigate("/bouquets");
+      } else {
+        setIsAuthorized(false);
+        setUserRole(null);
+        setErrorMessage("Invalid username or password.");
       }
-      setErrorMessage(null);
-      setUsername("");
-      setPassword("");
     } catch (error) {
       console.error("Login failed:", error);
       setErrorMessage("Invalid username or password.");
@@ -90,11 +90,7 @@ const LoginForm: React.FC = () => {
               />
             </div>
 
-            <button
-              onClick={handleBouquetsClick}
-              type="submit"
-              className="btn btn-primary btn-sm w-100"
-            >
+            <button type="submit" className="btn btn-primary btn-sm w-100">
               Авторизуватися
             </button>
           </form>
