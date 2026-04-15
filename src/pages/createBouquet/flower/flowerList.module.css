@@ -1,4 +1,92 @@
-.flowerList {
+/* === List Header === */
+.listHeader {
     display: flex;
-    margin: 20px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.listTitle {
+    font-size: 20px;
+    font-weight: 700;
+    color: #3d5a3d;
+    margin: 0;
+}
+
+.listCount {
+    font-size: 13px;
+    color: #999;
+    font-weight: 500;
+}
+
+/* === Search === */
+.searchWrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    font-size: 14px;
+    pointer-events: none;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 10px 16px 10px 38px;
+    font-size: 14px;
+    border: 1.5px solid #e2efe2;
+    border-radius: 10px;
+    outline: none;
+    background: white;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+
+.searchInput:focus {
+    border-color: #5a7d5a;
+    box-shadow: 0 0 0 3px rgba(90, 125, 90, 0.1);
+}
+
+/* === Flower Grid === */
+.flowerGridWrapper {
+    max-height: 600px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.flowerGridWrapper::-webkit-scrollbar {
+    width: 6px;
+}
+
+.flowerGridWrapper::-webkit-scrollbar-track {
+    background: #f0f5f0;
+    border-radius: 3px;
+}
+
+.flowerGridWrapper::-webkit-scrollbar-thumb {
+    background: #b3e8b3;
+    border-radius: 3px;
+}
+
+.flowerGridWrapper::-webkit-scrollbar-thumb:hover {
+    background: #78c978;
+}
+
+.flowerGrid {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* === Empty State === */
+.emptyState {
+    text-align: center;
+    padding: 48px 20px;
+    color: #aaa;
+    font-size: 15px;
+    grid-column: 1 / -1;
 }

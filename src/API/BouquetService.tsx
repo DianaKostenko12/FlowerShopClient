@@ -21,8 +21,8 @@ interface CreateBouquetInfo {
   bouquetDescription: string;
   photo: File;
   flowers: SelectedFlower[];
-  colorsList?: string[];
-  shapesList?: string[];
+  shapes: string;
+  role: string;
 }
 
 interface SelectedFlower {

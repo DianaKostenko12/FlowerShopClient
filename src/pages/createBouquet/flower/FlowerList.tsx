@@ -24,6 +24,7 @@ const FlowerList: React.FC<FlowerListProps> = ({
   onDecrementFlower,
 }) => {
   const [availableFlowers, setAvailableFlowers] = useState<Flower[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const initialFlowers = async () => {
@@ -47,20 +48,51 @@ const FlowerList: React.FC<FlowerListProps> = ({
     initialFlowers();
   }, []);
 
+  const filteredFlowers = availableFlowers.filter((f) =>
+    f.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div>
-      <h3>Квіти</h3>
-      <div className="row w-100">
-        {availableFlowers.map((flower) => (
-          <div key={flower.id} className="col-4 col-xl-3">
-            <FlowerItem
-              flower={flower}
-              selectedFlowers={selectedFlowers}
-              onIncrementFlower={onIncrementFlower}
-              onDecrementFlower={onDecrementFlower}
-            />
+      <div className={classes.listHeader}>
+        <h3 className={classes.listTitle}>Оберіть квіти</h3>
+        <span className={classes.listCount}>
+          {availableFlowers.length} доступно
+        </span>
+      </div>
+
+      <div className={classes.searchWrapper}>
+        <span className={classes.searchIcon}>&#128269;</span>
+        <input
+          type="text"
+          className={classes.searchInput}
+          placeholder="Пошук квітів..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
+      <div className={classes.flowerGridWrapper}>
+      <div className={`row ${classes.flowerGrid}`}>
+        {filteredFlowers.length > 0 ? (
+          filteredFlowers.map((flower) => (
+            <div key={flower.id} className="col-6 col-sm-4 col-xl-3">
+              <FlowerItem
+                flower={flower}
+                selectedFlowers={selectedFlowers}
+                onIncrementFlower={onIncrementFlower}
+                onDecrementFlower={onDecrementFlower}
+              />
+            </div>
+          ))
+        ) : (
+          <div className={classes.emptyState}>
+            {searchTerm
+              ? "Квітів за вашим запитом не знайдено"
+              : "Завантаження квітів..."}
           </div>
-        ))}
+        )}
+      </div>
       </div>
     </div>
   );
