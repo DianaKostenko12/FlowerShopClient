@@ -211,14 +211,18 @@ const CreateBouquetPage: FC = () => {
               <div className={classes.formSectionTitle}>Параметри букету</div>
               <label className={classes.formLabel}>Форма букету</label>
               <div className={classes.dropdownWrapper}>
-                <MultiSelectDropdown
-                  label="Оберіть форми"
-                  options={shapeOptions}
-                  selectedIds={selectedShapes}
-                  onSelect={(optionId) =>
-                    toggleMultiSelectValue(String(optionId), setSelectedShapes)
-                  }
-                />
+                <select
+                  className={classes.formInput}
+                  value={shape ?? ""}
+                  onChange={(e) => setSelectedShape(e.target.value)}
+                >
+                  <option value="">Оберіть форму</option>
+                  {shapeOptions.map((option) => (
+                    <option key={option.id} value={option.id}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
               </div>
               <label className={classes.formLabel}>Колір букету</label>
               <div className={classes.dropdownWrapper}>

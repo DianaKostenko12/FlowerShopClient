@@ -19,15 +19,16 @@ interface BouquetFilterInfo {
 interface CreateBouquetInfo {
   bouquetName: string;
   bouquetDescription: string;
+  wrappingPaperId: number;
+  shape: string;
   photo: File;
   flowers: SelectedFlower[];
-  shapes: string;
-  role: string;
 }
 
 interface SelectedFlower {
   flowerId: number;
   flowerCount: number;
+  role: number;
 }
 
 export default class BouquetService {
@@ -52,41 +53,42 @@ export default class BouquetService {
     return `${axiosInstance.defaults.baseURL}/bouquet/${bouquetId}/image`;
   }
 
+  private static async fileToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const result = reader.result;
+
+        if (typeof result !== "string") {
+          reject(new Error("Failed to read photo file."));
+          return;
+        }
+
+        resolve(result.split(",")[1] ?? "");
+      };
+
+      reader.onerror = () => reject(reader.error);
+      reader.readAsDataURL(file);
+    });
+  }
+
   static async createBouquet(createBouquetInfo: CreateBouquetInfo) {
     try {
-      const formData = new FormData();
+      const photoBytes = await this.fileToBase64(createBouquetInfo.photo);
 
-      formData.append("bouquetName", createBouquetInfo.bouquetName);
-      formData.append(
-        "bouquetDescription",
-        createBouquetInfo.bouquetDescription
-      );
-
-      formData.append("photo", createBouquetInfo.photo);
-
-      createBouquetInfo.flowers.forEach((flower, index) => {
-        formData.append(
-          `Flowers[${index}].FlowerId`,
-          flower.flowerId.toString()
-        );
-        formData.append(
-          `Flowers[${index}].FlowerCount`,
-          flower.flowerCount.toString()
-        );
-      });
-
-      createBouquetInfo.colorsList?.forEach((color, index) => {
-        formData.append(`ColorsList[${index}]`, color);
-      });
-
-      createBouquetInfo.shapesList?.forEach((shape, index) => {
-        formData.append(`ShapesList[${index}]`, shape);
-      });
-
-      return await axiosInstance.post("bouquet", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      return await axiosInstance.post("bouquet", {
+        bouquetName: createBouquetInfo.bouquetName,
+        bouquetDescription: createBouquetInfo.bouquetDescription,
+        wrappingPaperId: createBouquetInfo.wrappingPaperId ?? 0,
+        shape: createBouquetInfo.shape,
+        photoBytes,
+        photoContentType: createBouquetInfo.photo.type,
+        flowers: createBouquetInfo.flowers.map((flower) => ({
+          flowerId: flower.flowerId,
+          flowerCount: flower.flowerCount,
+          role: flower.role ?? 0,
+        })),
       });
     } catch (error) {
       console.error("Error creating bouquet:", error);
