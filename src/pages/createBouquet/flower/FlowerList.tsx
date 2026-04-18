@@ -2,15 +2,7 @@ import React, { useState, useEffect } from "react";
 import FlowerItem from "./FlowerItem";
 import FlowerService from "../../../API/FlowerService";
 import classes from "./flowerList.module.css";
-
-interface Flower {
-  id: number;
-  name: string;
-  cost: number;
-  photo: string;
-  selectedQuantity: number;
-  availableQuantity: number;
-}
+import { Flower } from "../types";
 
 interface FlowerListProps {
   selectedFlowers: Flower[];

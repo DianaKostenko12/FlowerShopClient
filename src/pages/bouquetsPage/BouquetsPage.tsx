@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
 import BouquetService from "../../API/BouquetService";
-import BouquetsList from "../createBouquet/bouquet/bouquetList/BouquetsList";
+import BouquetsList from "./bouquet/bouquetList/BouquetsList";
 import styles from "./boquetsPage.module.css";
 import CategoryService, { CategoryInfo } from "../../API/CategoryService";
 import PriceFilter, { PriceFilterValue } from "./PriceFilter";

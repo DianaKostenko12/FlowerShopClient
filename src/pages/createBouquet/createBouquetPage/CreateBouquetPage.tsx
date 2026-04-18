@@ -1,133 +1,141 @@
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useEffect, useMemo, useState } from "react";
 import BouquetService from "../../../API/BouquetService";
-import MultiSelectDropdown, {
-  MultiSelectOption,
-} from "../../bouquetsPage/MultiSelectDropdown";
+import WrappingService, {
+  WrappingPaperInfo,
+} from "../../../API/WrappingService";
+import BouquetShapeConstants from "../constants/BouquetShapeConstants";
+import { SelectOption } from "../constants/SelectOption";
+import WrappingPaperConstants from "../constants/WrappingPaperConstants";
 import FlowerList from "../flower/FlowerList";
+import { usePhotoUpload } from "../hooks/usePhotoUpload";
+import { useSelectedFlowers } from "../hooks/useSelectedFlowers";
+import PhotoUploadSection from "./components/PhotoUploadSection";
+import SelectedFlowersSummary from "./components/SelectedFlowersSummary";
 import classes from "./createBouquet.module.css";
 
-interface Flower {
-  id: number;
-  name: string;
-  cost: number;
-  photo: string;
-  selectedQuantity: number;
-  availableQuantity: number;
-}
-
-const colorOptions: MultiSelectOption[] = [
-  { id: "червоний", label: "Червоний" },
-  { id: "рожевий", label: "Рожевий" },
-  { id: "білий", label: "Білий" },
-  { id: "жовтий", label: "Жовтий" },
-  { id: "помаранчевий", label: "Помаранчевий" },
-  { id: "фіолетовий", label: "Фіолетовий" },
-  { id: "синій", label: "Синій" },
-  { id: "блакитний", label: "Блакитний" },
-  { id: "зелений", label: "Зелений" },
-  { id: "бежевий", label: "Бежевий" },
-];
-
-const shapeOptions: MultiSelectOption[] = [
-  { id: "кругла", label: "Кругла" },
-  { id: "подовжена", label: "Подовжена" },
-  { id: "асиметрична", label: "Асиметрична" },
-];
+const parseSelectNumber = (value: string): number | undefined =>
+  value === "" ? undefined : Number(value);
 
 const CreateBouquetPage: FC = () => {
   const [bouquetName, setBouquetName] = useState<string>("");
   const [bouquetDescription, setBouquetDescription] = useState<string>("");
-  const [photo, setPhoto] = useState<File | null>(null);
-  const [selectedFlowers, setSelectedFlowers] = useState<Flower[]>([]);
-  const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [shape, setSelectedShape] = useState<string>();
+  const [wrappingPapers, setWrappingPapers] = useState<WrappingPaperInfo[]>([]);
+  const [wrappingType, setWrappingType] = useState<number>();
+  const [wrappingPattern, setWrappingPattern] = useState<number>();
+  const [wrappingColorName, setWrappingColorName] = useState<string>();
+  const [isWrappingLoading, setIsWrappingLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const {
+    selectedFlowers,
+    incrementFlower,
+    decrementFlower,
+    removeFlower,
+    resetSelectedFlowers,
+    totalPrice,
+  } = useSelectedFlowers();
+  const {
+    photo,
+    photoPreviewUrl,
+    isDragging,
+    fileInputRef,
+    handlePhotoChange,
+    handleDragOver,
+    handleDragLeave,
+    handleDrop,
+    resetPhoto,
+  } = usePhotoUpload();
 
-  const toggleMultiSelectValue = (
-    value: string,
-    setter: React.Dispatch<React.SetStateAction<string[]>>
-  ) => {
-    setter((prev) =>
-      prev.includes(value)
-        ? prev.filter((item) => item !== value)
-        : [...prev, value]
-    );
-  };
+  useEffect(() => {
+    const loadWrappingPapers = async () => {
+      setIsWrappingLoading(true);
 
-  const incrementFlower = (flower: Flower) => {
-    setSelectedFlowers((prev) => {
-      const flowerIndex = prev.findIndex((f) => f.id === flower.id);
-
-      if (flowerIndex !== -1) {
-        const selectedFlower = prev[flowerIndex];
-
-        if (selectedFlower.selectedQuantity >= flower.availableQuantity) {
-          return prev;
-        }
-
-        const updatedFlowers = [...prev];
-        updatedFlowers[flowerIndex] = {
-          ...selectedFlower,
-          selectedQuantity: selectedFlower.selectedQuantity + 1,
-        };
-
-        return updatedFlowers;
+      try {
+        const response = await WrappingService.getWrappingPapers();
+        setWrappingPapers(response.data);
+      } catch (error) {
+        console.error("Failed to load wrapping papers:", error);
+        setError("Не вдалося завантажити обгортковий папір.");
+      } finally {
+        setIsWrappingLoading(false);
       }
+    };
 
-      return [...prev, { ...flower, selectedQuantity: 1 }];
-    });
-  };
+    loadWrappingPapers();
+  }, []);
 
-  const decrementFlower = (flower: Flower) => {
-    setSelectedFlowers((prev) => {
-      const flowerIndex = prev.findIndex((f) => f.id === flower.id);
-      if (flowerIndex !== -1) {
-        const selectedFlower = prev[flowerIndex];
-        if (selectedFlower.selectedQuantity <= 1) {
-          return prev.filter((f) => f.id !== flower.id);
-        }
+  const wrappingColorOptions = useMemo<SelectOption<string>[]>(() => {
+    const colorNames = new Set<string>();
 
-        const updatedFlowers = [...prev];
-        updatedFlowers[flowerIndex] = {
-          ...selectedFlower,
-          selectedQuantity: selectedFlower.selectedQuantity - 1,
-        };
-        return updatedFlowers;
+    wrappingPapers.forEach((paper) => {
+      if (paper.colorName) {
+        colorNames.add(paper.colorName);
       }
-
-      return prev;
     });
-  };
 
-  const removeFlower = (flowerId: number) => {
-    setSelectedFlowers((prev) => prev.filter((f) => f.id !== flowerId));
-  };
+    return Array.from(colorNames)
+      .sort((firstColorName, secondColorName) =>
+        firstColorName.localeCompare(secondColorName)
+      )
+      .map((colorName) => ({
+        id: colorName,
+        label: colorName,
+      }));
+  }, [wrappingPapers]);
 
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setPhoto(file);
+  const selectedWrappingPaper = useMemo(
+    () =>
+      wrappingPapers.find(
+        (paper) =>
+          paper.type === wrappingType &&
+          paper.pattern === wrappingPattern &&
+          paper.colorName === wrappingColorName
+      ),
+    [wrappingPapers, wrappingColorName, wrappingPattern, wrappingType]
+  );
+
+  const selectedWrappingColorId = useMemo(
+    () =>
+      wrappingPapers.find(
+        (paper) =>
+          paper.colorName === wrappingColorName &&
+          typeof paper.colorId === "number"
+      )?.colorId,
+    [wrappingPapers, wrappingColorName]
+  );
+
+  const getWrappingPaperId = async (): Promise<number | undefined> => {
+    if (selectedWrappingPaper) {
+      return selectedWrappingPaper.wrappingPaperId;
     }
-  };
 
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = () => {
-    setIsDragging(false);
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragging(false);
-    const file = e.dataTransfer.files[0];
-    if (file) {
-      setPhoto(file);
+    if (
+      wrappingType === undefined ||
+      wrappingPattern === undefined ||
+      wrappingColorName === undefined
+    ) {
+      setError("Оберіть тип, патерн та колір обгорткового паперу.");
+      return undefined;
     }
+
+    if (selectedWrappingColorId === undefined) {
+      setError("Не вдалося визначити колір обгорткового паперу.");
+      return undefined;
+    }
+
+    const response = await WrappingService.addWrappingPaper({
+      type: wrappingType,
+      colorId: selectedWrappingColorId,
+      pattern: wrappingPattern,
+    });
+
+    const newWrappingPaper = response.data;
+    setWrappingPapers((currentWrappingPapers) => [
+      ...currentWrappingPapers,
+      newWrappingPaper,
+    ]);
+
+    return newWrappingPaper.wrappingPaperId;
   };
 
   const handleCreate = async (e: React.FormEvent): Promise<void> => {
@@ -135,7 +143,39 @@ const CreateBouquetPage: FC = () => {
     setError(null);
 
     if (!photo) {
-      setError("Будь ласка, оберіть фото для букету.");
+      setError("Будь ласка, оберіть фото для букета.");
+      return;
+    }
+
+    if (!shape) {
+      setError("Оберіть форму букета.");
+      return;
+    }
+
+    if (
+      wrappingType === undefined ||
+      wrappingPattern === undefined ||
+      wrappingColorName === undefined
+    ) {
+      setError(
+        "Оберіть доступну комбінацію типу, патерну та кольору для обгорткового паперу."
+      );
+      return;
+    }
+
+    let wrappingPaperId: number;
+
+    try {
+      const resolvedWrappingPaperId = await getWrappingPaperId();
+
+      if (resolvedWrappingPaperId === undefined) {
+        return;
+      }
+
+      wrappingPaperId = resolvedWrappingPaperId;
+    } catch (error) {
+      console.error("Failed to create a wrapping paper:", error);
+      setError("Не вдалося створити обгортковий папір. Спробуйте ще раз.");
       return;
     }
 
@@ -143,10 +183,12 @@ const CreateBouquetPage: FC = () => {
       bouquetName,
       bouquetDescription,
       photo,
-      shape: shape,
+      wrappingPaperId,
+      shape,
       flowers: selectedFlowers.map((flower) => ({
         flowerId: flower.id,
         flowerCount: flower.selectedQuantity,
+        role: 0,
       })),
     };
 
@@ -156,24 +198,20 @@ const CreateBouquetPage: FC = () => {
 
       setBouquetName("");
       setBouquetDescription("");
-      setPhoto(null);
-      setSelectedFlowers([]);
-      setSelectedColors([]);
-      setSelectedShape("");
+      resetPhoto();
+      resetSelectedFlowers();
+      setSelectedShape(undefined);
+      setWrappingType(undefined);
+      setWrappingPattern(undefined);
+      setWrappingColorName(undefined);
     } catch (error) {
       console.error("Failed to create a bouquet:", error);
       setError("Не вдалося створити букет. Спробуйте ще раз.");
     }
   };
 
-  const totalPrice = selectedFlowers.reduce(
-    (sum, f) => sum + f.cost * f.selectedQuantity,
-    0
-  );
-
   return (
     <div className="container-fluid p-4">
-      {/* Page Header */}
       <div className={classes.pageHeader}>
         <h2 className={classes.pageTitle}>Створення букету</h2>
         <p className={classes.pageSubtitle}>
@@ -181,12 +219,9 @@ const CreateBouquetPage: FC = () => {
         </p>
       </div>
 
-      {/* Main Content */}
       <div className="row">
-        {/* Left Panel — Form */}
         <div className="col-lg-4">
           <div className={classes.formCard}>
-            {/* Section: Basic Info */}
             <div className={classes.formSection}>
               <div className={classes.formSectionTitle}>Основна інформація</div>
               <label className={classes.formLabel}>Назва букету</label>
@@ -197,6 +232,7 @@ const CreateBouquetPage: FC = () => {
                 onChange={(e) => setBouquetName(e.target.value)}
                 placeholder="Введіть назву..."
               />
+
               <label className={classes.formLabel}>Опис букету</label>
               <textarea
                 className={classes.formTextarea}
@@ -206,7 +242,6 @@ const CreateBouquetPage: FC = () => {
               />
             </div>
 
-            {/* Section: Parameters */}
             <div className={classes.formSection}>
               <div className={classes.formSectionTitle}>Параметри букету</div>
               <label className={classes.formLabel}>Форма букету</label>
@@ -217,63 +252,107 @@ const CreateBouquetPage: FC = () => {
                   onChange={(e) => setSelectedShape(e.target.value)}
                 >
                   <option value="">Оберіть форму</option>
-                  {shapeOptions.map((option) => (
+                  {BouquetShapeConstants.BOUQUET_SHAPE_OPTIONS.map((option) => (
                     <option key={option.id} value={option.id}>
                       {option.label}
                     </option>
                   ))}
                 </select>
               </div>
-              <label className={classes.formLabel}>Колір букету</label>
+
+              <label className={classes.formLabel}>
+                Тип обгорткового паперу
+              </label>
               <div className={classes.dropdownWrapper}>
-                <MultiSelectDropdown
-                  label="Оберіть кольори"
-                  options={colorOptions}
-                  selectedIds={selectedColors}
-                  onSelect={(optionId) =>
-                    toggleMultiSelectValue(String(optionId), setSelectedColors)
+                <select
+                  className={classes.formInput}
+                  value={wrappingType ?? ""}
+                  onChange={(e) =>
+                    setWrappingType(parseSelectNumber(e.target.value))
                   }
-                />
+                  disabled={isWrappingLoading}
+                >
+                  <option value="">Оберіть тип</option>
+                  {WrappingPaperConstants.WRAPPING_TYPE_OPTIONS.map(
+                    (option) => (
+                      <option key={option.id} value={option.id}>
+                        {option.label}
+                      </option>
+                    )
+                  )}
+                </select>
               </div>
+
+              <label className={classes.formLabel}>
+                Патерн обгорткового паперу
+              </label>
+              <div className={classes.dropdownWrapper}>
+                <select
+                  className={classes.formInput}
+                  value={wrappingPattern ?? ""}
+                  onChange={(e) =>
+                    setWrappingPattern(parseSelectNumber(e.target.value))
+                  }
+                  disabled={isWrappingLoading}
+                >
+                  <option value="">Оберіть патерн</option>
+                  {WrappingPaperConstants.WRAPPING_PATTERN_OPTIONS.map(
+                    (option) => (
+                      <option key={option.id} value={option.id}>
+                        {option.label}
+                      </option>
+                    )
+                  )}
+                </select>
+              </div>
+
+              <label className={classes.formLabel}>
+                Колір обгорткового паперу
+              </label>
+              <div className={classes.dropdownWrapper}>
+                <select
+                  className={classes.formInput}
+                  value={wrappingColorName ?? ""}
+                  onChange={(e) =>
+                    setWrappingColorName(e.target.value || undefined)
+                  }
+                  disabled={
+                    isWrappingLoading || wrappingColorOptions.length === 0
+                  }
+                >
+                  <option value="">Оберіть колір</option>
+                  {wrappingColorOptions.map((option) => (
+                    <option key={option.id} value={option.id}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {wrappingType !== undefined &&
+                wrappingPattern !== undefined &&
+                wrappingColorName !== undefined &&
+                !selectedWrappingPaper && (
+                  <p className={classes.fieldHint}>
+                    Такої комбінації обгорткового паперу ще немає, вона буде
+                    створена автоматично.
+                  </p>
+                )}
             </div>
 
-            {/* Section: Photo */}
-            <div className={classes.formSection}>
-              <div className={classes.formSectionTitle}>Фото букету</div>
-              <div
-                className={`${classes.dropZone} ${isDragging ? classes.dropZoneActive : ""}`}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-                onClick={() => fileInputRef.current?.click()}
-              >
-                <span className={classes.dropZoneIcon}>📷</span>
-                <p className={classes.dropZoneText}>
-                  Перетягніть фото сюди або натисніть для вибору
-                </p>
-                {photo && (
-                  <p className={classes.dropZoneFileName}>{photo.name}</p>
-                )}
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handlePhotoChange}
-                  style={{ display: "none" }}
-                />
-              </div>
-              {photo && (
-                <img
-                  src={URL.createObjectURL(photo)}
-                  alt="Превʼю"
-                  className={classes.photoPreview}
-                />
-              )}
-            </div>
+            <PhotoUploadSection
+              photo={photo}
+              photoPreviewUrl={photoPreviewUrl}
+              isDragging={isDragging}
+              fileInputRef={fileInputRef}
+              onPhotoChange={handlePhotoChange}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+            />
           </div>
         </div>
 
-        {/* Right Panel — Flowers */}
         <div className="col-lg-8">
           <FlowerList
             selectedFlowers={selectedFlowers}
@@ -283,48 +362,13 @@ const CreateBouquetPage: FC = () => {
         </div>
       </div>
 
-      {/* Summary Section */}
-      <div className={classes.summarySection}>
-        <div className={classes.summaryHeader}>
-          <h3 className={classes.summaryTitle}>Обрані квіти</h3>
-        </div>
-
-        {selectedFlowers.length > 0 ? (
-          <div className={classes.summaryChips}>
-            {selectedFlowers.map((flower) => (
-              <span key={flower.id} className={classes.summaryChip}>
-                {flower.name}
-                <span className={classes.summaryChipQuantity}>
-                  {flower.selectedQuantity}
-                </span>
-                <button
-                  className={classes.summaryChipRemove}
-                  onClick={() => removeFlower(flower.id)}
-                  title="Видалити"
-                >
-                  ×
-                </button>
-              </span>
-            ))}
-          </div>
-        ) : (
-          <p className={classes.emptySelection}>
-            Ви ще не обрали жодної квітки
-          </p>
-        )}
-
-        {error && <p className={classes.error}>{error}</p>}
-
-        <div className={classes.summaryFooter}>
-          <div className={classes.totalPrice}>
-            <span className={classes.totalPriceLabel}>Загальна вартість: </span>
-            {totalPrice} грн
-          </div>
-          <button onClick={handleCreate} className={classes.createButton}>
-            Створити букет
-          </button>
-        </div>
-      </div>
+      <SelectedFlowersSummary
+        selectedFlowers={selectedFlowers}
+        totalPrice={totalPrice}
+        error={error}
+        onRemoveFlower={removeFlower}
+        onCreate={handleCreate}
+      />
     </div>
   );
 };

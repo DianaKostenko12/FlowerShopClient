@@ -1,14 +1,6 @@
 import React, { FC } from "react";
 import classes from "./flowerItem.module.css";
-
-interface Flower {
-  id: number;
-  name: string;
-  cost: number;
-  photo: string;
-  selectedQuantity: number;
-  availableQuantity: number;
-}
+import { Flower } from "../types";
 
 interface FlowerItemProps {
   flower: Flower;

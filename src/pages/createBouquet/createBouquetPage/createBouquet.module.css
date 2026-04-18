@@ -291,6 +291,12 @@
     margin-bottom: 12px;
 }
 
+.fieldHint {
+    color: #d9534f;
+    font-size: 13px;
+    margin: -4px 0 12px;
+}
+
 /* === Responsive === */
 @media (max-width: 991px) {
     .formCard {

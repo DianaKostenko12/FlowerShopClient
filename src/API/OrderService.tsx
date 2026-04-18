@@ -1,4 +1,4 @@
-import { Bouquet } from "../pages/createBouquet/bouquet/bouquetItem/BouquetItem";
+import { Bouquet } from "../pages/bouquetsPage/bouquet/bouquetItem/BouquetItem";
 import axiosInstance from "./axiosInstance";
 import { AxiosResponse } from "axios";
 
