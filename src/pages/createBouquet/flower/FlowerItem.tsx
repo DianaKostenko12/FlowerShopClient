@@ -5,18 +5,25 @@ import { Flower } from "../types";
 interface FlowerItemProps {
   flower: Flower;
   selectedFlowers: Flower[];
-  onIncrementFlower: (flower: Flower) => void;
-  onDecrementFlower: (flower: Flower) => void;
+  selectedRole: string;
+  onIncrementFlower: (flower: Flower, role: string) => void;
+  onDecrementFlower: (flower: Flower, role: string) => void;
 }
 
 const FlowerItem: FC<FlowerItemProps> = ({
   flower,
   selectedFlowers,
+  selectedRole,
   onIncrementFlower,
   onDecrementFlower,
 }) => {
-  const selectedFlower = selectedFlowers.find((f) => f.id === flower.id);
+  const selectedFlower = selectedFlowers.find(
+    (f) => f.id === flower.id && f.role === selectedRole
+  );
   const selectedQuantity = selectedFlower ? selectedFlower.selectedQuantity : 0;
+  const totalSelectedQuantity = selectedFlowers
+    .filter((f) => f.id === flower.id)
+    .reduce((sum, f) => sum + f.selectedQuantity, 0);
 
   return (
     <div
@@ -38,7 +45,7 @@ const FlowerItem: FC<FlowerItemProps> = ({
         <div className={classes.counter}>
           <button
             className={classes.counterBtn}
-            onClick={() => onDecrementFlower(flower)}
+            onClick={() => onDecrementFlower(flower, selectedRole)}
             disabled={selectedQuantity <= 0}
           >
             −
@@ -46,8 +53,8 @@ const FlowerItem: FC<FlowerItemProps> = ({
           <span className={classes.flowerQuantity}>{selectedQuantity}</span>
           <button
             className={classes.counterBtn}
-            onClick={() => onIncrementFlower(flower)}
-            disabled={selectedQuantity >= flower.availableQuantity}
+            onClick={() => onIncrementFlower(flower, selectedRole)}
+            disabled={totalSelectedQuantity >= flower.availableQuantity}
           >
             +
           </button>

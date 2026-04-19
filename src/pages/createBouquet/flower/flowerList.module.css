@@ -19,6 +19,37 @@
     font-weight: 500;
 }
 
+/* === Role Tabs === */
+.roleTabs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.roleTab {
+    border: 1.5px solid #d4e8d4;
+    background: white;
+    color: #5a7d5a;
+    border-radius: 8px;
+    padding: 9px 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.roleTab:hover {
+    border-color: #78c978;
+    background: #f8fcf8;
+}
+
+.roleTabActive {
+    border-color: #5a7d5a;
+    background: #5a7d5a;
+    color: white;
+}
+
 /* === Search === */
 .searchWrapper {
     position: relative;

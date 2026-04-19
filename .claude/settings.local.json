@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npm start:*)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(taskkill /F /IM node.exe)",
+      "Bash(netstat -ano)",
+      "Bash(taskkill /F /PID 22680)",
+      "Bash(cmd //c \"taskkill /F /PID 22680\")"
     ]
   }
 }

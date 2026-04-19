@@ -4,7 +4,7 @@ import axiosInstance from "./axiosInstance";
 export interface WrappingPaperInfo {
   wrappingPaperId: number;
   type: number;
-  colorId?: number;
+  colorId: number;
   colorName: string;
   pattern: number;
 }
@@ -45,9 +45,9 @@ export default class WrappingService {
     wrappingPaperId: number
   ): Promise<AxiosResponse<void>> {
     try {
-      return await axiosInstance.delete<void>("wrapping-paper", {
-        params: { wrappingPaperId },
-      });
+      return await axiosInstance.delete<void>(
+        `wrapping-paper/${wrappingPaperId}`
+      );
     } catch (error) {
       console.error("Error deleting wrapping paper:", error);
       throw error;

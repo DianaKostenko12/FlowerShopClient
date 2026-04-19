@@ -209,6 +209,16 @@
     font-weight: 700;
 }
 
+.summaryChipRole {
+    background: white;
+    color: #5a7d5a;
+    border: 1px solid #d4e8d4;
+    border-radius: 8px;
+    padding: 1px 7px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
 .summaryChipRemove {
     background: none;
     border: none;
@@ -271,6 +281,30 @@
     background: #d3d3d3;
     cursor: not-allowed;
     box-shadow: none;
+}
+
+.secondaryButton {
+    width: 100%;
+    margin-top: 12px;
+    padding: 10px 16px;
+    border: 1px solid #d9534f;
+    border-radius: 8px;
+    background: #fff;
+    color: #d9534f;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.secondaryButton:hover {
+    background: #d9534f;
+    color: #fff;
+}
+
+.secondaryButton:disabled {
+    border-color: #d3d3d3;
+    color: #999;
+    cursor: not-allowed;
 }
 
 /* === Empty Selection === */

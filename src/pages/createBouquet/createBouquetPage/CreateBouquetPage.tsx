@@ -16,6 +16,8 @@ import classes from "./createBouquet.module.css";
 const parseSelectNumber = (value: string): number | undefined =>
   value === "" ? undefined : Number(value);
 
+const CUSTOM_WRAPPING_COLOR_OPTION = "__custom_wrapping_color__";
+
 const CreateBouquetPage: FC = () => {
   const [bouquetName, setBouquetName] = useState<string>("");
   const [bouquetDescription, setBouquetDescription] = useState<string>("");
@@ -23,8 +25,10 @@ const CreateBouquetPage: FC = () => {
   const [wrappingPapers, setWrappingPapers] = useState<WrappingPaperInfo[]>([]);
   const [wrappingType, setWrappingType] = useState<number>();
   const [wrappingPattern, setWrappingPattern] = useState<number>();
-  const [wrappingColorName, setWrappingColorName] = useState<string>();
+  const [wrappingColorId, setWrappingColorId] = useState<number>();
+  const [isAddingWrappingColor, setIsAddingWrappingColor] = useState(false);
   const [isWrappingLoading, setIsWrappingLoading] = useState(false);
+  const [selectedFlowerRole, setSelectedFlowerRole] = useState<string>("Focal");
   const [error, setError] = useState<string | null>(null);
   const {
     selectedFlowers,
@@ -64,24 +68,61 @@ const CreateBouquetPage: FC = () => {
     loadWrappingPapers();
   }, []);
 
-  const wrappingColorOptions = useMemo<SelectOption<string>[]>(() => {
-    const colorNames = new Set<string>();
+  const wrappingColorOptions = useMemo<SelectOption<number>[]>(() => {
+    if (wrappingType === undefined || wrappingPattern === undefined) {
+      return [];
+    }
+
+    const colorsById = new Map<number, string>();
 
     wrappingPapers.forEach((paper) => {
-      if (paper.colorName) {
-        colorNames.add(paper.colorName);
+      if (
+        paper.type === wrappingType &&
+        paper.pattern === wrappingPattern &&
+        paper.colorName
+      ) {
+        colorsById.set(paper.colorId, paper.colorName);
       }
     });
 
-    return Array.from(colorNames)
-      .sort((firstColorName, secondColorName) =>
+    return Array.from(colorsById.entries())
+      .sort(([, firstColorName], [, secondColorName]) =>
         firstColorName.localeCompare(secondColorName)
       )
-      .map((colorName) => ({
-        id: colorName,
+      .map(([colorId, colorName]) => ({
+        id: colorId,
+        label: colorName,
+      }));
+  }, [wrappingPapers, wrappingPattern, wrappingType]);
+
+  const allWrappingColorOptions = useMemo<SelectOption<number>[]>(() => {
+    const colorsById = new Map<number, string>();
+
+    wrappingPapers.forEach((paper) => {
+      if (paper.colorName) {
+        colorsById.set(paper.colorId, paper.colorName);
+      }
+    });
+
+    return Array.from(colorsById.entries())
+      .sort(([, firstColorName], [, secondColorName]) =>
+        firstColorName.localeCompare(secondColorName)
+      )
+      .map(([colorId, colorName]) => ({
+        id: colorId,
         label: colorName,
       }));
   }, [wrappingPapers]);
+
+  const additionalWrappingColorOptions = useMemo(() => {
+    const selectedColorIds = new Set(
+      wrappingColorOptions.map((option) => option.id)
+    );
+
+    return allWrappingColorOptions.filter(
+      (option) => !selectedColorIds.has(option.id)
+    );
+  }, [allWrappingColorOptions, wrappingColorOptions]);
 
   const selectedWrappingPaper = useMemo(
     () =>
@@ -89,19 +130,9 @@ const CreateBouquetPage: FC = () => {
         (paper) =>
           paper.type === wrappingType &&
           paper.pattern === wrappingPattern &&
-          paper.colorName === wrappingColorName
+          paper.colorId === wrappingColorId
       ),
-    [wrappingPapers, wrappingColorName, wrappingPattern, wrappingType]
-  );
-
-  const selectedWrappingColorId = useMemo(
-    () =>
-      wrappingPapers.find(
-        (paper) =>
-          paper.colorName === wrappingColorName &&
-          typeof paper.colorId === "number"
-      )?.colorId,
-    [wrappingPapers, wrappingColorName]
+    [wrappingPapers, wrappingColorId, wrappingPattern, wrappingType]
   );
 
   const getWrappingPaperId = async (): Promise<number | undefined> => {
@@ -112,20 +143,15 @@ const CreateBouquetPage: FC = () => {
     if (
       wrappingType === undefined ||
       wrappingPattern === undefined ||
-      wrappingColorName === undefined
+      wrappingColorId === undefined
     ) {
       setError("Оберіть тип, патерн та колір обгорткового паперу.");
       return undefined;
     }
 
-    if (selectedWrappingColorId === undefined) {
-      setError("Не вдалося визначити колір обгорткового паперу.");
-      return undefined;
-    }
-
     const response = await WrappingService.addWrappingPaper({
       type: wrappingType,
-      colorId: selectedWrappingColorId,
+      colorId: wrappingColorId,
       pattern: wrappingPattern,
     });
 
@@ -136,6 +162,53 @@ const CreateBouquetPage: FC = () => {
     ]);
 
     return newWrappingPaper.wrappingPaperId;
+  };
+
+  const handleWrappingTypeChange = (value: string) => {
+    setWrappingType(parseSelectNumber(value));
+    setWrappingColorId(undefined);
+    setIsAddingWrappingColor(false);
+  };
+
+  const handleWrappingPatternChange = (value: string) => {
+    setWrappingPattern(parseSelectNumber(value));
+    setWrappingColorId(undefined);
+    setIsAddingWrappingColor(false);
+  };
+
+  const handleWrappingColorChange = (value: string) => {
+    if (value === CUSTOM_WRAPPING_COLOR_OPTION) {
+      setIsAddingWrappingColor(true);
+      setWrappingColorId(undefined);
+      return;
+    }
+
+    setIsAddingWrappingColor(false);
+    setWrappingColorId(parseSelectNumber(value));
+  };
+
+  const handleDeleteWrappingPaper = async () => {
+    if (!selectedWrappingPaper) {
+      setError("Оберіть обгортковий папір, який потрібно зробити недоступним.");
+      return;
+    }
+
+    try {
+      await WrappingService.deleteWrappingPaper(
+        selectedWrappingPaper.wrappingPaperId
+      );
+      setWrappingPapers((currentWrappingPapers) =>
+        currentWrappingPapers.filter(
+          (paper) =>
+            paper.wrappingPaperId !== selectedWrappingPaper.wrappingPaperId
+        )
+      );
+      setWrappingColorId(undefined);
+      setIsAddingWrappingColor(false);
+    } catch (error) {
+      console.error("Failed to delete wrapping paper:", error);
+      setError("Не вдалося зробити обрану обгортку недоступною.");
+    }
   };
 
   const handleCreate = async (e: React.FormEvent): Promise<void> => {
@@ -155,7 +228,7 @@ const CreateBouquetPage: FC = () => {
     if (
       wrappingType === undefined ||
       wrappingPattern === undefined ||
-      wrappingColorName === undefined
+      wrappingColorId === undefined
     ) {
       setError(
         "Оберіть доступну комбінацію типу, патерну та кольору для обгорткового паперу."
@@ -174,8 +247,8 @@ const CreateBouquetPage: FC = () => {
 
       wrappingPaperId = resolvedWrappingPaperId;
     } catch (error) {
-      console.error("Failed to create a wrapping paper:", error);
-      setError("Не вдалося створити обгортковий папір. Спробуйте ще раз.");
+      console.error("Failed to prepare the selected wrapping paper:", error);
+      setError("Не вдалося підготувати обрану обгортку. Спробуйте ще раз.");
       return;
     }
 
@@ -188,11 +261,12 @@ const CreateBouquetPage: FC = () => {
       flowers: selectedFlowers.map((flower) => ({
         flowerId: flower.id,
         flowerCount: flower.selectedQuantity,
-        role: 0,
+        role: flower.role,
       })),
     };
 
     try {
+      console.log(bouquetToCreate);
       const response = await BouquetService.createBouquet(bouquetToCreate);
       console.log("Bouquet created successfully:", response.data);
 
@@ -203,7 +277,8 @@ const CreateBouquetPage: FC = () => {
       setSelectedShape(undefined);
       setWrappingType(undefined);
       setWrappingPattern(undefined);
-      setWrappingColorName(undefined);
+      setWrappingColorId(undefined);
+      setIsAddingWrappingColor(false);
     } catch (error) {
       console.error("Failed to create a bouquet:", error);
       setError("Не вдалося створити букет. Спробуйте ще раз.");
@@ -267,9 +342,7 @@ const CreateBouquetPage: FC = () => {
                 <select
                   className={classes.formInput}
                   value={wrappingType ?? ""}
-                  onChange={(e) =>
-                    setWrappingType(parseSelectNumber(e.target.value))
-                  }
+                  onChange={(e) => handleWrappingTypeChange(e.target.value)}
                   disabled={isWrappingLoading}
                 >
                   <option value="">Оберіть тип</option>
@@ -290,9 +363,7 @@ const CreateBouquetPage: FC = () => {
                 <select
                   className={classes.formInput}
                   value={wrappingPattern ?? ""}
-                  onChange={(e) =>
-                    setWrappingPattern(parseSelectNumber(e.target.value))
-                  }
+                  onChange={(e) => handleWrappingPatternChange(e.target.value)}
                   disabled={isWrappingLoading}
                 >
                   <option value="">Оберіть патерн</option>
@@ -312,12 +383,16 @@ const CreateBouquetPage: FC = () => {
               <div className={classes.dropdownWrapper}>
                 <select
                   className={classes.formInput}
-                  value={wrappingColorName ?? ""}
-                  onChange={(e) =>
-                    setWrappingColorName(e.target.value || undefined)
+                  value={
+                    isAddingWrappingColor
+                      ? CUSTOM_WRAPPING_COLOR_OPTION
+                      : wrappingColorId ?? ""
                   }
+                  onChange={(e) => handleWrappingColorChange(e.target.value)}
                   disabled={
-                    isWrappingLoading || wrappingColorOptions.length === 0
+                    isWrappingLoading ||
+                    wrappingType === undefined ||
+                    wrappingPattern === undefined
                   }
                 >
                   <option value="">Оберіть колір</option>
@@ -326,18 +401,49 @@ const CreateBouquetPage: FC = () => {
                       {option.label}
                     </option>
                   ))}
+                  {additionalWrappingColorOptions.length > 0 && (
+                    <option value={CUSTOM_WRAPPING_COLOR_OPTION}>
+                      Інший колір...
+                    </option>
+                  )}
                 </select>
               </div>
 
-              {wrappingType !== undefined &&
-                wrappingPattern !== undefined &&
-                wrappingColorName !== undefined &&
-                !selectedWrappingPaper && (
-                  <p className={classes.fieldHint}>
-                    Такої комбінації обгорткового паперу ще немає, вона буде
-                    створена автоматично.
-                  </p>
-                )}
+              {isAddingWrappingColor && (
+                <>
+                  <label className={classes.formLabel}>
+                    Колір для цієї обгортки
+                  </label>
+                  <div className={classes.dropdownWrapper}>
+                    <select
+                      className={classes.formInput}
+                      value={wrappingColorId ?? ""}
+                      onChange={(e) =>
+                        setWrappingColorId(parseSelectNumber(e.target.value))
+                      }
+                      disabled={isWrappingLoading}
+                    >
+                      <option value="">Оберіть існуючий колір</option>
+                      {additionalWrappingColorOptions.map((option) => (
+                        <option key={option.id} value={option.id}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </>
+              )}
+
+              {selectedWrappingPaper && (
+                <button
+                  type="button"
+                  className={classes.secondaryButton}
+                  onClick={handleDeleteWrappingPaper}
+                  disabled={isWrappingLoading}
+                >
+                  Зробити обгортку недоступною
+                </button>
+              )}
             </div>
 
             <PhotoUploadSection
@@ -356,6 +462,8 @@ const CreateBouquetPage: FC = () => {
         <div className="col-lg-8">
           <FlowerList
             selectedFlowers={selectedFlowers}
+            selectedRole={selectedFlowerRole}
+            onSelectRole={setSelectedFlowerRole}
             onIncrementFlower={incrementFlower}
             onDecrementFlower={decrementFlower}
           />

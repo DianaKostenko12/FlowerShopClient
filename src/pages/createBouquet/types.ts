@@ -5,4 +5,5 @@ export interface Flower {
   photo: string;
   selectedQuantity: number;
   availableQuantity: number;
+  role: string;
 }
