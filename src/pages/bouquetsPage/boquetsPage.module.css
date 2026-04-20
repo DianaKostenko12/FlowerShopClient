@@ -53,6 +53,14 @@
   background-color: #3d5a3d;
 }
 
+.aiButton {
+  background: linear-gradient(135deg, #7b68ee, #9b8fef);
+}
+
+.aiButton:hover {
+  background: linear-gradient(135deg, #6a55e0, #8a7de0);
+}
+
 .alert {
   margin-top: 20px;
   padding: 10px 15px;

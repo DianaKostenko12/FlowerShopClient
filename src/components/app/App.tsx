@@ -9,6 +9,7 @@ import AccountsPage from "../../pages/auth/AccountsPage";
 import { AuthProvider } from "../../common/AuthContext";
 import BouquetIdPage from "../../pages/BouquetIdPage";
 import CreateBouquetPage from "../../pages/createBouquet/createBouquetPage/CreateBouquetPage";
+import CreateAIBouquetPage from "../../pages/createAIBouquet/CreateAIBouquetPage";
 import { FlowerProvider } from "../../common/FlowerContext";
 import AuthorizationAccount from "../../pages/auth/account/AuthorizationAccount";
 import OrderBouquetPage from "../../pages/orderBouquet/orderBouquetPage/orderBouquetPage";
@@ -31,6 +32,7 @@ function App() {
               <Route path="/bouquets" element={<BouquetsPage />} />
               <Route path="/bouquets/:id" element={<BouquetIdPage />} />
               <Route path="/create-bouquet" element={<CreateBouquetPage />} />
+              <Route path="/create-ai-bouquet" element={<CreateAIBouquetPage />} />
               <Route path="/auth-account" element={<AuthorizationAccount />} />
               <Route path="/order-basket" element={<OrderBasketPage />} />
               <Route path="/create-order" element={<OrderBouquetPage />} />

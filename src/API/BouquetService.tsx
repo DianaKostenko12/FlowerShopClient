@@ -31,6 +31,45 @@ interface SelectedFlower {
   role: string;
 }
 
+export interface GenerateAIBouquetRequest {
+  color: string[];
+  budget: number;
+  style: string;
+  shape: string;
+  additionalComment: string;
+}
+
+export interface FlowerCompositionItem {
+  flower: {
+    flowerId: number;
+    flowerName: string;
+    imgUrl: string;
+  };
+  role: string;
+  quantity: number;
+  unitPrice: number;
+}
+
+export interface AIWrappingPaper {
+  wrappingPaperId: number;
+  type: number;
+  colorId: number;
+  colorName: string;
+  pattern: number;
+}
+
+export interface BouquetDetails {
+  bouquetName: string;
+  flowerComposition: FlowerCompositionItem[];
+  wrappingPaper: AIWrappingPaper;
+  shape: string;
+}
+
+export interface GenerateBouquetResponse {
+  bouquetImage: string;
+  bouquetDetails: BouquetDetails;
+}
+
 export default class BouquetService {
   static async getBouquets(
     bouquetFilterInfo: BouquetFilterInfo
@@ -53,42 +92,35 @@ export default class BouquetService {
     return `${axiosInstance.defaults.baseURL}/bouquet/${bouquetId}/image`;
   }
 
-  private static async fileToBase64(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        const result = reader.result;
-
-        if (typeof result !== "string") {
-          reject(new Error("Failed to read photo file."));
-          return;
-        }
-
-        resolve(result.split(",")[1] ?? "");
-      };
-
-      reader.onerror = () => reject(reader.error);
-      reader.readAsDataURL(file);
-    });
-  }
-
   static async createBouquet(createBouquetInfo: CreateBouquetInfo) {
     try {
-      const photoBytes = await this.fileToBase64(createBouquetInfo.photo);
+      const formData = new FormData();
 
-      return await axiosInstance.post("bouquet", {
-        bouquetName: createBouquetInfo.bouquetName,
-        bouquetDescription: createBouquetInfo.bouquetDescription,
-        wrappingPaperId: createBouquetInfo.wrappingPaperId ?? 0,
-        shape: createBouquetInfo.shape,
-        photoBytes,
-        photoContentType: createBouquetInfo.photo.type,
-        flowers: createBouquetInfo.flowers.map((flower) => ({
-          flowerId: flower.flowerId,
-          flowerCount: flower.flowerCount,
-          role: flower.role ?? 0,
-        })),
+      formData.append("BouquetName", createBouquetInfo.bouquetName);
+      formData.append(
+        "BouquetDescription",
+        createBouquetInfo.bouquetDescription
+      );
+      formData.append(
+        "WrappingPaperId",
+        createBouquetInfo.wrappingPaperId.toString()
+      );
+      formData.append("Shape", createBouquetInfo.shape);
+      formData.append("Photo", createBouquetInfo.photo);
+
+      createBouquetInfo.flowers.forEach((flower, index) => {
+        formData.append(`Flowers[${index}].FlowerId`, flower.flowerId.toString());
+        formData.append(
+          `Flowers[${index}].FlowerCount`,
+          flower.flowerCount.toString()
+        );
+        formData.append(`Flowers[${index}].Role`, flower.role);
+      });
+
+      return await axiosInstance.post("bouquet", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
     } catch (error) {
       console.error("Error creating bouquet:", error);
@@ -103,6 +135,31 @@ export default class BouquetService {
       });
     } catch (error) {
       console.error("Error deleting bouquet:", error);
+      throw error;
+    }
+  }
+
+  static async generateAIBouquet(
+    request: GenerateAIBouquetRequest
+  ): Promise<AxiosResponse<GenerateBouquetResponse>> {
+    try {
+      return await axiosInstance.post<GenerateBouquetResponse>(
+        "bouquet/ai/generate",
+        request
+      );
+    } catch (error) {
+      console.error("Error generating AI bouquet:", error);
+      throw error;
+    }
+  }
+
+  static async saveAIBouquet(
+    bouquetDetails: BouquetDetails
+  ): Promise<AxiosResponse> {
+    try {
+      return await axiosInstance.post("bouquet/ai", bouquetDetails);
+    } catch (error) {
+      console.error("Error saving AI bouquet:", error);
       throw error;
     }
   }

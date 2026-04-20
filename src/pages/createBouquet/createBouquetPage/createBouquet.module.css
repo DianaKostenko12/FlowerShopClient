@@ -21,6 +21,14 @@
     margin: 0;
 }
 
+.createBouquetLayout {
+    align-items: flex-start;
+}
+
+.flowersPanel {
+    min-height: 0;
+}
+
 /* === Form Card === */
 .formCard {
     background: white;

@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
 import BouquetService from "../../API/BouquetService";
+import { useAuth } from "../../common/AuthContext";
 import BouquetsList from "./bouquet/bouquetList/BouquetsList";
 import styles from "./boquetsPage.module.css";
 import CategoryService, { CategoryInfo } from "../../API/CategoryService";
@@ -50,6 +51,8 @@ const BouquetsPage = () => {
   const [shapesList, setShapesList] = useState<string[]>([]);
   const [categories, setCategories] = useState<CategoryInfo[]>([]);
   const navigate = useNavigate();
+  const { isAuthorized, userRole } = useAuth();
+  const isAdmin = userRole === "Admin";
 
   const categoryOptions: MultiSelectOption[] = categories.map((category) => ({
     id: category.categoryId,
@@ -172,12 +175,22 @@ const BouquetsPage = () => {
         <button onClick={fetchBouquetInfo} className={styles.customButton}>
           Застосувати фільтри
         </button>
-        <button
-          onClick={handleCreateBouquetClick}
-          className={`${styles.customButton} ${styles.additionalStyle}`}
-        >
-          Створити букет
-        </button>
+        {isAuthorized && (
+          <button
+            onClick={() => navigate("/create-ai-bouquet")}
+            className={`${styles.customButton} ${styles.aiButton}`}
+          >
+            ✨ Створити AI-букет
+          </button>
+        )}
+        {isAdmin && (
+          <button
+            onClick={handleCreateBouquetClick}
+            className={styles.customButton}
+          >
+            Створити букет
+          </button>
+        )}
       </div>
 
       {error && <div className={`${styles.alert} alert-danger`}>{error}</div>}

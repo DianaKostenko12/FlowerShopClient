@@ -1,0 +1,459 @@
+/* === Page Header === */
+.pageHeader {
+  text-align: center;
+  margin-bottom: 32px;
+  padding: 24px 0;
+  border-bottom: 2px solid #d4e8d4;
+}
+
+.pageTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: #3d5a3d;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.pageSubtitle {
+  font-size: 15px;
+  color: #6b8f6b;
+  font-weight: 400;
+  margin: 0;
+}
+
+/* === Form Card === */
+.formCard {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 2px 12px rgba(90, 125, 90, 0.08);
+  border: 1px solid #e2efe2;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.formSection {
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #f0f5f0;
+}
+
+.formSection:last-of-type {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.formSectionTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: #5a7d5a;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+}
+
+.optional {
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #999;
+  font-size: 12px;
+}
+
+/* === Style Cards Grid === */
+.styleGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.styleCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 1.5px solid #d4e8d4;
+  border-radius: 12px;
+  background: #fafcfa;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.styleCard:hover {
+  border-color: #78c978;
+  background: #f0f7f0;
+}
+
+.styleCardActive {
+  border-color: #5a7d5a;
+  background: #eef5ee;
+  box-shadow: 0 0 0 3px rgba(90, 125, 90, 0.12);
+}
+
+.styleCardLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: #3d5a3d;
+}
+
+.styleCardDesc {
+  font-size: 12px;
+  color: #7a9a7a;
+  font-weight: 400;
+}
+
+/* === Chip Row === */
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  padding: 7px 16px;
+  border: 1.5px solid #d4e8d4;
+  border-radius: 20px;
+  background: #fafcfa;
+  font-size: 13px;
+  color: #3d5a3d;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.chip:hover {
+  border-color: #78c978;
+  background: #f0f7f0;
+}
+
+.chipActive {
+  border-color: #5a7d5a;
+  background: #d4e8d4;
+  color: #2d4a2d;
+  font-weight: 600;
+}
+
+/* === Budget Row === */
+.budgetRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 260px;
+}
+
+.formInput {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 15px;
+  border: 1.5px solid #d4e8d4;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #fafcfa;
+  box-sizing: border-box;
+}
+
+.formInput:focus {
+  border-color: #5a7d5a;
+  box-shadow: 0 0 0 3px rgba(90, 125, 90, 0.12);
+}
+
+.currencyLabel {
+  font-size: 15px;
+  font-weight: 600;
+  color: #5a7d5a;
+  white-space: nowrap;
+}
+
+/* === Textarea === */
+.formTextarea {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 14px;
+  border: 1.5px solid #d4e8d4;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #fafcfa;
+  resize: vertical;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.formTextarea:focus {
+  border-color: #5a7d5a;
+  box-shadow: 0 0 0 3px rgba(90, 125, 90, 0.12);
+}
+
+/* === Error === */
+.error {
+  background: #fff5f5;
+  border: 1px solid #f5c6cb;
+  color: #d9534f;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+/* === Generate Button === */
+.generateButton {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #5a7d5a, #78c978);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(90, 125, 90, 0.25);
+  margin-top: 8px;
+}
+
+.generateButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(90, 125, 90, 0.35);
+}
+
+.generateButton:disabled {
+  background: #c8d8c8;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.loadingText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* === Modal === */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal {
+  background: white;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 760px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  animation: slideUp 0.25s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modalHeader {
+  padding: 24px 28px 0;
+  border-bottom: 1px solid #f0f5f0;
+  padding-bottom: 16px;
+}
+
+.modalTitle {
+  font-size: 22px;
+  font-weight: 700;
+  color: #3d5a3d;
+  margin: 0;
+}
+
+.modalBody {
+  padding: 24px 28px;
+  display: flex;
+  gap: 28px;
+}
+
+.modalImageWrap {
+  flex-shrink: 0;
+  width: 280px;
+}
+
+.modalImage {
+  width: 100%;
+  border-radius: 14px;
+  object-fit: cover;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.modalDetails {
+  flex: 1;
+  min-width: 0;
+}
+
+.detailRow {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.detailLabel {
+  font-weight: 600;
+  color: #5a7d5a;
+  white-space: nowrap;
+}
+
+.detailValue {
+  color: #333;
+}
+
+.compositionTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: #5a7d5a;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-top: 16px;
+  margin-bottom: 10px;
+}
+
+.compositionList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.compositionItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 12px;
+  background: #f5fbf5;
+  border-radius: 8px;
+  border: 1px solid #e2efe2;
+}
+
+.compositionName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #3d5a3d;
+}
+
+.compositionMeta {
+  font-size: 12px;
+  color: #7a9a7a;
+}
+
+.modalFooter {
+  padding: 16px 28px 24px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  border-top: 1px solid #f0f5f0;
+}
+
+.regenerateButton {
+  padding: 12px 24px;
+  border: 1.5px solid #5a7d5a;
+  border-radius: 12px;
+  background: white;
+  color: #5a7d5a;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.regenerateButton:hover:not(:disabled) {
+  background: #eef5ee;
+}
+
+.regenerateButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.saveButton {
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #5a7d5a, #78c978);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(90, 125, 90, 0.25);
+}
+
+.saveButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(90, 125, 90, 0.35);
+}
+
+.saveButton:disabled {
+  background: #c8d8c8;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* === Responsive === */
+@media (max-width: 640px) {
+  .formCard {
+    padding: 20px 16px;
+  }
+
+  .styleGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .modalBody {
+    flex-direction: column;
+  }
+
+  .modalImageWrap {
+    width: 100%;
+  }
+
+  .modalFooter {
+    flex-direction: column;
+  }
+
+  .regenerateButton,
+  .saveButton {
+    width: 100%;
+    text-align: center;
+  }
+}

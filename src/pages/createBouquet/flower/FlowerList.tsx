@@ -51,7 +51,7 @@ const FlowerList: React.FC<FlowerListProps> = ({
   );
 
   return (
-    <div>
+    <div className={classes.flowerList}>
       <div className={classes.listHeader}>
         <h3 className={classes.listTitle}>Оберіть квіти</h3>
         <span className={classes.listCount}>
