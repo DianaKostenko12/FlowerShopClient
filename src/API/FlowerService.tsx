@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import axiosInstance from "./axiosInstance";
 import AddFlowerPage from "../pages/addFlower/addFlowerPage";
-interface FlowerRequest {
+export interface FlowerRequest {
   flowerId: number;
   flowerName: string;
   flowerCount: number;

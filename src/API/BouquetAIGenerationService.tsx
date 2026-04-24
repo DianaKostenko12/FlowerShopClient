@@ -1,44 +1,11 @@
 import { AxiosResponse } from "axios";
 import axiosInstance from "./axiosInstance";
+import type {
+  GenerateAIBouquetRequest,
+  GenerateBouquetResponse,
+} from "./BouquetService";
 
-export interface GenerateAIBouquetRequest {
-  color: string[];
-  budget: number;
-  style: string;
-  shape: string;
-  additionalComment: string;
-}
-
-export interface FlowerCompositionItem {
-  flower: {
-    flowerId: number;
-    flowerName: string;
-    imgUrl: string;
-  };
-  role: string;
-  quantity: number;
-  unitPrice: number;
-}
-
-export interface AIWrappingPaper {
-  wrappingPaperId: number;
-  type: number;
-  colorId: number;
-  colorName: string;
-  pattern: number;
-}
-
-export interface BouquetDetails {
-  bouquetName: string;
-  flowerComposition: FlowerCompositionItem[];
-  wrappingPaper: AIWrappingPaper;
-  shape: string;
-}
-
-export interface GenerateBouquetResponse {
-  bouquetImage: string;
-  bouquetDetails: BouquetDetails;
-}
+export type { GenerateAIBouquetRequest, GenerateBouquetResponse };
 
 export default class BouquetAIGenerationService {
   static async generateAIBouquet(
@@ -46,7 +13,7 @@ export default class BouquetAIGenerationService {
   ): Promise<AxiosResponse<GenerateBouquetResponse>> {
     try {
       return await axiosInstance.post<GenerateBouquetResponse>(
-        "bouquet/ai/generate",
+        "AIGeneratedBouquet",
         request
       );
     } catch (error) {

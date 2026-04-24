@@ -1,6 +1,5 @@
 import { AxiosResponse } from "axios";
 import axiosInstance from "./axiosInstance";
-
 interface BouquetInfo {
   bouquetId: number;
   bouquetName: string;
@@ -32,42 +31,53 @@ interface SelectedFlower {
 }
 
 export interface GenerateAIBouquetRequest {
-  color: string[];
+  color: RequestedBouquetColorDto[];
   budget: number;
   style: string;
   shape: string;
   additionalComment: string;
 }
 
-export interface FlowerCompositionItem {
-  flower: {
-    flowerId: number;
-    flowerName: string;
-    imgUrl: string;
-  };
-  role: string;
+export interface RequestedBouquetColorDto {
+  baseColor: string;
+  shade: string;
+}
+
+export type FlowerRole = "Focal" | "Semi" | "Filler" | "Greenery";
+
+export interface BouquetCompositionItem {
+  flowerId: number;
+  flowerRole: FlowerRole;
   quantity: number;
-  unitPrice: number;
 }
 
-export interface AIWrappingPaper {
-  wrappingPaperId: number;
-  type: number;
-  colorId: number;
-  colorName: string;
-  pattern: number;
+export interface CreateAIBouquetRequest {
+  BouquetName: string;
+  BouquetDescription: string;
+  WrappingPaperId: number;
+  Shape: string;
+  PhotoBytes: string;
+  PhotoContentType: string;
+  Flowers: FlowerQuantityRequest[];
 }
 
-export interface BouquetDetails {
+export interface FlowerQuantityRequest {
+  FlowerId: number;
+  FlowerCount: number;
+  Role: FlowerRole;
+}
+
+export interface AIBouquetInfo {
   bouquetName: string;
-  flowerComposition: FlowerCompositionItem[];
-  wrappingPaper: AIWrappingPaper;
+  bouquetDescription: string;
+  bouquetComposition: BouquetCompositionItem[];
+  wrappingPaperId: number;
   shape: string;
 }
 
 export interface GenerateBouquetResponse {
   bouquetImage: string;
-  bouquetDetails: BouquetDetails;
+  bouquetInfo: AIBouquetInfo;
 }
 
 export default class BouquetService {
@@ -109,7 +119,10 @@ export default class BouquetService {
       formData.append("Photo", createBouquetInfo.photo);
 
       createBouquetInfo.flowers.forEach((flower, index) => {
-        formData.append(`Flowers[${index}].FlowerId`, flower.flowerId.toString());
+        formData.append(
+          `Flowers[${index}].FlowerId`,
+          flower.flowerId.toString()
+        );
         formData.append(
           `Flowers[${index}].FlowerCount`,
           flower.flowerCount.toString()
@@ -154,10 +167,10 @@ export default class BouquetService {
   }
 
   static async saveAIBouquet(
-    bouquetDetails: BouquetDetails
+    request: CreateAIBouquetRequest
   ): Promise<AxiosResponse> {
     try {
-      return await axiosInstance.post("bouquet/ai", bouquetDetails);
+      return await axiosInstance.post("bouquet/ai", request);
     } catch (error) {
       console.error("Error saving AI bouquet:", error);
       throw error;

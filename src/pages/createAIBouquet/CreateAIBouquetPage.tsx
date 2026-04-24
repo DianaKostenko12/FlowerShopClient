@@ -1,27 +1,21 @@
 import React, { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import BouquetService, {
-  BouquetDetails,
+import BouquetAIGenerationService, {
   GenerateBouquetResponse,
+} from "../../API/BouquetAIGenerationService";
+import BouquetService, {
+  CreateAIBouquetRequest,
 } from "../../API/BouquetService";
 import BouquetShapeConstants from "../createBouquet/constants/BouquetShapeConstants";
-import WrappingPaperConstants from "../createBouquet/constants/WrappingPaperConstants";
+import {
+  AI_BOUQUET_COLOR_OPTIONS,
+  AI_BOUQUET_SHADE_OPTIONS,
+  CUSTOM_COLOR_OPTION,
+  CUSTOM_SHADE_OPTION,
+} from "./constants/AIBouquetColorConstants";
 import AI_BOUQUET_STYLE_OPTIONS from "./constants/AIBouquetStyleConstants";
 import classes from "./createAIBouquet.module.css";
-
-const FLOWER_COLORS = [
-  "червоний",
-  "рожевий",
-  "білий",
-  "жовтий",
-  "помаранчевий",
-  "фіолетовий",
-  "синій",
-  "блакитний",
-  "зелений",
-  "бежевий",
-];
 
 const CreateAIBouquetPage: FC = () => {
   const navigate = useNavigate();
@@ -29,6 +23,9 @@ const CreateAIBouquetPage: FC = () => {
   const [style, setStyle] = useState<string>("");
   const [shape, setShape] = useState<string>("");
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
+  const [selectedShade, setSelectedShade] = useState<string>("");
+  const [customColor, setCustomColor] = useState<string>("");
+  const [customShade, setCustomShade] = useState<string>("");
   const [budget, setBudget] = useState<string>("");
   const [additionalComment, setAdditionalComment] = useState<string>("");
 
@@ -44,6 +41,17 @@ const CreateAIBouquetPage: FC = () => {
     );
   };
 
+  const resolvedColors = selectedColors
+    .map((color) =>
+      color === CUSTOM_COLOR_OPTION ? customColor.trim() : color
+    )
+    .filter(Boolean);
+
+  const resolvedShade =
+    selectedShade === CUSTOM_SHADE_OPTION
+      ? customShade.trim()
+      : selectedShade;
+
   const validate = (): boolean => {
     if (!style) {
       setError("Оберіть стиль букета.");
@@ -55,6 +63,18 @@ const CreateAIBouquetPage: FC = () => {
     }
     if (selectedColors.length === 0) {
       setError("Оберіть хоча б один колір.");
+      return false;
+    }
+    if (selectedColors.includes(CUSTOM_COLOR_OPTION) && !customColor.trim()) {
+      setError("Введіть свій варіант кольору.");
+      return false;
+    }
+    if (!selectedShade) {
+      setError("Оберіть відтінок.");
+      return false;
+    }
+    if (selectedShade === CUSTOM_SHADE_OPTION && !customShade.trim()) {
+      setError("Введіть свій варіант відтінку.");
       return false;
     }
     const budgetNum = parseFloat(budget);
@@ -71,13 +91,17 @@ const CreateAIBouquetPage: FC = () => {
 
     setIsGenerating(true);
     try {
-      const response = await BouquetService.generateAIBouquet({
-        color: selectedColors,
+      const response = await BouquetAIGenerationService.generateAIBouquet({
+        color: resolvedColors.map((color) => ({
+          baseColor: color,
+          shade: resolvedShade,
+        })),
         budget: parseFloat(budget),
         style,
         shape,
         additionalComment,
       });
+
       setResult(response.data);
       setShowModal(true);
     } catch {
@@ -89,9 +113,24 @@ const CreateAIBouquetPage: FC = () => {
 
   const handleSave = async () => {
     if (!result) return;
+
     setIsSaving(true);
     try {
-      await BouquetService.saveAIBouquet(result.bouquetDetails);
+      const request: CreateAIBouquetRequest = {
+        BouquetName: result.bouquetInfo.bouquetName,
+        BouquetDescription: result.bouquetInfo.bouquetDescription,
+        WrappingPaperId: result.bouquetInfo.wrappingPaperId,
+        Shape: result.bouquetInfo.shape,
+        PhotoBytes: result.bouquetImage,
+        PhotoContentType: "image/png",
+        Flowers: result.bouquetInfo.bouquetComposition.map((item) => ({
+          FlowerId: item.flowerId,
+          FlowerCount: item.quantity,
+          Role: item.flowerRole,
+        })),
+      };
+
+      await BouquetService.saveAIBouquet(request);
       toast.success("Букет успішно збережено!");
       setShowModal(false);
       navigate("/bouquets");
@@ -108,26 +147,16 @@ const CreateAIBouquetPage: FC = () => {
     handleGenerate();
   };
 
-  const getWrappingTypeLabel = (type: number) =>
-    WrappingPaperConstants.WRAPPING_TYPE_OPTIONS.find((o) => o.id === type)
-      ?.label ?? type;
-
-  const getWrappingPatternLabel = (pattern: number) =>
-    WrappingPaperConstants.WRAPPING_PATTERN_OPTIONS.find(
-      (o) => o.id === pattern
-    )?.label ?? pattern;
-
   return (
     <div className="container py-4">
       <div className={classes.pageHeader}>
         <h2 className={classes.pageTitle}>Створити AI-букет</h2>
         <p className={classes.pageSubtitle}>
-          Опишіть бажаний букет — AI підбере квіти та оформлення
+          Опишіть бажаний букет, а AI підбере квіти та оформлення.
         </p>
       </div>
 
       <div className={classes.formCard}>
-        {/* Style */}
         <div className={classes.formSection}>
           <div className={classes.formSectionTitle}>Стиль букета</div>
           <div className={classes.styleGrid}>
@@ -147,7 +176,6 @@ const CreateAIBouquetPage: FC = () => {
           </div>
         </div>
 
-        {/* Shape */}
         <div className={classes.formSection}>
           <div className={classes.formSectionTitle}>Форма букета</div>
           <div className={classes.chipRow}>
@@ -164,24 +192,56 @@ const CreateAIBouquetPage: FC = () => {
           </div>
         </div>
 
-        {/* Colors */}
         <div className={classes.formSection}>
           <div className={classes.formSectionTitle}>Кольори</div>
           <div className={classes.chipRow}>
-            {FLOWER_COLORS.map((color) => (
+            {AI_BOUQUET_COLOR_OPTIONS.map((color) => (
               <button
-                key={color}
+                key={color.id}
                 type="button"
-                className={`${classes.chip} ${selectedColors.includes(color) ? classes.chipActive : ""}`}
-                onClick={() => toggleColor(color)}
+                className={`${classes.chip} ${selectedColors.includes(color.id) ? classes.chipActive : ""}`}
+                onClick={() => toggleColor(color.id)}
               >
-                {color}
+                {color.label}
               </button>
             ))}
           </div>
+          {selectedColors.includes(CUSTOM_COLOR_OPTION) && (
+            <input
+              type="text"
+              className={classes.formInput}
+              placeholder="Введіть свій колір"
+              value={customColor}
+              onChange={(e) => setCustomColor(e.target.value)}
+            />
+          )}
         </div>
 
-        {/* Budget */}
+        <div className={classes.formSection}>
+          <div className={classes.formSectionTitle}>Відтінок</div>
+          <div className={classes.chipRow}>
+            {AI_BOUQUET_SHADE_OPTIONS.map((shade) => (
+              <button
+                key={shade.id}
+                type="button"
+                className={`${classes.chip} ${selectedShade === shade.id ? classes.chipActive : ""}`}
+                onClick={() => setSelectedShade(shade.id)}
+              >
+                {shade.label}
+              </button>
+            ))}
+          </div>
+          {selectedShade === CUSTOM_SHADE_OPTION && (
+            <input
+              type="text"
+              className={classes.formInput}
+              placeholder="Введіть свій відтінок"
+              value={customShade}
+              onChange={(e) => setCustomShade(e.target.value)}
+            />
+          )}
+        </div>
+
         <div className={classes.formSection}>
           <div className={classes.formSectionTitle}>Бюджет</div>
           <div className={classes.budgetRow}>
@@ -197,7 +257,6 @@ const CreateAIBouquetPage: FC = () => {
           </div>
         </div>
 
-        {/* Additional comment */}
         <div className={classes.formSection}>
           <div className={classes.formSectionTitle}>
             Додатковий коментар{" "}
@@ -229,16 +288,15 @@ const CreateAIBouquetPage: FC = () => {
         </button>
       </div>
 
-      {/* Result Modal */}
       {showModal && result && (
-        <div className={classes.modalOverlay} onClick={() => setShowModal(false)}>
-          <div
-            className={classes.modal}
-            onClick={(e) => e.stopPropagation()}
-          >
+        <div
+          className={classes.modalOverlay}
+          onClick={() => setShowModal(false)}
+        >
+          <div className={classes.modal} onClick={(e) => e.stopPropagation()}>
             <div className={classes.modalHeader}>
               <h3 className={classes.modalTitle}>
-                {result.bouquetDetails.bouquetName}
+                {result.bouquetInfo.bouquetName}
               </h3>
             </div>
 
@@ -255,40 +313,19 @@ const CreateAIBouquetPage: FC = () => {
                 <div className={classes.detailRow}>
                   <span className={classes.detailLabel}>Форма:</span>
                   <span className={classes.detailValue}>
-                    {result.bouquetDetails.shape}
+                    {result.bouquetInfo.shape}
                   </span>
                 </div>
 
-                {result.bouquetDetails.wrappingPaper && (
+                {result.bouquetInfo.bouquetDescription && (
                   <div className={classes.detailRow}>
-                    <span className={classes.detailLabel}>Обгортка:</span>
+                    <span className={classes.detailLabel}>Опис:</span>
                     <span className={classes.detailValue}>
-                      {getWrappingTypeLabel(
-                        result.bouquetDetails.wrappingPaper.type
-                      )}
-                      ,{" "}
-                      {getWrappingPatternLabel(
-                        result.bouquetDetails.wrappingPaper.pattern
-                      )}
-                      , {result.bouquetDetails.wrappingPaper.colorName}
+                      {result.bouquetInfo.bouquetDescription}
                     </span>
                   </div>
                 )}
 
-                <div className={classes.compositionTitle}>Склад букета:</div>
-                <div className={classes.compositionList}>
-                  {result.bouquetDetails.flowerComposition.map((item, i) => (
-                    <div key={i} className={classes.compositionItem}>
-                      <span className={classes.compositionName}>
-                        {item.flower.flowerName}
-                      </span>
-                      <span className={classes.compositionMeta}>
-                        {item.quantity} шт · {item.role} ·{" "}
-                        {item.unitPrice.toFixed(0)} грн/шт
-                      </span>
-                    </div>
-                  ))}
-                </div>
               </div>
             </div>
 

@@ -172,25 +172,27 @@ const BouquetsPage = () => {
           selectedIds={shapesList}
           onSelect={(optionId) => handleShapesSelect(String(optionId))}
         />
-        <button onClick={fetchBouquetInfo} className={styles.customButton}>
-          Застосувати фільтри
-        </button>
-        {isAuthorized && (
-          <button
-            onClick={() => navigate("/create-ai-bouquet")}
-            className={`${styles.customButton} ${styles.aiButton}`}
-          >
-            ✨ Створити AI-букет
+        <div className={styles.actionButtons}>
+          <button onClick={fetchBouquetInfo} className={styles.customButton}>
+            Застосувати фільтри
           </button>
-        )}
-        {isAdmin && (
-          <button
-            onClick={handleCreateBouquetClick}
-            className={styles.customButton}
-          >
-            Створити букет
-          </button>
-        )}
+          {isAuthorized && (
+            <button
+              onClick={() => navigate("/create-ai-bouquet")}
+              className={styles.customButton}
+            >
+              ✨ Створити AI-букет
+            </button>
+          )}
+          {isAdmin && (
+            <button
+              onClick={handleCreateBouquetClick}
+              className={styles.customButton}
+            >
+              Створити букет
+            </button>
+          )}
+        </div>
       </div>
 
       {error && <div className={`${styles.alert} alert-danger`}>{error}</div>}
