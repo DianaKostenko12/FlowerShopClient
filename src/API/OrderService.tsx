@@ -1,4 +1,3 @@
-import { Bouquet } from "../pages/bouquetsPage/bouquet/bouquetItem/BouquetItem";
 import axiosInstance from "./axiosInstance";
 import { AxiosResponse } from "axios";
 

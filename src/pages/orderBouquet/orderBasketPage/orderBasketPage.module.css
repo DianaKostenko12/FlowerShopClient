@@ -1,85 +1,153 @@
 .basketContainer {
-    background-color: #e6f7e6; /* Дуже світлий зелений фон */
-    border: 1px solid #bcdcbc; /* Пастельний зелений бордер */
-    border-radius: 12px;
-    padding: 20px;
-    max-width: 700px;
-    margin: 20px auto;
-    font-family: Arial, sans-serif;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тінь для картки */
+  background-color: #e6f7e6; /* Дуже світлий зелений фон */
+  border: 1px solid #bcdcbc; /* Пастельний зелений бордер */
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 700px;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тінь для картки */
 }
 
 .basketTitle {
-    font-size: 26px;
-    font-weight: bold;
-    color: #2d5a3d; /* Темно-зелений */
-    text-align: center;
-    margin-bottom: 20px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05); /* Легка тінь для тексту */
+  font-size: 26px;
+  font-weight: bold;
+  color: #2d5a3d; /* Темно-зелений */
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05); /* Легка тінь для тексту */
 }
 
 .basketItem {
-    background-color: #f0f7f0; /* Пастельний зелений фон для елементів */
-    border: 1px solid #c8e6c9; /* Легкий зелений бордер */
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08); /* Легка тінь */
+  background-color: #f0f7f0; /* Пастельний зелений фон для елементів */
+  border: 1px solid #c8e6c9; /* Легкий зелений бордер */
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08); /* Легка тінь */
 }
 
 .basketItem strong {
-    color: #555; /* Темний нейтральний сірий */
-    font-size: 14px;
-    font-weight: bold;
+  color: #555; /* Темний нейтральний сірий */
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .basketItem div {
-    margin-right: 10px;
-    font-size: 14px;
-    color: #666; /* Нейтральний пастельний сірий */
+  margin-right: 10px;
+  font-size: 14px;
+  color: #666; /* Нейтральний пастельний сірий */
 }
 
-.removeButton {
-    background-color: #5a7d5a; /* Зелений */
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.3s ease; /* Анімація на ховер */
+.actionButton {
+  background-color: #5a7d5a; /* Зелений */
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease; /* Анімація на ховер */
 }
 
-.removeButton:hover {
-    background-color: #3d5a3d; /* Трохи темніший зелений при наведенні */
-    transform: scale(1.05); /* Легке збільшення при наведенні */
+.actionButton:hover {
+  background-color: #3d5a3d; /* Трохи темніший зелений при наведенні */
+  transform: scale(1.05); /* Легке збільшення при наведенні */
 }
 
 .basketTotal {
-    margin-top: 20px;
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-    color: #333; /* Темний нейтральний для контрасту */
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  color: #333; /* Темний нейтральний для контрасту */
 }
 
 .noOrders {
-    color: #888; /* Світло-сірий */
-    font-size: 16px;
-    text-align: center;
-    font-style: italic;
-    margin-top: 20px;
+  color: #888; /* Світло-сірий */
+  font-size: 16px;
+  text-align: center;
+  font-style: italic;
+  margin-top: 20px;
 }
 
 .valueItem {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 5px;
-    font-size: 14px;
-    color: #555; /* Нейтральний сірий */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  font-size: 14px;
+  color: #555; /* Нейтральний сірий */
+}
+
+.quantityControl {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.quantityButton {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 5px;
+  background-color: #5a7d5a;
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 0;
+}
+
+.quantityButton:hover:not(:disabled) {
+  background-color: #3d5a3d;
+}
+
+.quantityButton:disabled {
+  background-color: #b9c9b9;
+  cursor: not-allowed;
+}
+
+.quantityInput {
+  width: 64px;
+  height: 30px;
+  border: 1px solid #bcdcbc;
+  border-radius: 5px;
+  text-align: center;
+  color: #333;
+}
+
+.removeButton {
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.removeButton:hover {
+  background-color: #c9302c;
+}
+
+.removeButton:disabled {
+  background-color: #b9c9b9;
+  color: #eef3ee;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.removeButton:disabled:hover {
+  background-color: #b9c9b9;
+  transform: none;
 }

@@ -11,6 +11,7 @@ interface OrderBouquet {
 const OrderBasketPage = () => {
   const [orders, setOrders] = React.useState<OrderBouquet[]>([]);
   const navigate = useNavigate();
+  const isCreateOrderDisabled = orders.length === 0;
   useEffect(() => {
     const existingOrdersJson = localStorage.getItem("orderBouquets");
     const existingOrders = existingOrdersJson
@@ -35,6 +36,18 @@ const OrderBasketPage = () => {
     localStorage.setItem("orderBouquets", JSON.stringify(updatedOrders));
   };
 
+  const updateBouquetCount = (id: number, count: number) => {
+    const normalizedCount = Math.max(1, count);
+    const updatedOrders = orders.map((order) =>
+      order.bouquetId === id
+        ? { ...order, bouquetCount: normalizedCount }
+        : order
+    );
+
+    setOrders(updatedOrders);
+    localStorage.setItem("orderBouquets", JSON.stringify(updatedOrders));
+  };
+
   const generalPrice = orders.reduce((total: number, order: OrderBouquet) => {
     return total + order.bouquetPrice * order.bouquetCount;
   }, 0);
@@ -44,8 +57,8 @@ const OrderBasketPage = () => {
       <h2 className={styles.basketTitle}>Ваш кошик</h2>
       <div>
         {orders.length > 0 ? (
-          orders.map((order, index) => (
-            <div key={index} className={styles.basketItem}>
+          orders.map((order) => (
+            <div key={order.bouquetId} className={styles.basketItem}>
               <div className={styles.valueItem}>
                 <strong>Найменування:</strong> {order.bouquetName}
               </div>
@@ -53,7 +66,46 @@ const OrderBasketPage = () => {
                 <strong>Вартість:</strong> {order.bouquetPrice} грн
               </div>
               <div className={styles.valueItem}>
-                <strong>Кількість:</strong> {order.bouquetCount}
+                <strong>Кількість:</strong>
+                <div className={styles.quantityControl}>
+                  <button
+                    type="button"
+                    className={styles.quantityButton}
+                    onClick={() =>
+                      updateBouquetCount(
+                        order.bouquetId,
+                        order.bouquetCount - 1
+                      )
+                    }
+                    disabled={order.bouquetCount <= 1}
+                  >
+                    -
+                  </button>
+                  <input
+                    type="number"
+                    min="1"
+                    className={styles.quantityInput}
+                    value={order.bouquetCount}
+                    onChange={(event) =>
+                      updateBouquetCount(
+                        order.bouquetId,
+                        Number(event.target.value)
+                      )
+                    }
+                  />
+                  <button
+                    type="button"
+                    className={styles.quantityButton}
+                    onClick={() =>
+                      updateBouquetCount(
+                        order.bouquetId,
+                        order.bouquetCount + 1
+                      )
+                    }
+                  >
+                    +
+                  </button>
+                </div>
               </div>
               <div className={styles.valueItem}>
                 <strong>Сума:</strong> {order.bouquetPrice * order.bouquetCount}{" "}
@@ -74,7 +126,11 @@ const OrderBasketPage = () => {
           <strong>Разом:</strong> {generalPrice} грн
         </div>
       </div>
-      <button onClick={handleCreateOrderClick} className={styles.removeButton}>
+      <button
+        onClick={handleCreateOrderClick}
+        className={styles.actionButton}
+        disabled={isCreateOrderDisabled}
+      >
         Оформити замовлення
       </button>
     </div>

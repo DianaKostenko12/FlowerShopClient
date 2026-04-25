@@ -7,6 +7,26 @@ interface BouquetInfo {
   photoFileName: string;
 }
 
+export interface CheckBouquetAvailabilityRequest {
+  bouquetId: number;
+  bouquetCount: number;
+}
+
+export interface BouquetAvailabilityItemResponse {
+  flowerId: number;
+  flowerName: string;
+  requiredFlowerCount: number;
+  availableFlowerCount: number;
+  isAvailable: boolean;
+}
+
+export interface BouquetAvailabilityResponse {
+  bouquetId: number;
+  bouquetCount: number;
+  isAvailable: boolean;
+  flowers: BouquetAvailabilityItemResponse[];
+}
+
 interface BouquetFilterInfo {
   minPrice?: number;
   maxPrice?: number;
@@ -100,6 +120,20 @@ export default class BouquetService {
 
   static getBouquetImageUrl(bouquetId: number): string {
     return `${axiosInstance.defaults.baseURL}/bouquet/${bouquetId}/image`;
+  }
+
+  static async checkAvailability(
+    request: CheckBouquetAvailabilityRequest
+  ): Promise<AxiosResponse<BouquetAvailabilityResponse>> {
+    try {
+      return await axiosInstance.post<BouquetAvailabilityResponse>(
+        "bouquet/check-availability",
+        request
+      );
+    } catch (error) {
+      console.error("Error checking bouquet availability:", error);
+      throw error;
+    }
   }
 
   static async createBouquet(createBouquetInfo: CreateBouquetInfo) {

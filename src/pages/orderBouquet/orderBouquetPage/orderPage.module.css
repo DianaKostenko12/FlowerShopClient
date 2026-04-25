@@ -1,17 +1,17 @@
 .container {
-    background-color: #fefefe; /* Легкий білий для чистого вигляду */
+    background-color: #fefefe;
     padding: 20px;
     font-family: "Arial", sans-serif;
     border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05); /* Легша тінь */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
     max-width: 800px;
     margin: 0 auto;
-    border: 2px solid #c8e6c9; /* Пастельний зелений бордер */
+    border: 2px solid #c8e6c9;
 }
 
 .title {
     text-align: center;
-    color: #2d5a3d; /* Темно-зелений */
+    color: #2d5a3d;
     margin-bottom: 20px;
 }
 
@@ -22,17 +22,18 @@
     gap: 20px;
 }
 
-.userInfo, .orderInfo {
-    background-color: #f3fdf3; /* Дуже світлий зелений */
+.userInfo,
+.orderInfo {
+    background-color: #f3fdf3;
     padding: 20px;
     border-radius: 10px;
     flex: 1;
     min-width: 300px;
-    border: 1px solid #c8e6c9; /* Світлий зелений бордер */
+    border: 1px solid #c8e6c9;
 }
 
 .subTitle {
-    color: #444; /* Темно-сірий для контрасту */
+    color: #444;
     margin-bottom: 15px;
     text-align: center;
 }
@@ -41,7 +42,7 @@
     display: block;
     margin-top: 10px;
     font-weight: bold;
-    color: #333; /* Темно-сірий */
+    color: #333;
 }
 
 .input {
@@ -49,7 +50,7 @@
     padding: 7px;
     margin-top: 5px;
     margin-left: 5px;
-    border: 1px solid #bcdcbc; /* Пастельний зелений */
+    border: 1px solid #bcdcbc;
     border-radius: 5px;
     background-color: #ffffff;
     box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.03);
@@ -58,7 +59,7 @@
 
 .input:focus {
     outline: none;
-    border-color: #94c9a8; /* Насиченіший зелений */
+    border-color: #94c9a8;
     box-shadow: 0px 0px 5px rgba(148, 201, 168, 0.8);
 }
 
@@ -66,14 +67,33 @@
     display: flex;
 }
 
+.orderItemWrapper {
+    margin-bottom: 12px;
+}
+
 .orderItem {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    gap: 10px;
+    margin-bottom: 0;
     padding: 10px;
-    background-color: #f9f9f9; /* Ніжний білий */
+    background-color: #f9f9f9;
     border-radius: 5px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05); /* Легша тінь */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.availabilityError {
+    margin-top: 2px;
+    padding: 10px 12px;
+    border-radius: 0 0 6px 6px;
+    background-color: #fff3f2;
+    border: 1px solid #f0c7c2;
+    color: #8f2f28;
+    font-size: 14px;
+}
+
+.availabilityItem {
+    margin-top: 6px;
 }
 
 .total {
@@ -81,12 +101,12 @@
     font-size: 18px;
     font-weight: bold;
     text-align: right;
-    color: #2e7d32; /* Темний зелений */
+    color: #2e7d32;
 }
 
 .button {
     display: block;
-    background-color: #a8d5ba; /* Пастельний м'ятний зелений */
+    background-color: #a8d5ba;
     color: #fff;
     font-size: 16px;
     font-weight: bold;
@@ -99,18 +119,24 @@
 }
 
 .button:hover {
-    background-color: #94c9a8; /* Насиченіший пастельний зелений */
+    background-color: #94c9a8;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .button:active {
-    background-color: #81d181; /* Трохи темніший зелений */
+    background-color: #81d181;
     box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .button:focus {
     outline: none;
     box-shadow: 0px 0px 8px rgba(148, 201, 168, 0.8);
+}
+
+.button:disabled {
+    background-color: #c7d8cb;
+    cursor: not-allowed;
+    box-shadow: none;
 }
 
 .alert {
@@ -123,8 +149,15 @@
 }
 
 .alertSuccess {
-    background-color: #e9f7ea; /* Дуже світлий пастельний зелений */
-    color: #2e7d32; /* Темний зелений */
+    background-color: #e9f7ea;
+    color: #2e7d32;
     border: 1px solid #94c9a8;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.alertError {
+    background-color: #fdeceb;
+    color: #a33a32;
+    border: 1px solid #efb7b2;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
 }
