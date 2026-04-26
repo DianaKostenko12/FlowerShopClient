@@ -20,16 +20,19 @@
     margin-bottom: 5px;
 }
 
-.inputGroup input {
+.inputGroup input,
+.inputGroup select {
     width: 100%;
     padding: 10px;
     font-size: 14px;
     border: 1px solid #ddd;
     border-radius: 5px;
     transition: border-color 0.3s ease;
+    background-color: #fff;
 }
 
-.inputGroup input:focus {
+.inputGroup input:focus,
+.inputGroup select:focus {
     outline: none;
     border-color: #5a7d5a; /* Акцентний зелений */
     box-shadow: 0 0 5px rgba(90, 125, 90, 0.5);

@@ -6,6 +6,8 @@ const getStatusText = (status: number): string => {
       return "Підтверджено";
     case 3:
       return "Скасовано";
+    case 4:
+      return "Зібраний роботом";
     default:
       return "Unknown";
   }

@@ -1,6 +1,12 @@
 import { AxiosResponse } from "axios";
 import axiosInstance from "./axiosInstance";
-import AddFlowerPage from "../pages/addFlower/addFlowerPage";
+
+export enum StemType {
+  Soft = "Soft",
+  Standard = "Standard",
+  Woody = "Woody",
+  Succulent = "Succulent",
+}
 export interface FlowerRequest {
   flowerId: number;
   flowerName: string;
@@ -9,11 +15,16 @@ export interface FlowerRequest {
   flowerCost: number;
 }
 
-interface CreateFlowerProps {
+export interface CreateFlowerProps {
   flowerName: string;
   flowerCount: number;
-  photo: File; // File об'єкт для передачі файлу
+  photo: File;
   flowerCost: number;
+  colorId: number;
+  categoryId: number;
+  headSizeCm: number;
+  stemThicknessMm: number;
+  stemKind: StemType;
 }
 
 export default class FlowerService {
@@ -33,6 +44,18 @@ export default class FlowerService {
       formData.append("FlowerCount", createFlowerProps.flowerCount.toString());
       formData.append("Photo", createFlowerProps.photo);
       formData.append("FlowerCost", createFlowerProps.flowerCost.toString());
+      if (createFlowerProps.colorId !== undefined) {
+        formData.append("ColorId", createFlowerProps.colorId.toString());
+      }
+      if (createFlowerProps.categoryId !== undefined) {
+        formData.append("CategoryId", createFlowerProps.categoryId.toString());
+      }
+      formData.append("HeadSizeCm", createFlowerProps.headSizeCm.toString());
+      formData.append(
+        "StemThicknessMm",
+        createFlowerProps.stemThicknessMm.toString()
+      );
+      formData.append("StemKind", createFlowerProps.stemKind);
 
       return await axiosInstance.post("flower", formData, {
         headers: {
